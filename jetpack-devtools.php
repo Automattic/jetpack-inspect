@@ -16,6 +16,7 @@ namespace Automattic\Jetpack_Devtools;
 
 function enqueue_admin_scripts() {
 	wp_enqueue_script( 'jetpack-devtools', plugins_url( 'public/build/bundle.js', __FILE__ ), [], '1.0.0', true );
+	wp_enqueue_style( 'jetpack-devtools', plugins_url( 'public/build/bundle.css', __FILE__ ), [], '1.0.0' );
 }
 
 /**
@@ -52,3 +53,6 @@ function render_admin_page() {
 
 
 add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
+
+
+require_once 'api/endpoints.php';
