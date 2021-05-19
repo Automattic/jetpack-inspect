@@ -81,4 +81,12 @@
 		border-color: #FF4136;
 
 	}
+
+	h2 {
+		border-bottom: 1px solid #eaeaea;
+		padding-bottom: 0.6em;
+		margin-top: 10vh;
+		margin-bottom: 3vh;
+		font-size: 2rem;
+	}
 </style>
