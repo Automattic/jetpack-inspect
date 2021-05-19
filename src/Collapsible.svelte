@@ -3,8 +3,8 @@
 </script>
 <div>
 	<slot name="summary"></slot>
-	<button on:click|preventDefault={() => isOpen = !isOpen}>
-		{isOpen ? 'Close' : 'Open'}
+	<button class="button button-secondary" on:click|preventDefault={() => isOpen = !isOpen}>
+		{isOpen ? 'Hide' : 'Show'}
 	</button>
 	{#if isOpen}
 		<slot></slot>
@@ -17,5 +17,8 @@
 		border-radius: 6px;
 		padding: 2rem;
 		margin-bottom: 2rem;
+	}
+	button {
+		box-shadow: none !important;
 	}
 </style>

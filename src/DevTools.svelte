@@ -122,7 +122,16 @@
 		font-weight: 600;
 	}
 
-	textarea, input {
+	textarea {
+		padding: 1rem;
+		min-height: 100px;
+	}
+	input {
+		padding: .25rem 1rem;
+	}
+
+	textarea, input, select {
 		width: 100%;
+		margin-bottom: .5rem;
 	}
 </style>
