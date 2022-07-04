@@ -29,7 +29,7 @@
 
 	async function performRequest() {
 		isLoading = true;
-		const result = await fetch('/wp-json/jetpack-devtools/wpcom', {
+		const result = await fetch('/wp-json/jetpack-inspect/wpcom', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

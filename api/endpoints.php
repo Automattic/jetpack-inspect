@@ -1,6 +1,6 @@
 <?php
 
-namespace Automattic\Jetpack_DevTools\API;
+namespace Automattic\Jetpack_Inspect\API;
 
 //register_rest_route( string $namespace, string $route, array $args = array(), bool $override = false );
 //The Following registers an api route with multiple parameters.
@@ -13,7 +13,7 @@ function user_is_admin() {
 }
 
 function register_rest_routes() {
-	register_rest_route( 'jetpack-devtools', 'wpcom', array(
+	register_rest_route( 'jetpack-inspect', 'wpcom', array(
 		'methods' => \WP_REST_Server::EDITABLE,
 		'permissions' => __NAMESPACE__ . '\user_is_admin',
 		'callback' => __NAMESPACE__ . '\jetpack_request',
