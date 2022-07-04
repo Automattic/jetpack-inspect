@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
   "include": [
-	"src/**/*"
+	"app-ui/src/**/*"
   ],
   "exclude": [
 	"node_modules/*",
@@ -10,7 +10,7 @@
   "compilerOptions": {
 	"typeRoots": [
 	  "./node_modules/@types/",
-	  "./src/"
+	  "./app-ui/src/"
 	]
   }
 }

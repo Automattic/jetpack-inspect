@@ -10,13 +10,13 @@
  *
  * Text Domain: jetpack-inspect
  */
+namespace Automattic\Jetpack_Inspect;
 
-	namespace Automattic\Jetpack_Inspect;
-
+require __DIR__ . '/vendor/autoload.php';
 
 function enqueue_admin_scripts() {
-	wp_enqueue_script( 'jetpack-inspect', plugins_url( 'public/build/bundle.js', __FILE__ ), [], '1.0.0', true );
-	wp_enqueue_style( 'jetpack-inspect', plugins_url( 'public/build/bundle.css', __FILE__ ), [], '1.0.0' );
+	wp_enqueue_script( 'jetpack-inspect-main', plugins_url( 'app-ui/build/main.js', __FILE__ ), [], '1.0.0', true );
+	wp_enqueue_style( 'jetpack-inspect-css', plugins_url( 'app-ui/build/style.css', __FILE__ ), [], '1.0.0' );
 }
 
 /**
@@ -53,6 +53,4 @@ function render_admin_page() {
 
 
 add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
-
-
-require_once __DIR__ . '/api/endpoints.php';
+add_action( 'rest_api_init', 'Automattic\Jetpack_Inspect\API\register_rest_routes' );
