@@ -26,7 +26,7 @@ export default class REST_API {
 		try {
 			data = JSON.parse(await result.text());
 		} catch (e) {
-			console.log(e);
+			console.error("Failed to parse JSON", e);
 		}
 
 		return data;
