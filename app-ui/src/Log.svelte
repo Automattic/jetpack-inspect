@@ -3,10 +3,6 @@
 
 	export let items;
 
-	setTimeout( () => {
-		console.log( items );
-	}, 100 );
-
 	function isError( item ) {
 		return !item.result
 			|| !item.result.response
@@ -22,6 +18,7 @@
 <section>
 	{#each items as item, key}
 		<Collapsible class="log-item">
+
 			<p slot="summary" class="summary" class:error={isError(item)}>
 				<b>
 					<time>{item.time}</time>

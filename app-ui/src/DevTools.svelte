@@ -1,6 +1,6 @@
 <script>
 	import Log          from './Log.svelte';
-	import storageStore from './storageStore.js';
+	import storageStore from './storageStore';
 	import { fade }     from 'svelte/transition';
 
 	let isLoading = false;
@@ -41,7 +41,7 @@
 				body  : $form.body,
 			} )
 		} );
-		console.log( result );
+
 		let data = '';
 		try {
 			data = await result.text();

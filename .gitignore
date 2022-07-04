@@ -5,3 +5,5 @@ public/build
 
 
 /vendor/
+/app-ui/build/main.js
+/app-ui/build/main.js.map
