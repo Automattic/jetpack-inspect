@@ -21,7 +21,7 @@
 
 <section>
 	{#each items as item, key}
-		<Collapsible class="log-item" isOpen={key === 0}>
+		<Collapsible class="log-item">
 			<p slot="summary" class="summary" class:error={isError(item)}>
 				<b>
 					<time>{item.time}</time>
