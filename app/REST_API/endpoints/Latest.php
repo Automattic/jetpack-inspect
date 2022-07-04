@@ -31,7 +31,6 @@ class Latest implements Endpoint {
 	}
 
 	public function permissions() {
-		return [];
 		return array(
 			new Current_User_Admin(),
 		);

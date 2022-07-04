@@ -39,6 +39,16 @@ class Route {
 	 * @return bool
 	 */
 	public function verify_permissions( $request ) {
+
+		if (
+			defined( "WP_ENVIRONMENT_TYPE" )
+			&& "development" === WP_ENVIRONMENT_TYPE
+			&& defined( 'JETPACK_INSPECT_DEBUG' )
+			&& JETPACK_INSPECT_DEBUG
+		) {
+			return true;
+		}
+
 		foreach ( $this->permissions as $permission ) {
 			if ( true !== $permission->verify( $request ) ) {
 				return false;
