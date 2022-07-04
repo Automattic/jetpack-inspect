@@ -60,7 +60,7 @@ add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
 //add_action( 'rest_api_init', 'Automattic\Jetpack_Inspect\API\register_rest_routes' );
 
 add_action( 'init', [ Log::class, 'register_post_type' ] );
-//add_action( 'plugins_loaded', [ Capture::class, 'initialize' ] );
+// add_action( 'plugins_loaded', [ Capture::class, 'initialize' ] );
 
 add_action( 'init', function() {
 	REST_API::register( Latest::class );

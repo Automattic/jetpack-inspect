@@ -19,9 +19,9 @@ class Capture {
 
 		$log_data = [
 			'url'      => $url,
-			'args'     => $args,
+			'request'     => $args,
 			'response' => $response,
-			'runtime'  => ( microtime( true ) - $this->start_time[ $url ] ),
+			'duration'  => floor( 1000 * ( microtime( true ) - $this->start_time[ $url ] ) )
 		];
 
 		if ( false !== $log_data ) {

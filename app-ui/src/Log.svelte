@@ -1,5 +1,7 @@
-<script>
+<script type="ts">
 	import Collapsible from './Collapsible.svelte';
+	import { onMount } from 'svelte';
+	import REST_API from './REST_API';
 
 	export let items;
 
@@ -13,6 +15,12 @@
 	function stringify( data ) {
 		return JSON.stringify( data, null, 4 );
 	}
+
+	onMount( async () => {
+		const newItems = await new REST_API().latest();
+		items = newItems.map( i => i.data );
+		console.log(items)
+	})
 </script>
 
 <section>
@@ -21,37 +29,37 @@
 
 			<p slot="summary" class="summary" class:error={isError(item)}>
 				<b>
-					<time>{item.time}</time>
+					{item.duration}ms
 				</b>
 				<br>
-				{item.request.method} {item.request.url}
+				{item.request.method} {item.url}
 			</p>
 
 			<div>
 				{#if isError( item )}
 					<h3>API Error:</h3>
-					<pre>{stringify( item.result.response )}</pre>
+					<pre>{stringify( item.response.response )}</pre>
 				{:else}
 					<h3>API Response:</h3>
-					<pre>{stringify( item.result.body )}</pre>
+					<pre>{stringify( item.response.body )}</pre>
 				{/if}
 
 				<h3>Headers</h3>
-				<pre>{stringify( item.result.headers )}</pre>
+				<pre>{stringify( item.response.headers )}</pre>
 
 				<h3>Cookies</h3>
-				<pre>{stringify( item.result.cookies )}</pre>
+				<pre>{stringify( item.response.cookies )}</pre>
 			</div>
 
 			<h2>Request Details</h2>
 			<div class="request">
-				<h3>Request Data</h3>
+				<h3>Response Data</h3>
 				<pre>
-						{stringify( item.request )}
+						{stringify( item.response )}
 					</pre>
 				<h3>API Request Call</h3>
 				<pre>
-						{stringify( item.result.request )}
+						{stringify( item.request )}
 					</pre>
 			</div>
 
