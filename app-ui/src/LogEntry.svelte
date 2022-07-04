@@ -3,11 +3,11 @@
 	import Collapsible from "./Collapsible.svelte";
 
 	export let id: number;
-	export let request: WP_Request;
-	export let response: Response;
 	export let date: string;
 	export let url: string;
 	export let duration: number;
+	export let request: WP_Request;
+	export let response: Response;
 
 	const isError = !response || response.response.code !== 200;
 
@@ -18,9 +18,7 @@
 
 <Collapsible>
 	<p slot="summary" class="summary" class:error={isError}>
-		<b>
-			{id}: {date} : {duration}ms
-		</b>
+		<b>{date} </b> ({duration}ms)
 		<br />
 		{request.method}
 		{url}
