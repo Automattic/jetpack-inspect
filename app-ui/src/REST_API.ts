@@ -17,7 +17,8 @@ export default class REST_API {
 		});
 
 		if( ! result.ok ) {
-			return false;
+			console.error("Failed to fetch", result);
+			return;
 		}
 
 		let data = "";
@@ -37,6 +38,14 @@ export default class REST_API {
 
 	public async clear() {
 		return await this.request("clear", "DELETE");
+	}
+
+	public async getCaptureStatus() {
+		return await this.request("capture-status");
+	}
+
+	public async toggleCaptureStatus() {
+		return await this.request("capture-status", "POST");
 	}
 
 }

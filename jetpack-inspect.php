@@ -15,6 +15,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Automattic\Jetpack_Inspect\Capture;
 use Automattic\Jetpack_Inspect\Log;
+use Automattic\Jetpack_Inspect\REST_API\Endpoints\Capture_Status;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Clear;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Latest;
 use Automattic\Jetpack_Inspect\REST_API\REST_API;
@@ -61,9 +62,10 @@ add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
 //add_action( 'rest_api_init', 'Automattic\Jetpack_Inspect\API\register_rest_routes' );
 
 add_action( 'init', [ Log::class, 'register_post_type' ] );
-// add_action( 'plugins_loaded', [ Capture::class, 'initialize' ] );
+add_action( 'plugins_loaded', [ Capture::class, 'initialize' ] );
 
 add_action( 'init', function() {
 	REST_API::register( Latest::class );
 	REST_API::register( Clear::class );
+	REST_API::register( Capture_Status::class );
 } );

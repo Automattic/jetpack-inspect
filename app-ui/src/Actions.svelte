@@ -1,20 +1,35 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	import REST_API from "./REST_API";
 	let message = "";
-	function watch() {
-		console.log("watch");
+
+	const api = new REST_API();
+
+	async function capture() {
+		const request = await api.toggleCaptureStatus();
+		console.log(request)
+		captureStatus = request
+		message = "Capture status changed";
+
 	}
 
 	async function clear() {
-		const api = new REST_API();
-
 		if (await api.clear()) {
 			message = "Cleared all data!";
 		}
 	}
+
+	let captureStatus;
+	onMount(async () => {
+		captureStatus = await api.getCaptureStatus();
+	});
 </script>
 
 <div class="actions">
+	{#if undefined !== captureStatus}
+		Is Capturing: {captureStatus}
+	{/if}
 	{#if message}
 		<div class="message">
 			<strong> {message} </strong>
@@ -22,8 +37,8 @@
 	{/if}
 	<h2>Actions</h2>
 	<hr />
-	<button class="button button-primary" on:click|preventDefault={watch}>
-		Watch
+	<button class="button button-primary" on:click|preventDefault={capture}>
+		Toggle Capture
 	</button>
 
 	<button class="button button-primary" on:click|preventDefault={clear}>
