@@ -1,66 +1,69 @@
 <script>
-	import Log          from './Log.svelte';
-	import storageStore from './storageStore';
-	import { fade }     from 'svelte/transition';
+	import Log from "./Log.svelte";
+	import storageStore from "./storageStore";
+	import { fade } from "svelte/transition";
+	import Actions from "./Actions.svelte";
 
 	let isLoading = false;
-	let logs      = storageStore( 'jetpack_devtools_logs', [] );
+	let logs = storageStore("jetpack_devtools_logs", []);
 
-	let form = storageStore( 'jetpack_devtools_form', {
-		url    : '',
-		body   : '',
-		headers: '',
-		method : 'POST',
-	} );
+	let form = storageStore("jetpack_devtools_form", {
+		url: "",
+		body: "",
+		headers: "",
+		method: "POST",
+	});
 
-	function saveToLog( data ) {
+	function saveToLog(data) {
 		try {
-			data = JSON.parse( data );
-		} catch ( e ) {
+			data = JSON.parse(data);
+		} catch (e) {
 			// do nothing
 		}
 
 		$logs = [
 			{
-				time   : new Date().toLocaleString(),
+				time: new Date().toLocaleString(),
 				request: $form,
-				result : data,
-			}, ...$logs].slice( 0, 20 );
+				result: data,
+			},
+			...$logs,
+		].slice(0, 20);
 	}
 
 	async function performRequest() {
-		isLoading    = true;
-		const result = await fetch( '/wp-json/jetpack-inspect/wpcom', {
-			method : 'POST',
+		isLoading = true;
+		const result = await fetch("/wp-json/jetpack-inspect/wpcom", {
+			method: "POST",
 			headers: {
-				'Content-Type': 'application/json',
+				"Content-Type": "application/json",
 			},
-			body   : JSON.stringify( {
+			body: JSON.stringify({
 				method: $form.method,
-				url   : $form.url,
-				body  : $form.body,
-			} )
-		} );
+				url: $form.url,
+				body: $form.body,
+			}),
+		});
 
-		let data = '';
+		let data = "";
 		try {
 			data = await result.text();
-		} catch ( e ) {
-			console.log( e );
+		} catch (e) {
+			console.log(e);
 		}
 
-		saveToLog( data.message || data );
+		saveToLog(data.message || data);
 		isLoading = false;
 	}
 </script>
 
 <main>
+	<Actions />
 	<form class="form-horizontal">
 		<fieldset>
-
 			<!-- Form Name -->
 			<legend>Jetpack REST API Tester</legend>
-			<hr>
+			<hr />
 
 			<select bind:value={$form.method}>
 				<option value="POST" selected>POST</option>
@@ -74,7 +77,7 @@
 			<section>
 				<label class="control-label" for="apiurl">URL</label>
 				<div>
-					<input bind:value={$form.url} id="apiurl" name="apiurl" type="text">
+					<input bind:value={$form.url} id="apiurl" name="apiurl" type="text" />
 				</div>
 			</section>
 
@@ -82,7 +85,12 @@
 			<section>
 				<label for="body">Body</label>
 				<div>
-					<textarea bind:value={$form.body} class="form-control" id="body" name="body"></textarea>
+					<textarea
+						bind:value={$form.body}
+						class="form-control"
+						id="body"
+						name="body"
+					/>
 				</div>
 			</section>
 
@@ -90,45 +98,47 @@
 			<section>
 				<label for="body">Headers</label>
 				<div>
-					<textarea bind:value={$form.headers} class="form-control" id="body" name="body"></textarea>
+					<textarea
+						bind:value={$form.headers}
+						class="form-control"
+						id="body"
+						name="body"
+					/>
 				</div>
 			</section>
 
-			<button class="button button-primary" on:click|preventDefault={performRequest}>Run</button>
-
+			<button
+				class="button button-primary"
+				on:click|preventDefault={performRequest}>Run</button
+			>
 		</fieldset>
 	</form>
 	<div class="log">
 		{#if isLoading}
 			<div class="is-loading" transition:fade>
 				<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 128 128"
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 128 128"
 				>
-					<g
-					>
+					<g>
 						<path
-								d="M64 0a7 7 0 11-7 7 7 7 0 017-7zm29.86 12.2a2.8 2.8 0 11-3.83 1.02 2.8 2.8 0 013.83-1.02zm22.16 21.68a3.15 3.15 0 11-4.3-1.15 3.15 3.15 0 014.3 1.15zm.87 60.53a4.2 4.2 0 11-1.57-5.7 4.2 4.2 0 011.54 5.73zm7.8-30.5a3.85 3.85 0 11-3.85-3.85 3.85 3.85 0 013.85 3.84zm-30 53.2a4.55 4.55 0 111.66-6.23 4.55 4.55 0 01-1.67 6.22zM64 125.9a4.9 4.9 0 114.9-4.9 4.9 4.9 0 01-4.9 4.9zm-31.06-8.22a5.25 5.25 0 117.17-1.93 5.25 5.25 0 01-7.14 1.93zM9.9 95.1a5.6 5.6 0 117.65 2.06A5.6 5.6 0 019.9 95.1zM1.18 63.9a5.95 5.95 0 115.95 5.94 5.95 5.95 0 01-5.96-5.94zm8.1-31.6a6.3 6.3 0 112.32 8.6 6.3 6.3 0 01-2.3-8.6zM32.25 8.87a6.65 6.65 0 11-2.44 9.1 6.65 6.65 0 012.46-9.1z"
+							d="M64 0a7 7 0 11-7 7 7 7 0 017-7zm29.86 12.2a2.8 2.8 0 11-3.83 1.02 2.8 2.8 0 013.83-1.02zm22.16 21.68a3.15 3.15 0 11-4.3-1.15 3.15 3.15 0 014.3 1.15zm.87 60.53a4.2 4.2 0 11-1.57-5.7 4.2 4.2 0 011.54 5.73zm7.8-30.5a3.85 3.85 0 11-3.85-3.85 3.85 3.85 0 013.85 3.84zm-30 53.2a4.55 4.55 0 111.66-6.23 4.55 4.55 0 01-1.67 6.22zM64 125.9a4.9 4.9 0 114.9-4.9 4.9 4.9 0 01-4.9 4.9zm-31.06-8.22a5.25 5.25 0 117.17-1.93 5.25 5.25 0 01-7.14 1.93zM9.9 95.1a5.6 5.6 0 117.65 2.06A5.6 5.6 0 019.9 95.1zM1.18 63.9a5.95 5.95 0 115.95 5.94 5.95 5.95 0 01-5.96-5.94zm8.1-31.6a6.3 6.3 0 112.32 8.6 6.3 6.3 0 01-2.3-8.6zM32.25 8.87a6.65 6.65 0 11-2.44 9.1 6.65 6.65 0 012.46-9.1z"
 						/>
 						<animateTransform
-								attributeName="transform"
-								type="rotate"
-								values="0 64 64;30 64 64;60 64 64;90 64 64;120 64 64;150 64 64;180 64 64;210 64 64;240 64 64;270 64 64;300 64 64;330 64 64"
-								calcMode="discrete"
-								dur="1080ms"
-								repeatCount="indefinite"
+							attributeName="transform"
+							type="rotate"
+							values="0 64 64;30 64 64;60 64 64;90 64 64;120 64 64;150 64 64;180 64 64;210 64 64;240 64 64;270 64 64;300 64 64;330 64 64"
+							calcMode="discrete"
+							dur="1080ms"
+							repeatCount="indefinite"
 						/>
-					</g
-					>
-				</svg
-				>
-
+					</g>
+				</svg>
 			</div>
-
 		{/if}
-		<Log items={$logs}/>
+		<Log items={$logs} />
 	</div>
 </main>
 
@@ -156,12 +166,14 @@
 	}
 
 	input {
-		padding: .25rem 1rem;
+		padding: 0.25rem 1rem;
 	}
 
-	textarea, input, select {
+	textarea,
+	input,
+	select {
 		width: 100%;
-		margin-bottom: .5rem;
+		margin-bottom: 0.5rem;
 	}
 
 	.log {
@@ -179,5 +191,4 @@
 		background-color: white;
 		font-size: 1rem;
 	}
-
 </style>
