@@ -10,6 +10,7 @@
  *
  * Text Domain: jetpack-inspect
  */
+
 namespace Automattic\Jetpack_Inspect;
 
 require __DIR__ . '/vendor/autoload.php';
@@ -53,4 +54,7 @@ function render_admin_page() {
 
 
 add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
-add_action( 'rest_api_init', 'Automattic\Jetpack_Inspect\API\register_rest_routes' );
+//add_action( 'rest_api_init', 'Automattic\Jetpack_Inspect\API\register_rest_routes' );
+
+add_action( 'init', [ Log::class, 'register_post_type' ] );
+//add_action( 'plugins_loaded', [ Capture::class, 'initialize' ] );
