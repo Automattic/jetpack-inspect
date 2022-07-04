@@ -23,6 +23,6 @@ export default class REST_API {
 	}
 
 	public async latest() {
-		return this.request("latest");
+		return await this.request("latest");
 	}
 }
