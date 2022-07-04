@@ -1,16 +1,17 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
-  "include": [
-	"app-ui/src/**/*"
-  ],
-  "exclude": [
-	"node_modules/*",
-	"app-ui/build/*"
-  ],
-  "compilerOptions": {
-	"typeRoots": [
-	  "./node_modules/@types/",
-	  "./app-ui/src/"
-	]
-  }
+	"strict": true,
+	"extends": "@tsconfig/svelte/tsconfig.json",
+	"include": [
+		"app-ui/src/**/*"
+	],
+	"exclude": [
+		"node_modules/*",
+		"app-ui/build/*"
+	],
+	"compilerOptions": {
+		"typeRoots": [
+			"./node_modules/@types/",
+			"./app-ui/src/"
+		]
+	}
 }

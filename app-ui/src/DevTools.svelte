@@ -5,7 +5,6 @@
 	import Actions from "./Actions.svelte";
 
 	let isLoading = false;
-	let logs = storageStore("jetpack_devtools_logs", []);
 
 	let form = storageStore("jetpack_devtools_form", {
 		url: "",
@@ -13,23 +12,6 @@
 		headers: "",
 		method: "POST",
 	});
-
-	function saveToLog(data) {
-		try {
-			data = JSON.parse(data);
-		} catch (e) {
-			// do nothing
-		}
-
-		$logs = [
-			{
-				time: new Date().toLocaleString(),
-				request: $form,
-				result: data,
-			},
-			...$logs,
-		].slice(0, 20);
-	}
 
 	async function performRequest() {
 		isLoading = true;
@@ -52,7 +34,6 @@
 			console.log(e);
 		}
 
-		saveToLog(data.message || data);
 		isLoading = false;
 	}
 </script>
@@ -138,7 +119,7 @@
 				</svg>
 			</div>
 		{/if}
-		<Log items={$logs} />
+		<Log />
 	</div>
 </main>
 

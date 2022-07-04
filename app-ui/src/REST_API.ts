@@ -1,12 +1,13 @@
-export default class REST_API {
+import type { LogEntry } from './Validator';
+import { LogEntries } from './Validator';
 
-	private lastResult: any;
+export default class REST_API {
 
 	private async request(
 		endpoint: string,
 		method = "GET",
-		body?: any
-	): Promise<any> {
+		body?: string
+	): Promise<unknown> {
 
 		const result = await fetch(`/wp-json/jetpack-inspect/${endpoint}`, {
 			method,
@@ -16,7 +17,7 @@ export default class REST_API {
 			body: JSON.stringify(body),
 		});
 
-		if( ! result.ok ) {
+		if (!result.ok) {
 			console.error("Failed to fetch", result);
 			return;
 		}
@@ -32,8 +33,12 @@ export default class REST_API {
 		return data;
 	}
 
-	public async latest() {
-		return await this.request("latest");
+	public async latest(): Promise<LogEntry[]> {
+		const entries = await this.request("latest");
+		if (!entries) {
+			return;
+		}
+		return LogEntries.parse(entries);
 	}
 
 	public async clear() {
