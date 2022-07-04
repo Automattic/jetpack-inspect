@@ -15,6 +15,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Automattic\Jetpack_Inspect\Capture;
 use Automattic\Jetpack_Inspect\Log;
+use Automattic\Jetpack_Inspect\REST_API\Endpoints\Clear;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Latest;
 use Automattic\Jetpack_Inspect\REST_API\REST_API;
 
@@ -64,4 +65,5 @@ add_action( 'init', [ Log::class, 'register_post_type' ] );
 
 add_action( 'init', function() {
 	REST_API::register( Latest::class );
+	REST_API::register( Clear::class );
 } );
