@@ -8,7 +8,7 @@
 
 	async function capture() {
 		const request = await api.toggleCaptureStatus();
-		console.log(request)
+
 		captureStatus = request
 		message = "Capture status changed";
 
@@ -28,7 +28,7 @@
 
 <div class="actions">
 	{#if undefined !== captureStatus}
-		Is Capturing: {captureStatus}
+		Is Capturing: {captureStatus ? "Yes" : "No"}
 	{/if}
 	{#if message}
 		<div class="message">
