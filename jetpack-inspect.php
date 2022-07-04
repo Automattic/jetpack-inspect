@@ -55,4 +55,4 @@ function render_admin_page() {
 add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
 
 
-require_once __DIR__ . 'api/endpoints.php';
+require_once __DIR__ . '/api/endpoints.php';
