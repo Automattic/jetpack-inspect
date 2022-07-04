@@ -3,20 +3,19 @@
 
 	export let items;
 
+	setTimeout( () => {
+		console.log( items );
+	}, 100 );
 
-	setTimeout(() => {
-		console.log(items);
-	}, 100)
-
-	function isError(item) {
+	function isError( item ) {
 		return !item.result
-				|| !item.result.response
-				|| !item.result.response.response
-				|| item.result.response.response.code !== 200
+			|| !item.result.response
+			|| !item.result.response.response
+			|| item.result.response.response.code !== 200;
 	}
 
-	function stringify(data) {
-		return JSON.stringify(data, null, 4);
+	function stringify( data ) {
+		return JSON.stringify( data, null, 4 );
 	}
 </script>
 
@@ -32,30 +31,30 @@
 			</p>
 
 			<div>
-				{#if isError(item)}
+				{#if isError( item )}
 					<h3>API Error:</h3>
-					<pre>{stringify(item.result.response)}</pre>
+					<pre>{stringify( item.result.response )}</pre>
 				{:else}
 					<h3>API Response:</h3>
-					<pre>{stringify(item.result.body)}</pre>
+					<pre>{stringify( item.result.body )}</pre>
 				{/if}
 
 				<h3>Headers</h3>
-				<pre>{stringify(item.result.headers)}</pre>
+				<pre>{stringify( item.result.headers )}</pre>
 
 				<h3>Cookies</h3>
-				<pre>{stringify(item.result.cookies)}</pre>
+				<pre>{stringify( item.result.cookies )}</pre>
 			</div>
 
 			<h2>Request Details</h2>
 			<div class="request">
 				<h3>Request Data</h3>
 				<pre>
-						{stringify(item.request)}
+						{stringify( item.request )}
 					</pre>
 				<h3>API Request Call</h3>
 				<pre>
-						{stringify(item.result.request)}
+						{stringify( item.result.request )}
 					</pre>
 			</div>
 

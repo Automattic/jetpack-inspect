@@ -18,6 +18,7 @@
 		padding: 2rem;
 		margin-bottom: 2rem;
 	}
+
 	button {
 		box-shadow: none !important;
 	}
