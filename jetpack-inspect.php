@@ -11,9 +11,12 @@
  * Text Domain: jetpack-inspect
  */
 
-namespace Automattic\Jetpack_Inspect;
-
 require __DIR__ . '/vendor/autoload.php';
+
+use Automattic\Jetpack_Inspect\Capture;
+use Automattic\Jetpack_Inspect\Log;
+use Automattic\Jetpack_Inspect\REST_API\Endpoints\Latest;
+use Automattic\Jetpack_Inspect\REST_API\REST_API;
 
 function enqueue_admin_scripts() {
 	wp_enqueue_script( 'jetpack-inspect-main', plugins_url( 'app-ui/build/main.js', __FILE__ ), [], '1.0.0', true );
@@ -58,3 +61,7 @@ add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
 
 add_action( 'init', [ Log::class, 'register_post_type' ] );
 //add_action( 'plugins_loaded', [ Capture::class, 'initialize' ] );
+
+add_action( 'init', function() {
+	REST_API::register( Latest::class );
+} );
