@@ -1,4 +1,5 @@
-<script>
+<script type="ts">
+	import { WP_Request } from "./Validator.ts";
 	import Log from "./Log.svelte";
 	import storageStore from "./storageStore";
 	import { fade } from "svelte/transition";
@@ -35,6 +36,16 @@
 		}
 
 		isLoading = false;
+	}
+
+	function onLogSelect(e) {
+		const request: WP_Request = e.detail.request;
+		const url: string = e.detail.url;
+
+		$form.method = request.method;
+		$form.url = url;
+		$form.body = JSON.stringify(request.body, null, 4);
+		$form.headers = JSON.stringify(request.headers, null, 4);
 	}
 </script>
 
@@ -119,7 +130,7 @@
 				</svg>
 			</div>
 		{/if}
-		<Log />
+		<Log on:select={onLogSelect} />
 	</div>
 </main>
 

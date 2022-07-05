@@ -16,6 +16,7 @@
 				request={item.data.request}
 				response={item.data.response}
 				duration={item.data.duration}
+				on:select
 			/>
 		{/each}
 	{/await}

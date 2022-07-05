@@ -1,6 +1,7 @@
 <script type="ts">
 	import type { Response, WP_Request } from "./Validator";
 	import Collapsible from "./Collapsible.svelte";
+	import { createEventDispatcher } from "svelte";
 
 	export let id: number;
 	export let date: string;
@@ -14,6 +15,12 @@
 	function stringify(data) {
 		return JSON.stringify(data, null, 4);
 	}
+
+	const dispatch = createEventDispatcher();
+
+	function selectRequest() {
+		dispatch("select", { url, request });
+	}
 </script>
 
 <Collapsible>
@@ -22,6 +29,7 @@
 		<br />
 		{request.method}
 		{url}
+		<button on:click={selectRequest}>Use this request</button>
 	</p>
 
 	<div>
