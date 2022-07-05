@@ -37,7 +37,7 @@ export const Response = z.object({
 		"headers": z.array(z.string()).nullable(),
 		"status": z.number().nullable()
 	})
-}),
+});
 
 
 export const LogEntry = z.object({
