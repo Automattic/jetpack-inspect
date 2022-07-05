@@ -6,31 +6,31 @@ import {terser} from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
-
+import serve from 'rollup-plugin-serve'
 
 const production = !process.env.ROLLUP_WATCH;
 const runServer = !!process.env.SERVE;
 
-function serve() {
-	let server;
+// function serve() {
+// 	let server;
 
-	function toExit() {
-		if (server) server.kill(0);
-	}
+// 	function toExit() {
+// 		if (server) server.kill(0);
+// 	}
 
-	return {
-		writeBundle() {
-			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
-				stdio: ['ignore', 'inherit', 'inherit'],
-				shell: true
-			});
+// 	return {
+// 		writeBundle() {
+// 			if (server) return;
+// 			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
+// 				stdio: ['ignore', 'inherit', 'inherit'],
+// 				shell: true
+// 			});
 
-			process.on('SIGTERM', toExit);
-			process.on('exit', toExit);
-		}
-	};
-}
+// 			process.on('SIGTERM', toExit);
+// 			process.on('exit', toExit);
+// 		}
+// 	};
+// }
 
 export default {
 	input: 'app-ui/src/main.ts',
@@ -69,11 +69,11 @@ export default {
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
-		runServer && serve(),
+		// runServer && serve(),
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
-		runServer && livereload('public'),
+		runServer && livereload('app-ui/build/style.css'),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
