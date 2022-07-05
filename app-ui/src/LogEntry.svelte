@@ -53,6 +53,10 @@
 </div>
 
 <style>
+	.log-entry {
+		border-bottom: 1px solid rgb(215, 215, 215);
+	}
+
 	pre {
 		background-color: #f3f3f3;
 		padding: 1rem;
