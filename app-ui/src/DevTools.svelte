@@ -138,11 +138,7 @@
 
 <style>
 	main {
-		width: 95%;
-		max-width: 90vw;
-		padding: 3rem;
-		position: relative;
-
+		width: 100%;
 		display: grid;
 		gap: 20px;
 	}
