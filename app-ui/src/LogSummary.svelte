@@ -9,8 +9,6 @@
 	export let response: Response;
 	export let isOpen = false;
 
-	const isError = !response || response.response.code !== 200;
-
 	function selectRequest() {
 		dispatch("select", { url, request });
 	}
