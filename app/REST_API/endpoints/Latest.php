@@ -24,7 +24,7 @@ class Latest implements Endpoint {
 
 	//phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 	public function response( $request ) {
-		return new WP_REST_Response(
+		return rest_ensure_response(
 			Log::get_latest(),
 		);
 

@@ -3,7 +3,6 @@
 namespace Automattic\Jetpack_Inspect\REST_API\Endpoints;
 
 use Automattic\Jetpack_Inspect\REST_API\Permissions\Current_User_Admin;
-use WP_REST_Server;
 
 class Filter {
 	public function name() {
