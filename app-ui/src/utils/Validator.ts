@@ -13,7 +13,7 @@ export const WP_Request = z.object({
 	// oscillating between object and array
 	"headers": z.unknown(),
 	"cookies": z.array(z.string()),
-	"body": z.string().nullable(),
+	"body": z.unknown().nullable(), // @TODO
 	"compress": z.boolean(),
 	"decompress": z.boolean(),
 	"sslverify": z.boolean(),
@@ -61,6 +61,11 @@ export const LogEntry = z.object({
 });
 
 const validateJSON = (val: string) => {
+
+	if( ! val ) {
+		return true;
+	}
+
 	try {
 		JSON.parse(val);
 	} catch (e) {
@@ -73,7 +78,7 @@ export const EntryData = z.object({
 	"method": z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
 	"url": z.string().url(),
 	"headers": z.string().refine(validateJSON, { message: "Must be valid JSON string" }),
-	"body": z.string(),
+	"body": z.string().nullable(),
 	// "type": z.enum(["jetpack_connection", "wp_remote_get"]),
 });
 

@@ -27,33 +27,32 @@ function maybe_stop_capture_manually() {
 	$capture->detach_filters();
 }
 
-function jetpack_inspect_request( $url, $method = 'GET', $body = null, $headers = null ) {
+function jetpack_inspect_request( $url, $method = 'GET', $body = null, $headers = [] ) {
 
 	maybe_start_capture_manually();
+	
+	//	$type = $request->get_param('type');
 
-	echo $url;
-//	$type = $request->get_param('type');
+	if ( ! isset( $headers['Content-Type'] ) ) {
+		$headers['Content-Type'] = 'application/json; charset=utf-8;';
+	}
 
-	$headers['Content-Type'] = 'application/json; charset=utf-8;';
-
-
-//	if ( $type !== 'simple' ) {
-//		$request_data = Client::build_signed_request(
-//			[
-//				'url'     => $params['url'],
-//				'method'  => $params['method'] ?? 'POST',
-//				// @TODO: Deal with headers
-//				//			'headers' => [ 'Content-Type' => 'application/json; charset=utf-8' ],
-//				'headers' => (array) json_decode( $params['headers'] ),
-//			],
-//			$params['body']
-//	);
-//	}
-//
-//	if ( ! $request_data || is_wp_error( $request_data ) ) {
-//		return $request_data;
-//	}
-
+	//	if ( $type !== 'simple' ) {
+	//		$request_data = Client::build_signed_request(
+	//			[
+	//				'url'     => $params['url'],
+	//				'method'  => $params['method'] ?? 'POST',
+	//				// @TODO: Deal with headers
+	//				//			'headers' => [ 'Content-Type' => 'application/json; charset=utf-8' ],
+	//				'headers' => (array) json_decode( $params['headers'] ),
+	//			],
+	//			$params['body']
+	//	);
+	//	}
+	//
+	//	if ( ! $request_data || is_wp_error( $request_data ) ) {
+	//		return $request_data;
+	//	}
 
 	$result = Client::_wp_remote_request( $url, [
 		'method'  => $method,

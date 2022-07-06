@@ -42,6 +42,7 @@
 		if (!data.success && "error" in data) {
 			const formatted = data.error.format();
 			errors = formatted;
+			return;
 		}
 
 		await api.submit(formData);
