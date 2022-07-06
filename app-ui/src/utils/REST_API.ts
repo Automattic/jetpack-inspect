@@ -57,4 +57,8 @@ export default class REST_API {
 		return await this.request("filter", "POST", { filter });
 	}
 
+	public async getFilter() {
+		return await this.request("filter");
+	}
+
 }

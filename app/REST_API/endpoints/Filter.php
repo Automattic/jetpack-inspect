@@ -11,14 +11,18 @@ class Filter {
 	}
 
 	public function request_methods() {
-		return WP_REST_Server::EDITABLE;
+		return 'GET, POST';
 	}
 
 	public function response( $request ) {
-		$filter = $request->get_param( 'filter' );
 
+		if ( $request->get_method() === 'GET' ) {
+			return rest_ensure_response( get_option( "jetpack_inspect_filter") );
+		}
+
+		$filter = $request->get_param( 'filter' );
 		update_option( "jetpack_inspect_filter", sanitize_text_field( $filter ) );
-		return rest_ensure_response( 200 );
+		return rest_ensure_response( true );
 	}
 
 	public function permissions() {
