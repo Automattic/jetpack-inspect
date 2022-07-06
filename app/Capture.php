@@ -26,6 +26,27 @@ class Capture {
 		add_action( 'http_api_debug', [ $this, 'capture_request' ], 10, 5 );
 	}
 
+	protected function match_request_filter( $url ): bool {
+		$filter = get_option( 'jetpack_inspect_filter' );
+		if ( ! $filter ) {
+			return true;
+		}
+
+		// https://example.com/?foo=bar will match "*example[s].com*
+		if ( str_contains( $filter, '*' ) || ( str_contains( $filter, '[' ) && str_contains( $filter, ']' ) ) ) {
+			return fnmatch( $filter, $url );
+		}
+
+		// https://example.com/?foo=bar will match "https://example.com/?foo=bar"
+		if ( $filter[0] === $filter[ strlen( $filter ) - 1 ] && $filter[0] === '"' ) {
+			$filter = substr( $filter, 1, - 1 );
+			return $filter === $url;
+		}
+
+		// https://example.com/?foo=bar will match example.com
+		return str_contains( $url, $filter );
+	}
+
 	public function detach_filters() {
 		remove_filter( 'http_request_args', [ $this, 'start_timer' ], 10 );
 		remove_action( 'http_api_debug', [ $this, 'capture_request' ], 10 );
@@ -33,6 +54,10 @@ class Capture {
 
 	public function capture_request( $response, $context, $transport, $args, $url ) {
 		if ( false !== strpos( $url, 'doing_wp_cron' ) ) {
+			return;
+		}
+
+		if ( ! $this->match_request_filter( $url ) ) {
 			return;
 		}
 

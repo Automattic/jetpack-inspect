@@ -18,6 +18,7 @@ use Automattic\Jetpack_Inspect\Capture;
 use Automattic\Jetpack_Inspect\Log;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Capture_Status;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Clear;
+use Automattic\Jetpack_Inspect\REST_API\Endpoints\Filter;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Latest;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Submit;
 use Automattic\Jetpack_Inspect\REST_API\REST_API;
@@ -71,4 +72,5 @@ add_action( 'init', function() {
 	REST_API::register( Clear::class );
 	REST_API::register( Capture_Status::class );
 	REST_API::register( Submit::class );
+	REST_API::register( Filter::class );
 } );

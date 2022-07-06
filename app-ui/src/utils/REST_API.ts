@@ -6,7 +6,7 @@ export default class REST_API {
 	private async request(
 		endpoint: string,
 		method = "GET",
-		body?: string
+		body?: unknown
 	): Promise<unknown> {
 
 		const result = await fetch(`/wp-json/jetpack-inspect/${endpoint}`, {
@@ -51,6 +51,10 @@ export default class REST_API {
 
 	public async toggleCaptureStatus() {
 		return await this.request("capture-status", "POST");
+	}
+
+	public async updateFilter(filter: string) {
+		return await this.request("filter", "POST", { filter });
 	}
 
 }

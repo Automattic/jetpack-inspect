@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Filters from './Filters.svelte';
 	import { onMount } from "svelte";
 
 	import REST_API from "@src/utils/REST_API";
@@ -27,6 +28,7 @@
 </script>
 
 <div class="actions">
+	Filters: <Filters />
 	{#if undefined !== captureStatus}
 		Is Capturing: {captureStatus ? "Yes" : "No"}
 	{/if}
