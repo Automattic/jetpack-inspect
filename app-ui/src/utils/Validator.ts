@@ -8,9 +8,10 @@ export const WP_Request = z.object({
 	"user-agent": z.string(),
 	"reject_unsafe_urls": z.boolean(),
 	"blocking": z.boolean(),
-	"headers": z.object({
-		"Authorization": z.string(),
-	}),
+
+	// @TODO: What's up with headers type?
+	// oscillating between object and array
+	"headers": z.unknown(),
 	"cookies": z.array(z.string()),
 	"body": z.string().nullable(),
 	"compress": z.boolean(),

@@ -15,7 +15,7 @@
 	}
 
 	async function performRequest(method, url, body, headers) {
-		const result = await fetch("/wp-json/jetpack-inspect/wpcom", {
+		const result = await fetch("/wp-json/jetpack-inspect/submit", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

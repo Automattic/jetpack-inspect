@@ -4,14 +4,31 @@ namespace Automattic\Jetpack_Inspect;
 
 class Capture {
 
-	private $start_time = [];
+	private        $start_time = [];
+	private static $instance;
 
-	public static function initialize() {
-		$capture = new self();
-		if ( self::is_enabled() ) {
-			add_filter( 'http_request_args', [ $capture, 'start_timer' ], 10, 2 );
-			add_action( 'http_api_debug', [ $capture, 'capture_request' ], 10, 5 );
+	public static function instance() {
+		if ( ! self::$instance ) {
+			self::$instance = new self();
 		}
+
+		return self::$instance;
+	}
+
+	public function initialize() {
+		if ( $this->is_enabled() ) {
+			$this->attach_filters();
+		}
+	}
+
+	public function attach_filters() {
+		add_filter( 'http_request_args', [ $this, 'start_timer' ], 10, 2 );
+		add_action( 'http_api_debug', [ $this, 'capture_request' ], 10, 5 );
+	}
+
+	public function detach_filters() {
+		remove_filter( 'http_request_args', [ $this, 'start_timer' ], 10 );
+		remove_action( 'http_api_debug', [ $this, 'capture_request' ], 10 );
 	}
 
 	public function capture_request( $response, $context, $transport, $args, $url ) {
@@ -36,25 +53,13 @@ class Capture {
 		return $args;
 	}
 
-	public static function is_enabled() {
+	public function is_enabled() {
 		return get_option( 'jetpack_inspect_enabled', false );
 	}
 
-	public static function enable() {
-		update_option( 'jetpack_inspect_enabled', true, false );
-	}
-
-	public static function disable() {
-		update_option( 'jetpack_inspect_enabled', false, false );
-	}
-
-	public static function toggle() {
-		if ( self::is_enabled() ) {
-			self::disable();
-		} else {
-			self::enable();
-		}
-
-		return self::is_enabled();
+	public function toggle() {
+		$new_status = ! $this->is_enabled();
+		update_option( 'jetpack_inspect_enabled', $new_status, false );
+		return $new_status;
 	}
 }
