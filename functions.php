@@ -11,6 +11,7 @@ function maybe_start_capture_manually() {
 		return;
 	}
 
+	add_filter('option_jetpack_inspect_filter', '__return_null');
 	$capture->attach_filters();
 }
 
@@ -22,6 +23,7 @@ function maybe_stop_capture_manually() {
 		return;
 	}
 
+	remove_filter('option_jetpack_inspect_filter', '__return_null');
 	$capture->detach_filters();
 }
 
