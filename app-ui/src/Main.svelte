@@ -4,8 +4,8 @@
 	import type { WP_Request } from "@src/utils/Validator";
 
 	import LogList from "@src/Dashboard/Log/List.svelte";
-	import Actions from "@src/Dashboard/Actions.svelte";
-	import Form from "./Dashboard/Form.svelte";
+	import LogActions from "@src/Dashboard/Log/Actions.svelte";
+	import Form from "@src/Dashboard/Form.svelte";
 
 	let isLoading = false;
 
@@ -26,11 +26,15 @@
 </script>
 
 <main>
-	<Actions />
-
 	<Form bind:formData on:submit={List.refresh} />
 
 	<div class="logs">
+		<h2>Actions</h2>
+		<hr>
+		<LogActions />
+
+		<h2>Logs</h2>
+		<hr>
 		<LogList bind:this={List} on:select={onLogSelect} />
 	</div>
 
@@ -65,6 +69,7 @@
 		width: 100%;
 		display: grid;
 		gap: 20px;
+		padding: 20px;
 	}
 
 	.is-loading {

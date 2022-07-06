@@ -35,8 +35,6 @@
 			<strong> {message} </strong>
 		</div>
 	{/if}
-	<h2>Actions</h2>
-	<hr />
 	<button class="button button-primary" on:click|preventDefault={capture}>
 		Toggle Capture
 	</button>
