@@ -8,15 +8,7 @@
 		Loading....
 	{:then items}
 		{#each items as item (item.id)}
-			<LogEntry
-				id={item.id}
-				url={item.data.url}
-				date={item.date}
-				request={item.data.request}
-				response={item.data.response}
-				duration={item.data.duration}
-				on:select
-			/>
+			<LogEntry {item} on:select />
 		{/each}
 	{/await}
 </section>

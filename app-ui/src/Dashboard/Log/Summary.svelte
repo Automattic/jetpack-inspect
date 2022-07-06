@@ -1,13 +1,12 @@
 <script type="ts">
-	import type { WP_Request, Response } from "@src/utils/Validator";
+	import type { LogEntry } from "@src/utils/Validator";
 	import { createEventDispatcher } from "svelte";
 	const dispatch = createEventDispatcher();
-	export let date: string;
-	export let url: string;
-	export let duration: number;
-	export let request: WP_Request;
-	export let response: Response;
+
+	export let item: LogEntry;
 	export let isOpen = false;
+
+	const { date, url, duration, request } = item;
 
 	function selectRequest() {
 		dispatch("select", { url, request });

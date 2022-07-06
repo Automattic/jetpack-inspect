@@ -19,9 +19,9 @@ class Log {
 		register_post_type(
 			static::POST_TYPE_NAME,
 			array(
-				'label'        => 'Jetpack Inspect Log',
-				'description'  => 'Cache entries for the Jetpack Boost plugin.',
-				'public'       => false,
+				'label'       => 'Jetpack Inspect Log',
+				'description' => 'Cache entries for the Jetpack Boost plugin.',
+				'public'      => false,
 			)
 		);
 	}
@@ -33,7 +33,7 @@ class Log {
 			'post_title'   => $url,
 			'post_name'    => uniqid( "jetpack_inspect_log_", true ),
 			'post_status'  => 'publish',
-			'post_content' => base64_encode( wp_json_encode( $data ) )
+			'post_content' => base64_encode( wp_json_encode( $data ) ),
 		);
 
 		wp_insert_post( $data_post_data );
@@ -47,11 +47,11 @@ class Log {
 			$data = "Error decoding JSON: " . $e->getMessage();
 		}
 
-		return [
-			'id'   => $post_id,
-			'data' => $data,
-			'date' => $post->post_date,
-		];
+		return array_merge( [
+			                    'id'   => $post_id,
+			                    'date' => $post->post_date,
+		                    ],
+		                    $data );
 
 
 	}

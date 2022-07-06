@@ -1,25 +1,19 @@
 <script type="ts">
-	import LogSummary from '@src/Dashboard/Log/Summary.svelte';
-	import type { Response, WP_Request } from "@src/utils/Validator";
+	import LogSummary from "@src/Dashboard/Log/Summary.svelte";
+	import type { LogEntry } from "@src/utils/Validator";
 
-	export let id: number;
-	export let date: string;
-	export let url: string;
-	export let duration: number;
-	export let request: WP_Request;
-	export let response: Response;
-
+	export let item: LogEntry;
+	const { request, response } = item;
 
 	let isOpen;
 
 	function stringify(data) {
 		return JSON.stringify(data, null, 4);
 	}
-
 </script>
 
 <div class="log-entry">
-	<LogSummary {date} {url} {duration} {request} {response} bind:isOpen on:select />
+	<LogSummary {item} bind:isOpen on:select />
 
 	{#if isOpen}
 		<div>

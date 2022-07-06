@@ -44,12 +44,10 @@ export const Response = z.object({
 export const LogEntry = z.object({
 	"id": z.number(),
 	"date": z.string(),
-	"data": z.object({
-		"url": z.string(),
-		"duration": z.number(),
-		"request": WP_Request,
-		"response": Response,
-	}),
+	"url": z.string(),
+	"duration": z.number(),
+	"request": WP_Request,
+	"response": Response,
 
 });
 
