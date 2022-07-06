@@ -2,116 +2,36 @@
 	import { fade } from "svelte/transition";
 
 	import type { WP_Request } from "@src/utils/Validator";
-	import storageStore from "@src/utils/storageStore";
 
 	import LogList from "@src/Dashboard/Log/List.svelte";
 	import Actions from "@src/Dashboard/Actions.svelte";
+	import Form from "./Dashboard/Form.svelte";
 
 	let isLoading = false;
 
-	let form = storageStore("jetpack_devtools_form", {
-		url: "",
-		body: "",
-		headers: "",
-		method: "POST",
-	});
-
-	async function performRequest() {
-		isLoading = true;
-		const result = await fetch("/wp-json/jetpack-inspect/wpcom", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				method: $form.method,
-				url: $form.url,
-				body: $form.body,
-			}),
-		});
-
-		let data = "";
-		try {
-			data = await result.text();
-		} catch (e) {
-			console.log(e);
-		}
-
-		isLoading = false;
-	}
-
+	let formData;
 	function onLogSelect(e) {
 		const request: WP_Request = e.detail.request;
 		const url: string = e.detail.url;
 
-		$form.method = request.method;
-		$form.url = url;
-		$form.body = JSON.stringify(request.body, null, 4);
-		$form.headers = JSON.stringify(request.headers, null, 4);
+		formData = {
+			method: request.method,
+			url: url,
+			body: JSON.stringify(request.body, null, 4),
+			headers: JSON.stringify(request.headers, null, 4),
+		};
 	}
 </script>
 
 <main>
 	<Actions />
 
+	<Form bind:formData />
+
 	<div class="logs">
 		<LogList on:select={onLogSelect} />
 	</div>
 
-	<form class="form-horizontal">
-		<fieldset>
-			<!-- Form Name -->
-			<legend>Jetpack REST API Tester</legend>
-			<hr />
-
-			<select bind:value={$form.method}>
-				<option value="POST" selected>POST</option>
-				<option value="GET">GET</option>
-				<option value="PUT">PUT</option>
-				<option value="DELETE">DELETE</option>
-				<option value="PATCH">PATCH</option>
-			</select>
-
-			<!-- Text input-->
-			<section>
-				<label class="control-label" for="apiurl">URL</label>
-				<div>
-					<input bind:value={$form.url} id="apiurl" name="apiurl" type="text" />
-				</div>
-			</section>
-
-			<!-- Body -->
-			<section>
-				<label for="body">Body</label>
-				<div>
-					<textarea
-						bind:value={$form.body}
-						class="form-control"
-						id="body"
-						name="body"
-					/>
-				</div>
-			</section>
-
-			<!-- Headers -->
-			<section>
-				<label for="body">Headers</label>
-				<div>
-					<textarea
-						bind:value={$form.headers}
-						class="form-control"
-						id="body"
-						name="body"
-					/>
-				</div>
-			</section>
-
-			<button
-				class="button button-primary"
-				on:click|preventDefault={performRequest}>Run</button
-			>
-		</fieldset>
-	</form>
 	{#if isLoading}
 		<div class="is-loading" transition:fade>
 			<svg
@@ -143,30 +63,6 @@
 		width: 100%;
 		display: grid;
 		gap: 20px;
-	}
-
-	fieldset section {
-		margin-bottom: 2rem;
-	}
-
-	legend {
-		font-weight: 600;
-	}
-
-	textarea {
-		padding: 1rem;
-		min-height: 100px;
-	}
-
-	input {
-		padding: 0.25rem 1rem;
-	}
-
-	textarea,
-	input,
-	select {
-		width: 100%;
-		margin-bottom: 0.5rem;
 	}
 
 	.is-loading {
