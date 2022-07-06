@@ -24,7 +24,14 @@ export const WP_Request = z.object({
 	"_redirection": z.number()
 });
 
-export const Response = z.object({
+const ResponseError = z.object({
+	"errors": z.object({
+		"http_request_failed": z.string().array()
+	}),
+	"error_data": z.string().array()
+});
+
+const ResponseSuccess = z.object({
 	"headers": z.array(z.string()),
 	"body": z.string(),
 	"response": z.object({
@@ -39,6 +46,8 @@ export const Response = z.object({
 		"status": z.number().nullable()
 	})
 });
+
+export const Response = z.union([ResponseError, ResponseSuccess]);
 
 
 export const LogEntry = z.object({
