@@ -1,5 +1,5 @@
-import type { LogEntry } from './Validator';
-import { LogEntries } from './Validator';
+import type { LogEntry } from '@src/utils/Validator';
+import { LogEntries } from '@src/utils/Validator';
 
 export default class REST_API {
 

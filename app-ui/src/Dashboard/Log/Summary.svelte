@@ -1,5 +1,5 @@
 <script type="ts">
-	import type { WP_Request, Response } from "./Validator";
+	import type { WP_Request, Response } from "@src/utils/Validator";
 	import { createEventDispatcher } from "svelte";
 	const dispatch = createEventDispatcher();
 	export let date: string;

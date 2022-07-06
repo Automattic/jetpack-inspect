@@ -1,9 +1,11 @@
 <script type="ts">
-	import type { WP_Request } from "./Validator";
-	import Log from "./Log.svelte";
-	import storageStore from "./storageStore";
 	import { fade } from "svelte/transition";
-	import Actions from "./Actions.svelte";
+
+	import type { WP_Request } from "@src/utils/Validator";
+	import storageStore from "@src/utils/storageStore";
+
+	import LogList from "@src/Dashboard/Log/List.svelte";
+	import Actions from "@src/Dashboard/Actions.svelte";
 
 	let isLoading = false;
 
@@ -53,7 +55,7 @@
 	<Actions />
 
 	<div class="logs">
-		<Log on:select={onLogSelect} />
+		<LogList on:select={onLogSelect} />
 	</div>
 
 	<form class="form-horizontal">

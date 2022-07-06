@@ -1,7 +1,6 @@
 <script type="ts">
-	import LogEntry from "./LogEntry.svelte";
-
-	import REST_API from "./REST_API";
+	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
+	import REST_API from "@src/utils/REST_API";
 </script>
 
 <section>

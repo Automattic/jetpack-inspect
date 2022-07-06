@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
-	import REST_API from "./REST_API";
+	import REST_API from "@src/utils/REST_API";
 	let message = "";
 
 	const api = new REST_API();

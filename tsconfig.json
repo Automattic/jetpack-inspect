@@ -1,6 +1,6 @@
 {
-	"strict": true,
 	"extends": "@tsconfig/svelte/tsconfig.json",
+	"strict": true,
 	"include": [
 		"app-ui/src/**/*"
 	],
@@ -9,9 +9,12 @@
 		"app-ui/build/*"
 	],
 	"compilerOptions": {
-		"typeRoots": [
-			"./node_modules/@types/",
-			"./app-ui/src/"
-		]
-	}
+		"types": [],
+		"baseUrl": "./app-ui",
+		"paths": {
+			"@src/": ["src/"],
+			"@src/*": ["src/*"]
+		  },
+	},
+
 }

@@ -2,11 +2,11 @@ import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
-import {terser} from 'rollup-plugin-terser';
+import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
-import serve from 'rollup-plugin-serve'
+import alias from '@rollup/plugin-alias';
 
 const production = !process.env.ROLLUP_WATCH;
 const runServer = !!process.env.SERVE;
@@ -41,8 +41,14 @@ export default {
 		file: 'app-ui/build/main.js'
 	},
 	plugins: [
+		alias({
+			entries: [
+				// If you add a new top-level-folder besides src which you want to use, add it here
+				{ find: /^@src(\/|$)/, replacement: `${__dirname}/app-ui/src/` },
+			],
+		}),
 		svelte({
-			preprocess: sveltePreprocess({sourceMap: !production}),
+			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production
@@ -50,7 +56,7 @@ export default {
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
-		css({output: 'style.css'}),
+		css({ output: 'style.css' }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In

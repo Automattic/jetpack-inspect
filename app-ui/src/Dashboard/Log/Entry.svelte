@@ -1,6 +1,6 @@
 <script type="ts">
-	import LogSummary from './LogSummary.svelte';
-	import type { Response, WP_Request } from "./Validator";
+	import LogSummary from '@src/Dashboard/Log/Summary.svelte';
+	import type { Response, WP_Request } from "@src/utils/Validator";
 
 	export let id: number;
 	export let date: string;
