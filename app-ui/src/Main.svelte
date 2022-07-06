@@ -1,40 +1,31 @@
 <script type="ts">
 	import { fade } from "svelte/transition";
 
-	import type { WP_Request } from "@src/utils/Validator";
-
 	import LogList from "@src/Dashboard/Log/List.svelte";
 	import LogActions from "@src/Dashboard/Log/Actions.svelte";
 	import Form from "@src/Dashboard/Form.svelte";
+	import type { LogEntry } from "@src/utils/Validator";
 
 	let isLoading = false;
 
-	let formData;
+	let logEntry: LogEntry | false = false;
 	function onLogSelect(e) {
-		const request: WP_Request = e.detail.request;
-		const url: string = e.detail.url;
-
-		formData = {
-			method: request.method,
-			url: url,
-			body: JSON.stringify(request.body, null, 4),
-			headers: JSON.stringify(request.headers, null, 4),
-		};
+		logEntry = e.detail;
 	}
 
 	let List;
 </script>
 
 <main>
-	<Form bind:formData on:submit={List.refresh} />
+	<Form bind:logEntry on:submit={List.refresh} />
 
 	<div class="logs">
 		<h2>Actions</h2>
-		<hr>
+		<hr />
 		<LogActions />
 
 		<h2>Logs</h2>
-		<hr>
+		<hr />
 		<LogList bind:this={List} on:select={onLogSelect} />
 	</div>
 

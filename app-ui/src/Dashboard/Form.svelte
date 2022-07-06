@@ -1,9 +1,10 @@
 <script type="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from "svelte";
 	const dispatch = createEventDispatcher();
 	import storageStore from "@src/utils/localStorageStore";
+	import type { LogEntry } from "@src/utils/Validator";
 
-	export let formData;
+	export let logEntry: LogEntry | false = false;
 
 	const data = storageStore("jetpack_devtools_form", {
 		url: "",
@@ -12,8 +13,21 @@
 		method: "POST",
 	});
 
-	$: if (formData) {
-		$data = formData;
+	function stringify(obj: any) {
+		if( ! obj ) {
+			return "";
+		}
+
+		return JSON.stringify(obj, null, 2);
+	}
+
+	$: if (logEntry) {
+		$data = {
+			url: logEntry.url,
+			method: logEntry.request.method,
+			body: stringify(logEntry.request.body),
+			headers: stringify(logEntry.request.headers),
+		};
 	}
 
 	async function performRequest(method, url, body, headers) {
@@ -93,8 +107,7 @@
 			</div>
 		</section>
 
-		<button class="button button-primary">Run</button
-		>
+		<button class="button button-primary">Run</button>
 	</fieldset>
 </form>
 

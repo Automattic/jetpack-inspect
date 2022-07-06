@@ -9,7 +9,7 @@
 	const { date, url, duration, request } = item;
 
 	function selectRequest() {
-		dispatch("select", { url, request });
+		dispatch("select", item );
 	}
 
 	function toggleOpen() {
