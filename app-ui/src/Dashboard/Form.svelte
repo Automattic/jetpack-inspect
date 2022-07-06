@@ -1,4 +1,6 @@
 <script type="ts">
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 	import storageStore from "@src/utils/localStorageStore";
 
 	export let formData;
@@ -21,6 +23,7 @@
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
+				// type: "simple",
 				headers,
 				method,
 				url,
@@ -37,11 +40,12 @@
 	}
 
 	async function run() {
-		performRequest($data.method, $data.url, $data.body, $data.headers);
+		await performRequest($data.method, $data.url, $data.body, $data.headers);
+		dispatch("submit");
 	}
 </script>
 
-<form>
+<form on:submit|preventDefault={run}>
 	<fieldset>
 		<!-- Form Name -->
 		<legend>Jetpack REST API Tester</legend>
@@ -89,8 +93,7 @@
 			</div>
 		</section>
 
-		<button class="button button-primary" on:click|preventDefault={run}
-			>Run</button
+		<button class="button button-primary">Run</button
 		>
 	</fieldset>
 </form>

@@ -21,15 +21,17 @@
 			headers: JSON.stringify(request.headers, null, 4),
 		};
 	}
+
+	let List;
 </script>
 
 <main>
 	<Actions />
 
-	<Form bind:formData />
+	<Form bind:formData on:submit={List.refresh} />
 
 	<div class="logs">
-		<LogList on:select={onLogSelect} />
+		<LogList bind:this={List} on:select={onLogSelect} />
 	</div>
 
 	{#if isLoading}

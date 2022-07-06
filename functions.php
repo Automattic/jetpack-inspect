@@ -30,21 +30,25 @@ function jetpack_inspect_request( \WP_REST_Request $request ) {
 	maybe_start_capture_manually();
 
 
-	$data                    = $request->get_params();
+	$data = $request->get_params();
+
+
+
 	$request_data            = $data;
 	$request_data['headers'] = [ 'Content-Type' => 'application/json; charset=utf-8' ];
 
-	// @TODO: Make auth optional
-	$request_data = Client::build_signed_request(
-		[
-			'url'     => $data['url'],
-			'method'  => $data['method'] ?? 'POST',
-			// @TODO: Deal with headers
-			//			'headers' => [ 'Content-Type' => 'application/json; charset=utf-8' ],
-			'headers' => (array) json_decode( $data['headers'] ),
-		],
-		$data['body']
+	if ( isset( $data['type'] ) && $data['type'] !== 'simple' ) {
+		$request_data = Client::build_signed_request(
+			[
+				'url'     => $data['url'],
+				'method'  => $data['method'] ?? 'POST',
+				// @TODO: Deal with headers
+				//			'headers' => [ 'Content-Type' => 'application/json; charset=utf-8' ],
+				'headers' => (array) json_decode( $data['headers'] ),
+			],
+			$data['body']
 	);
+	}
 
 
 	if ( ! $request_data || is_wp_error( $request_data ) ) {

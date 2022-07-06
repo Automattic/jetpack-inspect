@@ -41,8 +41,6 @@
 		display: grid;
 		gap: 10px;
 		width: 100%;
-		background-color: #fff;
-		padding: 20px;
 	}
 
 	.duration {

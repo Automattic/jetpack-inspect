@@ -12,24 +12,28 @@
 	}
 </script>
 
-<div class="log-entry">
+
 	<LogSummary {item} bind:isOpen on:select />
 
 	{#if isOpen}
 		<div>
-			{#if !response || response.response.code !== 200}
-				<h3>API Error:</h3>
-				<pre>{stringify(response.response)}</pre>
-			{:else}
+			{#if "body" in response && response.response === 200}
 				<h3>API Response:</h3>
 				<pre>{stringify(response.body)}</pre>
+			{:else}
+				<h3>API Error:</h3>
+				<pre>{stringify(response)}</pre>
 			{/if}
 
-			<h3>Headers</h3>
-			<pre>{stringify(response.headers)}</pre>
+			{#if "headers" in response}
+				<h3>Headers</h3>
+				<pre>{stringify(response.headers)}</pre>
+			{/if}
 
-			<h3>Cookies</h3>
-			<pre>{stringify(response.cookies)}</pre>
+			{#if "cookies" in response}}
+				<h3>Cookies</h3>
+				<pre>{stringify(response.cookies)}</pre>
+			{/if}
 		</div>
 
 		<h2>Request Details</h2>
@@ -44,12 +48,8 @@
 		</pre>
 		</div>
 	{/if}
-</div>
 
 <style>
-	.log-entry {
-		border-bottom: 1px solid rgb(215, 215, 215);
-	}
 
 	pre {
 		background-color: #f3f3f3;
