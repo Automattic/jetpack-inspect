@@ -41,7 +41,7 @@
 	}
 </script>
 
-<form class="form-horizontal">
+<form>
 	<fieldset>
 		<!-- Form Name -->
 		<legend>Jetpack REST API Tester</legend>
@@ -96,6 +96,10 @@
 </form>
 
 <style type="scss">
+	form {
+		padding: 20px;
+		background-color: #fff;
+	}
 	fieldset section {
 		margin-bottom: 2rem;
 	}
