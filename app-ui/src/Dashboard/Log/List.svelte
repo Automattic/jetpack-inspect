@@ -1,9 +1,9 @@
 <script type="ts">
 	import type { LogEntry as TypeLogEntry } from "@src/utils/Validator";
 	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
-	import REST_API from "@src/utils/REST_API";
+	import API from "@src/utils/API";
 
-	const api = new REST_API();
+	const api = new API();
 
 	let entries: Promise<TypeLogEntry[]> | TypeLogEntry[] = api.latest();
 

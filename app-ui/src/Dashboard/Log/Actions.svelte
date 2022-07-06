@@ -2,10 +2,10 @@
 	import Filters from './Filters.svelte';
 	import { onMount } from "svelte";
 
-	import REST_API from "@src/utils/REST_API";
+	import API from "@src/utils/API";
 	let message = "";
 
-	const api = new REST_API();
+	const api = new API();
 
 	async function capture() {
 		const request = await api.toggleCaptureStatus();

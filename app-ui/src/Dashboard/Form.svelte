@@ -1,8 +1,11 @@
 <script type="ts">
+	import type { ZodFormattedError } from "zod";
+	import FormError from "./FormError.svelte";
 	import { createEventDispatcher } from "svelte";
 	const dispatch = createEventDispatcher();
 	import storageStore from "@src/utils/localStorageStore";
-	import type { LogEntry } from "@src/utils/Validator";
+	import { EntryData, type LogEntry } from "@src/utils/Validator";
+	import API from "@src/utils/API";
 
 	export let logEntry: LogEntry | false = false;
 
@@ -13,8 +16,10 @@
 		method: "POST",
 	});
 
+	const api = new API();
+
 	function stringify(obj: any) {
-		if( ! obj ) {
+		if (!obj) {
 			return "";
 		}
 
@@ -30,43 +35,29 @@
 		};
 	}
 
-	async function performRequest(method, url, body, headers) {
-		const result = await fetch("/wp-json/jetpack-inspect/submit", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				// type: "simple",
-				headers,
-				method,
-				url,
-				body,
-			}),
-		});
+	let errors: ZodFormattedError<EntryData>;
+	async function submit(formData) {
+		const data = EntryData.safeParse(formData);
 
-		let data = "";
-		try {
-			data = await result.text();
-		} catch (e) {
-			console.log(e);
+		if (!data.success && "error" in data) {
+			const formatted = data.error.format();
+			errors = formatted;
 		}
-	}
 
-	async function run() {
-		await performRequest($data.method, $data.url, $data.body, $data.headers);
+		await api.submit(formData);
 		dispatch("submit");
 	}
 </script>
 
-<form on:submit|preventDefault={run}>
+<form on:submit|preventDefault={() => submit($data)}>
 	<fieldset>
 		<!-- Form Name -->
 		<legend>Jetpack REST API Tester</legend>
 		<hr />
 
+		<FormError error={errors?.url} />
 		<select bind:value={$data.method}>
-			<option value="POST" selected>POST</option>
+			<option value="POST">POST</option>
 			<option value="GET">GET</option>
 			<option value="PUT">PUT</option>
 			<option value="DELETE">DELETE</option>
@@ -77,6 +68,7 @@
 		<section>
 			<label class="control-label" for="apiurl">URL</label>
 			<div>
+				<FormError error={errors?.url} />
 				<input bind:value={$data.url} id="apiurl" name="apiurl" type="text" />
 			</div>
 		</section>
@@ -85,6 +77,7 @@
 		<section>
 			<label for="body">Body</label>
 			<div>
+				<FormError error={errors?.body} />
 				<textarea
 					bind:value={$data.body}
 					class="form-control"
@@ -98,6 +91,7 @@
 		<section>
 			<label for="body">Headers</label>
 			<div>
+				<FormError error={errors?.headers} />
 				<textarea
 					bind:value={$data.headers}
 					class="form-control"

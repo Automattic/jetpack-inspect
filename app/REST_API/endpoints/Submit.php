@@ -15,7 +15,12 @@ class Submit {
 	}
 
 	public function response( $request ) {
-		return rest_ensure_response( jetpack_inspect_request( $request ) );
+		$body    = $request->get_param( 'body' );
+		$headers = $request->get_param( 'headers' ) ?? [];
+		$method  = $request->get_param( 'method' );
+		$url     = $request->get_param( 'url' );
+		
+		return rest_ensure_response( jetpack_inspect_request( $url, $method, $body, $headers ) );
 	}
 
 	public function permissions() {

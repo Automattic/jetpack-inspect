@@ -1,8 +1,8 @@
 <script type="ts">
-	import REST_API from "@src/utils/REST_API";
+	import API from "@src/utils/API";
 	import { onMount } from "svelte";
 
-	const api = new REST_API();
+	const api = new API();
 	let filter = "";
 
 	let timeout;

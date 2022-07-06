@@ -60,6 +60,24 @@ export const LogEntry = z.object({
 
 });
 
+const validateJSON = (val: string) => {
+	try {
+		JSON.parse(val);
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
+
+export const EntryData = z.object({
+	"method": z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
+	"url": z.string().url(),
+	"headers": z.string().refine(validateJSON, { message: "Must be valid JSON string" }),
+	"body": z.string(),
+	// "type": z.enum(["jetpack_connection", "wp_remote_get"]),
+});
+
+
 
 export const LogEntries = z.array(LogEntry);
 
@@ -67,3 +85,4 @@ export type WP_Request = z.infer<typeof WP_Request>;
 export type Response = z.infer<typeof Response>;
 export type LogEntry = z.infer<typeof LogEntry>;
 export type LogEntries = z.infer<typeof LogEntries>;
+export type EntryData = z.infer<typeof EntryData>;

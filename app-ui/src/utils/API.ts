@@ -1,7 +1,7 @@
-import type { LogEntry } from '@src/utils/Validator';
+import type { EntryData, LogEntry } from '@src/utils/Validator';
 import { LogEntries } from '@src/utils/Validator';
 
-export default class REST_API {
+export default class API {
 
 	private async request(
 		endpoint: string,
@@ -59,6 +59,10 @@ export default class REST_API {
 
 	public async getFilter() {
 		return await this.request("filter");
+	}
+
+	public async submit(data: EntryData) {
+		return await this.request("submit", "POST", data);
 	}
 
 }
