@@ -6,13 +6,13 @@
 	let filter = "";
 
 	let timeout;
-	function updateFilter() {
+	function updateFilter(value) {
 		if (timeout) {
 			clearTimeout(timeout);
 		}
 
 		timeout = setTimeout(() => {
-			api.updateFilter(filter);
+			api.updateFilter(value);
 		}, 1000);
 	}
 
@@ -26,7 +26,7 @@
 		mounted = true;
 	});
 
-	$: mounted && filter && updateFilter();
+	$: mounted && updateFilter(filter);
 </script>
 
 <input placeholder="*" type="text" bind:value={filter} />
