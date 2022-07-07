@@ -42,7 +42,7 @@
 		<Logo />
 		<div class="controls">
 			<button
-				class="button button-primary"
+				class="ji-button"
 				on:click|preventDefault={() => (isFormOpen = !isFormOpen)}
 			>
 				New Request

@@ -111,7 +111,7 @@
 					</div>
 				</section>
 
-				<button class="button button-primary">Send</button>
+				<button class="ji-button">Send</button>
 			</fieldset>
 		</form>
 	</div>

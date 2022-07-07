@@ -21,6 +21,17 @@
     border: none;
     font-weight: 400;
 	cursor: pointer;
+
+	&:hover {
+		opacity: .8;
+	}
+
+	transition: transform 200ms ease;
+	&:active {
+		outline: none;
+		transform: translateY(1px);
+
+	}
 }
 
 .ji-button--alt {
