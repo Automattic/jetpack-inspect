@@ -66,7 +66,7 @@ export const LogEntry = z.object({
 	"date": z.string(),
 	"url": z.string(),
 	"duration": z.number(),
-	"request": RequestArgs,
+	"args": RequestArgs,
 	"response": Response,
 
 });

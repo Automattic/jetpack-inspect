@@ -6,7 +6,7 @@
 	export let item: LogEntry;
 	export let isOpen = false;
 
-	const { date, url, duration, request } = item;
+	const { date, url, duration, args } = item;
 
 	function selectRequest() {
 		dispatch("select", item );
@@ -19,7 +19,7 @@
 
 <div class="summary">
 	<div class="header">
-		<div class="date">{request.method} {duration}ms - {date}</div>
+		<div class="date">{args.method} {duration}ms - {date}</div>
 		<div class="url"><a href="#" on:click={toggleOpen}>{url}</a></div>
 	</div>
 
@@ -38,17 +38,10 @@
 
 <style lang="scss">
 	.summary {
-		display: grid;
-		gap: 10px;
 		width: 100%;
 	}
 
-	.duration {
-		grid-area: duration;
-	}
-
 	.url {
-		grid-area: url;
 		a {
 			text-decoration: none;
 

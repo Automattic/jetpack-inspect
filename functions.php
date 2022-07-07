@@ -102,8 +102,6 @@ function jetpack_inspect_request( $url, $args ) {
 
 	$body = wp_remote_retrieve_body( $result );
 
-
-
 	return [
 		'body'      => silent_json_decode( $body ),
 		'headers'   => wp_remote_retrieve_headers( $result ),
