@@ -9,7 +9,7 @@
 	const { date, url, duration, args } = item;
 
 	function selectRequest() {
-		dispatch("select", item );
+		dispatch("select", item);
 	}
 
 	function toggleOpen() {
@@ -23,7 +23,7 @@
 		<div class="url"><a href="#" on:click={toggleOpen}>{url}</a></div>
 	</div>
 
-	<div class="row">
+	<div class="actions">
 		<button class="button button-secondary" on:click={selectRequest}
 			>Use as template</button
 		>
@@ -31,7 +31,7 @@
 			class="button button-secondary"
 			on:click|preventDefault={toggleOpen}
 		>
-			{isOpen ? "Hide" : "Show"}
+			{isOpen ? "Hide" : "View"}
 		</button>
 	</div>
 </div>
@@ -39,6 +39,8 @@
 <style lang="scss">
 	.summary {
 		width: 100%;
+		display: flex;
+		justify-content: space-between;
 	}
 
 	.url {
