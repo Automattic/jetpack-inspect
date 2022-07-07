@@ -14,7 +14,7 @@ const handler = (request: Request) => {
 		note: "The server received the following:",
 		method: request.method,
 		url: request.url,
-		headers: request.headers,
+		headers: Object.fromEntries(request.headers),
 		body: request.body,
 		params: Object.fromEntries(new URL(request.url).searchParams.entries())
 	}, null, 4);
