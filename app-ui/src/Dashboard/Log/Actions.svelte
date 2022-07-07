@@ -8,6 +8,7 @@
 	const api = new REST_API();
 
 	async function capture() {
+		captureStatus = !captureStatus;
 		const request = await api.toggleCaptureStatus();
 
 		captureStatus = request
