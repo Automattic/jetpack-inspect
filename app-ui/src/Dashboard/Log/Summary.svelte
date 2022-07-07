@@ -16,6 +16,7 @@
 		isOpen = !isOpen;
 	}
 
+	const responseCode = item.response.response.code || false;
 	const isError = 'errors' in item.response || item.response?.response?.code >= 400;
 </script>
 
@@ -25,7 +26,7 @@
 	</div>
 
 	<div class="header" on:click={toggleOpen}>
-		<div class="date">{args.method} {duration}ms - {date}</div>
+		<div class="date">{responseCode} {args.method} {duration}ms - {date}</div>
 		<div class="url">{url}</div>
 	</div>
 
