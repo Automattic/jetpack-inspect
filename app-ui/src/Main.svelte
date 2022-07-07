@@ -6,8 +6,6 @@
 	import Form from "@src/Dashboard/Form.svelte";
 	import type { LogEntry } from "@src/utils/Validator";
 
-	let isLoading = false;
-
 	let logEntry: LogEntry | false = false;
 	function onLogSelect(e) {
 		logEntry = e.detail;
@@ -32,12 +30,13 @@
 </main>
 
 <style>
-	:global(#jetpack-inspect *) {
-		box-sizing: border-box;
-	}
 	main {
 		display: grid;
 		gap: 20px;
-		padding: 35px 30px 20px 10px;
+		margin-left: -20px;
+	}
+
+	.logs {
+		padding: 40px;
 	}
 </style>

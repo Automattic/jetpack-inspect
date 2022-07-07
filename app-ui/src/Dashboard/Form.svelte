@@ -50,68 +50,81 @@
 	}
 </script>
 
-<form on:submit|preventDefault={() => submit($data)}>
-	<fieldset>
-		<label>Method</label>
-		<div>
-			<FormError error={errors?.method} />
-			<select bind:value={$data.method}>
-				<option value="POST">POST</option>
-				<option value="GET">GET</option>
-				<option value="PUT">PUT</option>
-				<option value="DELETE">DELETE</option>
-				<option value="PATCH">PATCH</option>
-			</select>
-		</div>
-
-		<!-- Text input-->
-		<section>
-			<label class="control-label" for="apiurl">URL</label>
+<div class="new-request">
+	<h3>+ New Request</h3>
+	<form on:submit|preventDefault={() => submit($data)}>
+		<fieldset>
+			<label>Method</label>
 			<div>
-				<FormError error={errors?.url} />
-				<input bind:value={$data.url} id="apiurl" name="apiurl" type="text" />
+				<FormError error={errors?.method} />
+				<select bind:value={$data.method}>
+					<option value="POST">POST</option>
+					<option value="GET">GET</option>
+					<option value="PUT">PUT</option>
+					<option value="DELETE">DELETE</option>
+					<option value="PATCH">PATCH</option>
+				</select>
 			</div>
-		</section>
 
-		<!-- Body -->
-		<section>
-			<label for="body">Body</label>
-			<div>
-				<FormError error={errors?.body} />
-				<textarea
-					bind:value={$data.body}
-					class="form-control"
-					id="body"
-					name="body"
-				/>
-			</div>
-		</section>
+			<!-- Text input-->
+			<section>
+				<label class="control-label" for="apiurl">URL</label>
+				<div>
+					<FormError error={errors?.url} />
+					<input bind:value={$data.url} id="apiurl" name="apiurl" type="text" />
+				</div>
+			</section>
 
-		<!-- Headers -->
-		<section>
-			<label for="body">Headers</label>
-			<div>
-				<FormError error={errors?.headers} />
-				<textarea
-					bind:value={$data.headers}
-					class="form-control"
-					id="body"
-					name="body"
-				/>
-			</div>
-		</section>
+			<!-- Body -->
+			<section>
+				<label for="body">Body</label>
+				<div>
+					<FormError error={errors?.body} />
+					<textarea
+						bind:value={$data.body}
+						class="form-control"
+						id="body"
+						name="body"
+					/>
+				</div>
+			</section>
 
-		<button class="button button-primary">Send</button>
-	</fieldset>
-</form>
+			<!-- Headers -->
+			<section>
+				<label for="body">Headers</label>
+				<div>
+					<FormError error={errors?.headers} />
+					<textarea
+						bind:value={$data.headers}
+						class="form-control"
+						id="body"
+						name="body"
+					/>
+				</div>
+			</section>
+
+			<button class="button button-primary">Send</button>
+		</fieldset>
+	</form>
+</div>
 
 <style type="scss">
-	form {
-		padding: 20px;
-		background-color: #fff;
+	.new-request {
+		background-color: var(--gray_0);
+		padding: 40px;
 	}
+
 	fieldset section {
-		margin-bottom: 2rem;
+		margin-bottom: 1.4rem;
+	}
+
+	label {
+		margin-bottom: 5px;
+		text-transform: uppercase;
+		font-size: .7rem;
+		display: block;
+		color: #999;
+		font-weight: 600;
 	}
 
 	legend {
