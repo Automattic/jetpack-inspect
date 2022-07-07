@@ -52,18 +52,17 @@
 
 <form on:submit|preventDefault={() => submit($data)}>
 	<fieldset>
-		<!-- Form Name -->
-		<legend>Jetpack REST API Tester</legend>
-		<hr />
-
-		<FormError error={errors?.url} />
-		<select bind:value={$data.method}>
-			<option value="POST">POST</option>
-			<option value="GET">GET</option>
-			<option value="PUT">PUT</option>
-			<option value="DELETE">DELETE</option>
-			<option value="PATCH">PATCH</option>
-		</select>
+		<label>Method</label>
+		<div>
+			<FormError error={errors?.method} />
+			<select bind:value={$data.method}>
+				<option value="POST">POST</option>
+				<option value="GET">GET</option>
+				<option value="PUT">PUT</option>
+				<option value="DELETE">DELETE</option>
+				<option value="PATCH">PATCH</option>
+			</select>
+		</div>
 
 		<!-- Text input-->
 		<section>
@@ -102,7 +101,7 @@
 			</div>
 		</section>
 
-		<button class="button button-primary">Run</button>
+		<button class="button button-primary">Send</button>
 	</fieldset>
 </form>
 
