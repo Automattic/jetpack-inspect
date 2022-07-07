@@ -1,6 +1,8 @@
 <script type="ts">
 	import { fly } from "svelte/transition";
-	import { cubicOut, quadInOut, quintOut } from "svelte/easing";
+	import { sineInOut, cubicOut } from "svelte/easing";
+	import { flip } from "svelte/animate";
+
 	import type { LogEntry as TypeLogEntry } from "@src/utils/Validator";
 	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
 	import API from "@src/utils/API";
@@ -14,16 +16,13 @@
 		entries = newEntries;
 	}
 
-	function fade(node, { duration }) {
+	function fade(node, { duration, delay }) {
 		return {
 			duration,
+			delay,
 			css: (t) => {
-				const eased = quadInOut(t);
-				const lightness = 90 + quintOut(t) * 10;
-				return `
-					opacity: ${Math.min(1, eased * 3)};
-					background-color: hsl(110deg 7% ${lightness}%);
-				`;
+				const lightness = 94 + sineInOut(t) * 6;
+				return `background-color: hsl(110deg 21% ${lightness}%);`;
 			},
 		};
 	}
@@ -58,8 +57,10 @@
 		</div>
 	{:then items}
 		{#each items as item (item.id)}
-			<div class="log-entry" in:fade|local={{ duration: 500 }}>
-				<LogEntry {item} on:select />
+			<div animate:flip={{ duration: 560, easing: sineInOut }}>
+				<div class="log-entry" in:fade|local={{ delay: 1000, duration: 560 }}>
+					<LogEntry {item} on:select />
+				</div>
 			</div>
 		{/each}
 	{/await}
@@ -84,5 +85,6 @@
 		border-bottom: 1px solid rgb(215, 215, 215);
 		min-height: 78px;
 		padding: 20px;
+		background-color: #fff;
 	}
 </style>
