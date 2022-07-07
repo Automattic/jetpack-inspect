@@ -62,7 +62,7 @@
 	main {
 		display: grid;
 		gap: 20px;
-		padding: 20px;
+		padding: 35px 30px 20px 10px;
 	}
 
 	.is-loading {
