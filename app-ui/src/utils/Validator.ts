@@ -1,5 +1,19 @@
 import { z } from 'zod';
 
+
+/**
+ * JSON Schema form Zod
+ * Straight out of the docs:
+ * https://github.com/colinhacks/zod
+ */
+const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
+type Literal = z.infer<typeof literalSchema>;
+type Json = Literal | { [key: string]: Json } | Json[];
+const jsonSchema: z.ZodType<Json> = z.lazy(() =>
+	z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
+);
+
+
 export const RequestArgs = z.object({
 	"method": z.string(),
 	"timeout": z.number(),
@@ -8,12 +22,9 @@ export const RequestArgs = z.object({
 	"user-agent": z.string(),
 	"reject_unsafe_urls": z.boolean(),
 	"blocking": z.boolean(),
-
-	// @TODO: What's up with headers type?
-	// oscillating between object and array
-	"headers": z.unknown(),
+	"headers": jsonSchema,
 	"cookies": z.array(z.string()),
-	"body": z.unknown().nullable(), // @TODO
+	"body": z.union([z.string(), jsonSchema]),
 	"compress": z.boolean(),
 	"decompress": z.boolean(),
 	"sslverify": z.boolean(),
@@ -62,7 +73,7 @@ export const LogEntry = z.object({
 
 const validateJSON = (val: string) => {
 
-	if( ! val ) {
+	if (!val) {
 		return true;
 	}
 
