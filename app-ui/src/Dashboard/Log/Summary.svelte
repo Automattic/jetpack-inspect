@@ -15,12 +15,18 @@
 	function toggleOpen() {
 		isOpen = !isOpen;
 	}
+
+	const isError = 'errors' in item.response || item.response?.response?.code >= 400;
 </script>
 
 <div class="summary">
-	<div class="header">
+	<div class="response-indicator">
+		<div class="bubble" class:red={isError} class:green={!isError} />
+	</div>
+
+	<div class="header" on:click={toggleOpen}>
 		<div class="date">{args.method} {duration}ms - {date}</div>
-		<div class="url"><a href="#" on:click={toggleOpen}>{url}</a></div>
+		<div class="url">{url}</div>
 	</div>
 
 	<div class="actions">
@@ -37,22 +43,40 @@
 </div>
 
 <style lang="scss">
+	.response-indicator {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 20px;
+	}
+	.bubble {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background-color: var(--gray_30);
+
+		&.red {
+			background-color: var(--color_warning);
+		}
+		&.green {
+			background-color: var(--jetpack-green);
+		}
+	}
 	.summary {
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
 	}
 
-	.url {
-		a {
-			text-decoration: none;
+	.header {
+		cursor: pointer;
+		margin-right: auto;
+	}
 
-			&:focus,
-			&:active {
-				outline: 0;
-				box-shadow: none;
-			}
-		}
+	.url {
+		font-weight: 500;
+		-webkit-font-smoothing: antialiased;
+		color: var(--gray_80);
 	}
 
 	.date {
