@@ -29,9 +29,9 @@
 	$: if (logEntry) {
 		$data = {
 			url: logEntry.url,
-			method: logEntry.request.method,
-			body: stringify(logEntry.request.body),
-			headers: stringify(logEntry.request.headers),
+			method: logEntry.args.method,
+			body: stringify(logEntry.args.body),
+			headers: stringify(logEntry.args.headers),
 		};
 	}
 
