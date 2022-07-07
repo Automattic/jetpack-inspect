@@ -56,8 +56,10 @@
 </main>
 
 <style>
+	:global(#jetpack-inspect *) {
+		box-sizing: border-box;
+	}
 	main {
-		width: 100%;
 		display: grid;
 		gap: 20px;
 		padding: 20px;
