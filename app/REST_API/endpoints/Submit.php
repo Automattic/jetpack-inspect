@@ -26,6 +26,7 @@ class Submit {
 	}
 
 	public function response( $request ) {
+
 		$body    = $request->get_param( 'body' );
 		$headers = $request->get_param( 'headers' );
 		$method  = $request->get_param( 'method' );
@@ -35,7 +36,19 @@ class Submit {
 		$headers = $this->maybe_get_json( $headers );
 		$body    = $this->maybe_get_json( $body );
 
-		return rest_ensure_response( jetpack_inspect_request( $url, $method, $body, $headers ) );
+
+
+		$args = [
+			'method'  => $method,
+			'body'    => $body,
+			'headers' => $headers,
+		];
+
+		maybe_start_capture_manually();
+		$results = jetpack_inspect_request( $url, $args,  );
+		maybe_stop_capture_manually();
+
+		return rest_ensure_response( $results );
 	}
 
 	public function permissions() {

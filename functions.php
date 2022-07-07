@@ -11,7 +11,7 @@ function maybe_start_capture_manually() {
 		return;
 	}
 
-	add_filter('option_jetpack_inspect_filter', '__return_null');
+	add_filter( 'option_jetpack_inspect_filter', '__return_null' );
 	$capture->attach_filters();
 }
 
@@ -23,65 +23,93 @@ function maybe_stop_capture_manually() {
 		return;
 	}
 
-	remove_filter('option_jetpack_inspect_filter', '__return_null');
+	remove_filter( 'option_jetpack_inspect_filter', '__return_null' );
 	$capture->detach_filters();
 }
 
-function jetpack_inspect_request( $url, $method = 'GET', $body = null, $headers = [] ) {
+function jetpack_inspect_default_args( $args = [] ) {
+	$defaults = [
+		'method'  => 'GET',
+		'body'    => null,
+		'headers' => [],
+	];
 
-	maybe_start_capture_manually();
-	
-	//	$type = $request->get_param('type');
+	return wp_parse_args( $args, $defaults );
+}
 
-	if ( ! isset( $headers['Content-Type'] ) ) {
-		$headers['Content-Type'] = 'application/json; charset=utf-8;';
+function jetpack_inspect_connection_request( $url, $args = [] ) {
+
+	$args = jetpack_inspect_default_args( $args );
+
+	// Building signed request interface differs from wp_remote_request.
+	// Body is passed as an argument.
+	$body = $args['body'];
+	unset( $args['body'] );
+
+	// Request signing process expects the URL to be provided in arguments.
+	$args['url'] = $url;
+
+
+	// Workaround the Jetpack Connection empty body feature/bug:
+	// @TODO: Maybe show this as a warning/error in the UI?
+	//       This might lead to situations "Works in Jetpack Inspector but not IRL"
+	if ( empty( $body ) ) {
+		$body = null;
 	}
 
-	//	if ( $type !== 'simple' ) {
-	//		$request_data = Client::build_signed_request(
-	//			[
-	//				'url'     => $params['url'],
-	//				'method'  => $params['method'] ?? 'POST',
-	//				// @TODO: Deal with headers
-	//				//			'headers' => [ 'Content-Type' => 'application/json; charset=utf-8' ],
-	//				'headers' => (array) json_decode( $params['headers'] ),
-	//			],
-	//			$params['body']
-	//	);
-	//	}
-	//
-	//	if ( ! $request_data || is_wp_error( $request_data ) ) {
-	//		return $request_data;
+
+	$signature = Client::build_signed_request( $args, $body );
+
+	if ( ! $signature || is_wp_error( $signature ) ) {
+		return $signature;
+	}
+
+	return [
+		'signature' => $signature,
+		'result'    => Client::_wp_remote_request( $signature['url'], $signature['request'] ),
+	];
+}
+
+function silent_json_decode( $string ) {
+	try {
+		$json = json_decode( $string, false, 512, JSON_THROW_ON_ERROR );
+		if ( is_object( $json ) ) {
+			return $json;
+		}
+	} catch ( Exception $e ) {
+		return $string;
+	}
+
+}
+
+function jetpack_inspect_wp_request( $url, $args ) {
+
+}
+
+function jetpack_inspect_request( $url, $args ) {
+
+	$args = jetpack_inspect_default_args( $args );
+	// I've been using this for a while now, can't remember why anymore. Nice.
+	// Commented out for now.
+	//	if ( ! isset( $headers['Content-Type'] ) ) {
+	//		$headers['Content-Type'] = 'application/json; charset=utf-8;';
 	//	}
 
-	$result = Client::_wp_remote_request( $url, [
-		'method'  => $method,
-		'body'    => $body,
-		'headers' => $headers,
-	] );
-	// Workaround a Jetpack Connection empty body feature/bug:
-	if ( empty( $rbody ) ) {
-		$rbody = null;
-	}
+	$request   = jetpack_inspect_connection_request( $url, $args );
+	$signature = $request['signature'];
+	$result    = $request['result'];
+
 
 	$body = wp_remote_retrieve_body( $result );
 
-	try {
-		$bodyObj = json_decode( $body, false, 512, JSON_THROW_ON_ERROR );
-		if ( is_object( $bodyObj ) ) {
-			$body = $bodyObj;
-		}
-	} catch ( Exception $e ) {
-		// do nothing
-	}
 
-	maybe_stop_capture_manually();
+
 	return [
-		'body'     => $body,
-		'request'  => $request_data,
-		'headers'  => wp_remote_retrieve_headers( $result ),
-		'cookies'  => wp_remote_retrieve_cookies( $result ),
-		'data'     => $request,
-		'response' => $result,
+		'body'      => silent_json_decode( $body ),
+		'headers'   => wp_remote_retrieve_headers( $result ),
+		'cookies'   => wp_remote_retrieve_cookies( $result ),
+		'signature' => $signature,
+		'args'      => $args,
+		'response'  => $result,
 	];
 }
