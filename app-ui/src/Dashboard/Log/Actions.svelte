@@ -11,8 +11,6 @@
 		const request = await api.toggleCaptureStatus();
 
 		captureStatus = request
-		message = "Capture status changed";
-
 	}
 
 	async function clear() {
@@ -25,33 +23,30 @@
 	onMount(async () => {
 		captureStatus = await api.getCaptureStatus();
 	});
+
+	let captureButtonLabel;
+	$: captureButtonLabel = captureStatus ? "Capturing..." : "Capture";
 </script>
 
 <div class="actions">
-	Filters: <Filters />
-	{#if undefined !== captureStatus}
-		Is Capturing: {captureStatus ? "Yes" : "No"}
-	{/if}
-	{#if message}
-		<div class="message">
-			<strong> {message} </strong>
-		</div>
-	{/if}
+	<Filters />
 	<button class="button button-primary" on:click|preventDefault={capture}>
-		Toggle Capture
+		{captureButtonLabel}
 	</button>
 
-	<button class="button button-primary" on:click|preventDefault={clear}>
-		Clear
+	<button id="clear" class="pclear button button-primary" on:click|preventDefault={clear}>
+		Clear All
 	</button>
 </div>
 
 <style>
-	.message {
-		margin-top: 1em;
-		margin-bottom: 1em;
-		padding: 1em;
-		border: 1px solid #ccc;
-		background-color: #fafafa;
+	.actions {
+		padding: 20px 0;
+		display: flex;
+		gap: 10px;
+	}
+
+	#clear {
+		margin-left: auto;
 	}
 </style>

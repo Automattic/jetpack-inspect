@@ -1,2 +1,12 @@
 @import 'main/variables';
 @import 'main/wp-admin';
+
+
+.info code {
+	background-color: hsla(0, 0%, 92%);
+	border-radius: 3px;
+}
+
+.info code {
+	font-size: 11px;
+}

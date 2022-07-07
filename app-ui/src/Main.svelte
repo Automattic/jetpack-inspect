@@ -1,6 +1,5 @@
 <script type="ts">
-	import Logo from './Dashboard/Logo.svelte';
-	import { fade } from "svelte/transition";
+	import Logo from "./Dashboard/Logo.svelte";
 
 	import LogList from "@src/Dashboard/Log/List.svelte";
 	import LogActions from "@src/Dashboard/Log/Actions.svelte";
@@ -26,13 +25,17 @@
 			>
 				New Request
 			</button>
-			<LogActions />
 		</div>
 	</div>
 	<Form bind:isOpen={isFormOpen} bind:logEntry on:submit={List.refresh} />
 
 	<div class="logs">
-		<h4>Captured Requests</h4>
+		<h4>Capture Requests</h4>
+		<div class="info">
+			Filters allow capturing only specific requests. Wildcards are supported, for example <code>https://jetpack.com/*</code>
+		</div>
+		<LogActions />
+
 		<LogList bind:this={List} on:select={onLogSelect} />
 	</div>
 </main>
@@ -53,5 +56,13 @@
 
 	.logs {
 		padding: 10px 40px;
+	}
+
+	h4 {
+		margin-bottom: 0;
+	}
+
+	.info {
+		font-size: 0.8rem;
 	}
 </style>

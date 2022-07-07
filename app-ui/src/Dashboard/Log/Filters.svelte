@@ -29,4 +29,4 @@
 	$: mounted && filter && updateFilter();
 </script>
 
-<input placeholder="*jetpack.com*" type="text" bind:value={filter} />
+<input placeholder="*" type="text" bind:value={filter} />
