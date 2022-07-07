@@ -59,6 +59,10 @@ function jetpack_inspect_request( $url, $method = 'GET', $body = null, $headers 
 		'body'    => $body,
 		'headers' => $headers,
 	] );
+	// Workaround a Jetpack Connection empty body feature/bug:
+	if ( empty( $rbody ) ) {
+		$rbody = null;
+	}
 
 	$body = wp_remote_retrieve_body( $result );
 
