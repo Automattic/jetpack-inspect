@@ -29,7 +29,7 @@
 			<PrettyJSON data={response.headers} />
 		{/if}
 
-		{#if "cookies" in response}}
+		{#if "cookies" in response}
 			<h3>Cookies</h3>
 			<PrettyJSON data={response.cookies} />
 		{/if}
