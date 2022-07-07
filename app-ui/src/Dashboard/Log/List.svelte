@@ -1,7 +1,6 @@
 <script type="ts">
-	import { fade } from "svelte/transition";
 	import { fly } from "svelte/transition";
-	import { cubicOut } from "svelte/easing";
+	import { cubicOut, quadInOut, quintOut } from "svelte/easing";
 	import type { LogEntry as TypeLogEntry } from "@src/utils/Validator";
 	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
 	import API from "@src/utils/API";
@@ -14,13 +13,27 @@
 		let newEntries = await api.latest();
 		entries = newEntries;
 	}
+
+	function fade(node, { duration }) {
+		return {
+			duration,
+			css: (t) => {
+				const eased = quadInOut(t);
+				const lightness = 90 + quintOut(t) * 10;
+				return `
+					opacity: ${Math.min(1, eased * 3)};
+					background-color: hsl(110deg 7% ${lightness}%);
+				`;
+			},
+		};
+	}
 </script>
 
 <section>
 	{#await entries}
 		<div
 			class="is-loading"
-			transition:fade={{ duration: 600, easing: cubicOut }}
+			transition:fly={{ duration: 400, easing: cubicOut }}
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -45,8 +58,8 @@
 		</div>
 	{:then items}
 		{#each items as item (item.id)}
-			<div class="log-entry" in:fly|local={{ x: -10 }}>
-				<LogEntry {item} on:select/>
+			<div class="log-entry" in:fade|local={{ duration: 500 }}>
+				<LogEntry {item} on:select />
 			</div>
 		{/each}
 	{/await}
