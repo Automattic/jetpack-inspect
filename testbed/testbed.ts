@@ -1,3 +1,10 @@
+/**
+ *
+ * deno run --allow-net testbed.ts
+ *
+ */
+
+
 import { serve } from "https://deno.land/std@0.147.0/http/server.ts";
 
 const handler = (request: Request) => {
