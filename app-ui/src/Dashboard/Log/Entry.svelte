@@ -1,70 +1,72 @@
 <script type="ts">
-	import { slide } from 'svelte/transition';
-	import { cubicInOut } from 'svelte/easing';
+	import { slide } from "svelte/transition";
+	import { cubicInOut } from "svelte/easing";
 	import PrettyJSON from "@src/Dashboard/Log/PrettyJSON.svelte";
 	import LogSummary from "@src/Dashboard/Log/Summary.svelte";
 	import type { LogEntry } from "@src/utils/Validator";
+	import Tabs from "@src/Components/Tabs/Tabs.svelte";
+	import TabList from "@src/Components/Tabs/TabList.svelte";
+	import TabPanel from "@src/Components/Tabs/TabPanel.svelte";
+	import Tab from "@src/Components/Tabs/Tab.svelte";
 
 	export let item: LogEntry;
 	const { args, response } = item;
 
 	let isOpen;
-	let showRaw = false;
 </script>
 
 <LogSummary {item} bind:isOpen on:select />
 
 {#if isOpen}
-	<div transition:slide={{easing: cubicInOut, duration: 200}}>
-		<h3>Response</h3>
-		{#if "body" in response}
-			<PrettyJSON data={JSON.parse(response.body)} />
-		{:else}
-			<div class="error">Whoops! An error!</div>
-			<PrettyJSON data={response} />
-		{/if}
+	<div transition:slide={{ easing: cubicInOut, duration: 200 }}>
+		<Tabs>
+			<TabList>
+				<Tab>Body</Tab>
+				<Tab>Headers</Tab>
+				<Tab>Cookies</Tab>
+				<Tab>Args</Tab>
+				<Tab>Raw</Tab>
+			</TabList>
 
-		{#if "headers" in response}
-			<h3>Headers</h3>
-			<PrettyJSON data={response.headers} />
-		{/if}
+			<TabPanel>
+				{#if "body" in response}
+					<PrettyJSON data={JSON.parse(response.body)} />
+				{:else}
+					<div class="error">Whoops! An error!</div>
+					<PrettyJSON data={response} />
+				{/if}
+			</TabPanel>
 
-		{#if "cookies" in response}
-			<h3>Cookies</h3>
-			<PrettyJSON data={response.cookies} />
-		{/if}
+			<TabPanel>
+				{#if "headers" in response}
+					<PrettyJSON data={response.headers} />
+				{/if}
+			</TabPanel>
 
-		<button class="button button-secondary" on:click={() => (showRaw = !showRaw)}>
-			{showRaw ? "Hide" : "Show"} raw data
-		</button>
+			<TabPanel>
+				{#if "cookies" in response}
+					<PrettyJSON data={response.cookies} />
+				{/if}
+			</TabPanel>
 
-
-	</div>
-
-
-	{#if showRaw}
-		<div class="raw" transition:slide={{easing: cubicInOut, duration: 200}}>
-			<h3>Raw</h3>
-			<div class="request">
-				<h3>Response Data</h3>
-				<PrettyJSON data={response} />
-				<h4>Args</h4>
+			<TabPanel>
 				<div class="note">
 					These are the arguments passed to <code>wp_remote_*</code> function.
 				</div>
 				<PrettyJSON data={args} />
-			</div>
-		</div>
-	{/if}
+			</TabPanel>
+
+			<TabPanel>
+				<PrettyJSON data={response} />
+			</TabPanel>
+		</Tabs>
+	</div>
 {/if}
 
 <style>
-	.raw {
-		display: block;
-		width: 100%;
-		padding: 1rem;
+	div {
+		padding-top: 20px;
 	}
-
 
 	h3 {
 		border-bottom: 1px solid #eaeaea;
