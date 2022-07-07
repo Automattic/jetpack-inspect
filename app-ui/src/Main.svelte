@@ -1,4 +1,5 @@
 <script type="ts">
+	import Logo from './Dashboard/Logo.svelte';
 	import { fade } from "svelte/transition";
 
 	import LogList from "@src/Dashboard/Log/List.svelte";
@@ -12,31 +13,45 @@
 	}
 
 	let List;
+	let isFormOpen = false;
 </script>
 
 <main>
-	<Form bind:logEntry on:submit={List.refresh} />
+	<div class="top">
+		<Logo />
+		<div class="controls">
+			<button
+				class="button button-primary"
+				on:click|preventDefault={() => (isFormOpen = !isFormOpen)}
+			>
+				New Request
+			</button>
+			<LogActions />
+		</div>
+	</div>
+	<Form bind:isOpen={isFormOpen} bind:logEntry on:submit={List.refresh} />
 
 	<div class="logs">
-		<h2>Actions</h2>
-		<hr />
-		<LogActions />
-
-		<h2>Logs</h2>
-		<hr />
+		<h4>Captured Requests</h4>
 		<LogList bind:this={List} on:select={onLogSelect} />
 	</div>
-
 </main>
 
 <style>
+	.top {
+		padding: 30px 40px;
+		background-color: var(--gray_0);
+	}
+
+	.controls {
+		display: flex;
+	}
+
 	main {
-		display: grid;
-		gap: 20px;
 		margin-left: -20px;
 	}
 
 	.logs {
-		padding: 40px;
+		padding: 10px 40px;
 	}
 </style>
