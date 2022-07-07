@@ -3,7 +3,7 @@
 	import { onMount } from "svelte";
 
 	import REST_API from "@src/utils/API";
-	let message = "";
+	let message;
 
 	const api = new REST_API();
 
@@ -14,6 +14,7 @@
 	}
 
 	async function clear() {
+		message = "";
 		if (await api.clear()) {
 			message = "Cleared all data!";
 		}
