@@ -13,6 +13,28 @@
 
 	let List;
 	let isFormOpen = false;
+	let poll: boolean = false;
+
+	let pollTimeout;
+	async function infinitePoll() {
+		if (!poll && pollTimeout) {
+			clearTimeout(pollTimeout);
+			return;
+		}
+		await List.refresh();
+		pollTimeout = setTimeout(infinitePoll, 1000);
+	}
+
+	async function startInfinitePoll() {
+		if( ! List ) {
+			return;
+		}
+		infinitePoll();
+	}
+
+	$: if (poll) {
+		startInfinitePoll();
+	}
 </script>
 
 <main>
@@ -32,9 +54,10 @@
 	<div class="logs">
 		<h4>Capture Requests</h4>
 		<div class="info">
-			Filters allow capturing only specific requests. Wildcards are supported, for example <code>https://jetpack.com/*</code>
+			Filters allow capturing only specific requests. Wildcards are supported,
+			for example <code>https://jetpack.com/*</code>
 		</div>
-		<LogActions />
+		<LogActions bind:captureStatus={poll} />
 
 		<LogList bind:this={List} on:select={onLogSelect} />
 	</div>

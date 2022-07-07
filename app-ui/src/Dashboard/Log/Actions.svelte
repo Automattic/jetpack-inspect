@@ -2,6 +2,7 @@
 	import Filters from './Filters.svelte';
 	import { onMount } from "svelte";
 
+	export let captureStatus = false;
 	import REST_API from "@src/utils/API";
 	let message;
 
@@ -21,7 +22,7 @@
 		}
 	}
 
-	let captureStatus;
+
 	onMount(async () => {
 		captureStatus = await api.getCaptureStatus();
 	});

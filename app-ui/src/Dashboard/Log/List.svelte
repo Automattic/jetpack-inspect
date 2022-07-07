@@ -1,6 +1,7 @@
 <script type="ts">
-	import { fade } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
+	import { fade } from "svelte/transition";
+	import { fly } from "svelte/transition";
+	import { cubicOut } from "svelte/easing";
 	import type { LogEntry as TypeLogEntry } from "@src/utils/Validator";
 	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
 	import API from "@src/utils/API";
@@ -17,7 +18,10 @@
 
 <section>
 	{#await entries}
-		<div class="is-loading" transition:fade={{duration: 600, easing: cubicOut}}>
+		<div
+			class="is-loading"
+			transition:fade={{ duration: 600, easing: cubicOut }}
+		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="24"
@@ -41,8 +45,8 @@
 		</div>
 	{:then items}
 		{#each items as item (item.id)}
-			<div class="log-entry">
-				<LogEntry {item} on:select />
+			<div class="log-entry" in:fly|local={{ x: -20 }}>
+				<LogEntry {item} on:select/>
 			</div>
 		{/each}
 	{/await}

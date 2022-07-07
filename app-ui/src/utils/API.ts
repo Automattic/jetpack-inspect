@@ -45,12 +45,12 @@ export default class API {
 		return await this.request("clear", "DELETE");
 	}
 
-	public async getCaptureStatus() {
-		return await this.request("capture-status");
+	public async getCaptureStatus(): Promise<boolean> {
+		return !! await this.request("capture-status");
 	}
 
-	public async toggleCaptureStatus() {
-		return await this.request("capture-status", "POST");
+	public async toggleCaptureStatus(): Promise<boolean> {
+		return !! await this.request("capture-status", "POST");
 	}
 
 	public async updateFilter(filter: string) {
