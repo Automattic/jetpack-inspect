@@ -45,3 +45,22 @@
 	background-color: hsl(77, 43%, 90%);
 	color: var(--jetpack_green_40);
 ;}
+
+
+#jetpack-inspect {
+
+	input[type=text] {
+		border-radius: 10px;
+		padding-left: 12px;
+		border: 1px solid var(--gray_10);
+
+		&:focus {
+			outline-color: var(--jetpack_green_40);
+		}
+
+		&::placeholder {
+			opacity: 0.3;
+		}
+	}
+
+}
