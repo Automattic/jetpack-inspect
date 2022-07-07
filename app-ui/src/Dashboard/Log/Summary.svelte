@@ -31,11 +31,11 @@
 	</div>
 
 	<div class="actions">
-		<button class="button button-secondary" on:click={selectRequest}
+		<button class="ji-button--altii" on:click={selectRequest}
 			>Use as template</button
 		>
 		<button
-			class="button button-secondary"
+			class="ji-button--alt"
 			on:click|preventDefault={toggleOpen}
 		>
 			{isOpen ? "Hide" : "View"}
@@ -51,16 +51,18 @@
 		margin-right: 20px;
 	}
 	.bubble {
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
+		width: 5px;
+		height: 5px;
+		border-radius: 3px;
 		background-color: var(--gray_30);
 
 		&.red {
-			background-color: var(--color_warning);
+			background-color: hsl(28deg 94% 70%);
+			box-shadow: 0 0 1px 1px hsl(28deg 94% 55%), 0 0 3px 3px hsl(28deg 98% 94%);
 		}
 		&.green {
-			background-color: var(--jetpack-green);
+			background-color: hsl(121 93% 36%);
+			box-shadow: 0 0 0px 1px hsl(121 77% 31%), 0 0 3px 3px hsl(121 70% 80%);
 		}
 	}
 	.summary {

@@ -33,11 +33,11 @@
 
 <div class="actions">
 	<Filters />
-	<button class="button button-primary" on:click|preventDefault={capture}>
+	<button class="ji-button" on:click|preventDefault={capture}>
 		{captureButtonLabel}
 	</button>
 
-	<button id="clear" class="pclear button button-primary" on:click|preventDefault={clear}>
+	<button id="clear" class="ji-button" on:click|preventDefault={clear}>
 		Clear All
 	</button>
 </div>
