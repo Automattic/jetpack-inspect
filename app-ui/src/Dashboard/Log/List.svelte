@@ -45,7 +45,7 @@
 		</div>
 	{:then items}
 		{#each items as item (item.id)}
-			<div class="log-entry" in:fly|local={{ x: -20 }}>
+			<div class="log-entry" in:fly|local={{ x: -10 }}>
 				<LogEntry {item} on:select/>
 			</div>
 		{/each}
