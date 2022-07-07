@@ -24,8 +24,8 @@ use Automattic\Jetpack_Inspect\REST_API\Endpoints\Submit;
 use Automattic\Jetpack_Inspect\REST_API\REST_API;
 
 function enqueue_admin_scripts() {
-	wp_enqueue_script( 'jetpack-inspect-main', plugins_url( 'app-ui/build/main.js', __FILE__ ), [], '1.0.0', true );
-	wp_enqueue_style( 'jetpack-inspect-css', plugins_url( 'app-ui/build/style.css', __FILE__ ), [], '1.0.0' );
+	wp_enqueue_script( 'jetpack-inspect-main', plugins_url( 'app-ui/build/jetpack-inspect.js', __FILE__ ), [], '1.0.0', true );
+	wp_enqueue_style( 'jetpack-inspect-css', plugins_url( 'app-ui/build/jetpack-inspect.css', __FILE__ ), [], '1.0.0' );
 }
 
 /**

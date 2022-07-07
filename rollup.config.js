@@ -5,8 +5,9 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
-import css from 'rollup-plugin-css-only';
+import postcss from 'rollup-plugin-postcss';
 import alias from '@rollup/plugin-alias';
+import path from 'path';
 
 const production = !process.env.ROLLUP_WATCH;
 const runServer = !!process.env.SERVE;
@@ -33,12 +34,12 @@ const runServer = !!process.env.SERVE;
 // }
 
 export default {
-	input: 'app-ui/src/main.ts',
+	input: 'app-ui/src/jetpack-inspect.ts',
 	output: {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'app-ui/build/main.js'
+		file: 'app-ui/build/jetpack-inspect.js'
 	},
 	plugins: [
 		alias({
@@ -56,7 +57,12 @@ export default {
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
-		css({ output: 'style.css' }),
+		postcss( {
+			extensions: [ '.css', '.sss', '.pcss', '.sass', '.scss' ],
+			extract:'jetpack-inspect.css',
+			minimize: production,
+			sourceMap: true,
+		} ),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
