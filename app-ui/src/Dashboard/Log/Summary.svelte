@@ -16,7 +16,7 @@
 		isOpen = !isOpen;
 	}
 
-	const responseCode = item.response.response.code || false;
+	const responseCode = item.response?.response?.code || false;
 	const isError = 'errors' in item.response || item.response?.response?.code >= 400;
 </script>
 
