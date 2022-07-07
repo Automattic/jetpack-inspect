@@ -1,4 +1,6 @@
 <script type="ts">
+	import { slide } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
 	import PrettyJSON from "@src/Dashboard/Log/PrettyJSON.svelte";
 	import LogSummary from "@src/Dashboard/Log/Summary.svelte";
 	import type { LogEntry } from "@src/utils/Validator";
@@ -13,8 +15,8 @@
 <LogSummary {item} bind:isOpen on:select />
 
 {#if isOpen}
-	<div>
-		<h2>Response</h2>
+	<div transition:slide={{easing: cubicInOut, duration: 200}}>
+		<h3>Response</h3>
 		{#if "body" in response}
 			<PrettyJSON data={JSON.parse(response.body)} />
 		{:else}
@@ -31,19 +33,22 @@
 			<h3>Cookies</h3>
 			<PrettyJSON data={response.cookies} />
 		{/if}
+
+		<button class="button button-secondary" on:click={() => (showRaw = !showRaw)}>
+			{showRaw ? "Hide" : "Show"} raw data
+		</button>
+
+
 	</div>
 
-	<button class="button button-secondary" on:click={() => (showRaw = !showRaw)}>
-		{showRaw ? "Hide" : "Show"} raw data
-	</button>
 
 	{#if showRaw}
-		<div class="raw">
-			<h2>Raw</h2>
+		<div class="raw" transition:slide={{easing: cubicInOut, duration: 200}}>
+			<h3>Raw</h3>
 			<div class="request">
 				<h3>Response Data</h3>
 				<PrettyJSON data={response} />
-				<h3>Args</h3>
+				<h4>Args</h4>
 				<div class="note">
 					These are the arguments passed to <code>wp_remote_*</code> function.
 				</div>
@@ -61,11 +66,8 @@
 	}
 
 
-	h2 {
+	h3 {
 		border-bottom: 1px solid #eaeaea;
 		padding-bottom: 0.6em;
-		margin-top: 10vh;
-		margin-bottom: 3vh;
-		font-size: 2rem;
 	}
 </style>
