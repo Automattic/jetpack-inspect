@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const WP_Request = z.object({
+export const RequestArgs = z.object({
 	"method": z.string(),
 	"timeout": z.number(),
 	"redirection": z.number(),
@@ -55,7 +55,7 @@ export const LogEntry = z.object({
 	"date": z.string(),
 	"url": z.string(),
 	"duration": z.number(),
-	"request": WP_Request,
+	"request": RequestArgs,
 	"response": Response,
 
 });
@@ -86,7 +86,7 @@ export const EntryData = z.object({
 
 export const LogEntries = z.array(LogEntry);
 
-export type WP_Request = z.infer<typeof WP_Request>;
+export type RequestArgs = z.infer<typeof RequestArgs>;
 export type Response = z.infer<typeof Response>;
 export type LogEntry = z.infer<typeof LogEntry>;
 export type LogEntries = z.infer<typeof LogEntries>;
