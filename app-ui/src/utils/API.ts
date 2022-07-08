@@ -1,5 +1,6 @@
 import type { EntryData, LogEntry } from '@src/utils/Validator';
 import { LogEntries } from '@src/utils/Validator';
+import { maybeStringify } from '@src/utils/maybeStringify';
 
 export default class API {
 
@@ -62,6 +63,8 @@ export default class API {
 	}
 
 	public async submit(data: EntryData) {
+		data.body = maybeStringify(data.body);
+		data.headers = maybeStringify(data.headers);
 		return await this.request("submit", "POST", data);
 	}
 
