@@ -11,7 +11,7 @@
  * Text Domain: jetpack-inspect
  */
 
-require __DIR__ . '/vendor/autoload.php';
+require_once  plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
 require __DIR__ . '/functions.php';
 
 use Automattic\Jetpack_Inspect\Monitor;
@@ -49,10 +49,11 @@ function register_admin_menu() {
 
 function render_admin_page() {
 	wp_localize_script(
-		'jetpack-inspect-config',
+		'jetpack-inspect-main',
 		'wpApiSettings',
 		array(
 			'root' => esc_url_raw( rest_url() ),
+			'nonce' => wp_create_nonce( 'wp_rest' )
 		)
 	);
 	?>

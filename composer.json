@@ -14,5 +14,12 @@
             "email": "hi@pyronaur.com"
         }
     ],
-    "require": {}
+    "require": {
+        "automattic/jetpack-autoloader": "^2.11"
+    },
+    "config": {
+        "allow-plugins": {
+            "automattic/jetpack-autoloader": true
+        }
+    }
 }
