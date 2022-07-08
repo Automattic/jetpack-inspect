@@ -80,6 +80,9 @@
 			box-shadow: 0 0 0px 1px hsl(121 77% 31%), 0 0 3px 3px hsl(121 70% 80%);
 		}
 	}
+	.actions {
+		min-width: 300px;
+	}
 	.summary {
 		width: 100%;
 		display: flex;
