@@ -1,4 +1,6 @@
 <script type="ts">
+	import API from "@src/utils/API";
+
 	import type { LogEntry } from "@src/utils/Validator";
 	import { createEventDispatcher } from "svelte";
 	const dispatch = createEventDispatcher();
@@ -16,8 +18,20 @@
 		isOpen = !isOpen;
 	}
 
+	async function retryRequest() {
+		const api = new API();
+		await api.submit({
+			url: item.url,
+			method: item.args.method || "GET",
+			body: item.args.body,
+			headers: item.args.headers,
+		});
+		dispatch("retry", item);
+	}
+
 	const responseCode = item.response?.response?.code || false;
-	const isError = 'errors' in item.response || item.response?.response?.code >= 400;
+	const isError =
+		"errors" in item.response || item.response?.response?.code >= 400;
 </script>
 
 <div class="summary">
@@ -31,13 +45,12 @@
 	</div>
 
 	<div class="actions">
+		<button class="ji-button--altii" on:click={retryRequest}>Retry</button>
+
 		<button class="ji-button--altii" on:click={selectRequest}
 			>Use as template</button
 		>
-		<button
-			class="ji-button--alt"
-			on:click|preventDefault={toggleOpen}
-		>
+		<button class="ji-button--alt" on:click|preventDefault={toggleOpen}>
 			{isOpen ? "Hide" : "View"}
 		</button>
 	</div>

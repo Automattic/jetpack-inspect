@@ -20,7 +20,7 @@
 </script>
 
 <div class="log-entry" in:fade|local={{ delay: 1000, duration: 560 }}>
-	<LogSummary {item} bind:isOpen on:select />
+	<LogSummary {item} bind:isOpen on:select on:retry />
 	{#if isOpen}
 		<LogDetails {item} />
 	{/if}
