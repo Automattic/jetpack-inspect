@@ -36,8 +36,7 @@ class Monitor_Status implements Endpoint {
 
 	public function permissions() {
 		return array(
-			new Current_User_Admin(),
-			new Nonce("monitor-status"),
+			new Current_User_Admin()
 		);
 	}
 }

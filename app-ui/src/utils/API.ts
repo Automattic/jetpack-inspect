@@ -14,7 +14,9 @@ export default class API {
 			method,
 			headers: {
 				"Content-Type": "application/json",
+				'X-WP-Nonce': window.wpApiSettings.nonce
 			},
+			credentials: 'same-origin',
 			body: JSON.stringify(body),
 		});
 
