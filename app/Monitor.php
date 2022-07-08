@@ -2,7 +2,7 @@
 
 namespace Automattic\Jetpack_Inspect;
 
-class Capture {
+class Monitor {
 
 	private        $start_time = [];
 	private static $instance;
@@ -23,7 +23,7 @@ class Capture {
 
 	public function attach_filters() {
 		add_filter( 'http_request_args', [ $this, 'start_timer' ], 10, 2 );
-		add_action( 'http_api_debug', [ $this, 'capture_request' ], 10, 5 );
+		add_action( 'http_api_debug', [ $this, 'monitor_request' ], 10, 5 );
 	}
 
 	protected function match_request_filter( $url ): bool {
@@ -49,10 +49,10 @@ class Capture {
 
 	public function detach_filters() {
 		remove_filter( 'http_request_args', [ $this, 'start_timer' ], 10 );
-		remove_action( 'http_api_debug', [ $this, 'capture_request' ], 10 );
+		remove_action( 'http_api_debug', [ $this, 'monitor_request' ], 10 );
 	}
 
-	public function capture_request( $response, $context, $transport, $args, $url ) {
+	public function monitor_request( $response, $context, $transport, $args, $url ) {
 		if ( false !== strpos( $url, 'doing_wp_cron' ) ) {
 			return;
 		}

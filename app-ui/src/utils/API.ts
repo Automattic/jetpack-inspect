@@ -46,12 +46,12 @@ export default class API {
 		return await this.request("clear", "DELETE");
 	}
 
-	public async getCaptureStatus(): Promise<boolean> {
-		return !! await this.request("capture-status");
+	public async getMonitorStatus(): Promise<boolean> {
+		return !! await this.request("monitor-status");
 	}
 
-	public async toggleCaptureStatus(): Promise<boolean> {
-		return !! await this.request("capture-status", "POST");
+	public async toggleMonitorStatus(): Promise<boolean> {
+		return !! await this.request("monitor-status", "POST");
 	}
 
 	public async updateFilter(filter: string) {

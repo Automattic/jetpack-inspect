@@ -63,12 +63,12 @@
 	{/if}
 
 	<div class="logs">
-		<h4>Capture Requests</h4>
+		<h4>Monitor Requests</h4>
 		<div class="info">
 			Filters allow capturing only specific requests. Wildcards are supported,
 			for example <code>https://jetpack.com/*</code>
 		</div>
-		<LogActions bind:captureStatus={poll} />
+		<LogActions bind:monitorStatus={poll} />
 
 		<LogList bind:this={List} on:select={onLogSelect} />
 	</div>

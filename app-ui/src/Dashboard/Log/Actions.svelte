@@ -2,17 +2,17 @@
 	import Filters from './Filters.svelte';
 	import { onMount } from "svelte";
 
-	export let captureStatus = false;
+	export let monitorStatus = false;
 	import REST_API from "@src/utils/API";
 	let message;
 
 	const api = new REST_API();
 
-	async function capture() {
-		captureStatus = !captureStatus;
-		const request = await api.toggleCaptureStatus();
+	async function monitor() {
+		monitorStatus = !monitorStatus;
+		const request = await api.toggleMonitorStatus();
 
-		captureStatus = request
+		monitorStatus = request
 	}
 
 	async function clear() {
@@ -24,17 +24,17 @@
 
 
 	onMount(async () => {
-		captureStatus = await api.getCaptureStatus();
+		monitorStatus = await api.getMonitorStatus();
 	});
 
-	let captureButtonLabel;
-	$: captureButtonLabel = captureStatus ? "Capturing..." : "Capture";
+	let monitorLabel: string;
+	$: monitorLabel = monitorStatus ? "Monitoring..." : "Start monitoring";
 </script>
 
 <div class="actions">
 	<Filters />
-	<button class="ji-button" on:click|preventDefault={capture}>
-		{captureButtonLabel}
+	<button class="ji-button" on:click|preventDefault={monitor}>
+		{monitorLabel}
 	</button>
 
 	<button id="clear" class="ji-button" on:click|preventDefault={clear}>

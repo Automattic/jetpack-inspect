@@ -49,9 +49,9 @@ class Submit {
 			return rest_ensure_response( $function );
 		}
 
-		maybe_start_capture_manually();
+		maybe_start_monitor_manually();
 		$results = $function( $url, $args, );
-		maybe_stop_capture_manually();
+		maybe_stop_monitor_manually();
 
 		return rest_ensure_response( $results );
 	}
