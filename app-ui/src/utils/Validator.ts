@@ -40,8 +40,8 @@ export const RequestArgs = z.object({
 const ResponseError = z.object({
 	"errors": z.object({
 		"http_request_failed": z.string().array()
-	}),
-	"error_data": z.string().array()
+	}).optional(),
+	"error_data": z.string().array().optional()
 });
 
 const ResponseSuccess = z.object({
@@ -60,7 +60,7 @@ const ResponseSuccess = z.object({
 	})
 });
 
-export const Response = z.union([ResponseError, ResponseSuccess]);
+export const Response = ResponseSuccess.or(ResponseError);
 
 
 export const LogEntry = z.object({
