@@ -14,7 +14,7 @@ const jsonSchema: z.ZodType<Json> = z.lazy(() =>
 );
 
 
-const RequestMethods = z.enum(["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"])
+export const RequestMethods = z.enum(["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"])
 
 export const RequestArgs = z.object({
 	"method": RequestMethods,

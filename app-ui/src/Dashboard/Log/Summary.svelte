@@ -1,4 +1,5 @@
 <script type="ts">
+	import Form from "@src/Dashboard/Form.svelte";
 	import API from "@src/utils/API";
 
 	import type { LogEntry } from "@src/utils/Validator";
@@ -9,10 +10,6 @@
 	export let isOpen = false;
 
 	const { date, url, duration, args } = item;
-
-	function selectRequest() {
-		dispatch("select", item);
-	}
 
 	function toggleOpen() {
 		isOpen = !isOpen;
@@ -30,6 +27,7 @@
 		dispatch("retry", item);
 	}
 
+	let edit = false;
 	let responseCode = item.response?.response?.code || 0;
 
 	const isError =
@@ -49,14 +47,16 @@
 	<div class="actions">
 		<button class="ji-button--altii" on:click={retryRequest}>Retry</button>
 
-		<button class="ji-button--altii" on:click={selectRequest}
-			>Use as template</button
-		>
+		<button class="ji-button--altii" on:click={() => edit = ! edit}>Edit</button>
 		<button class="ji-button--alt" on:click|preventDefault={toggleOpen}>
 			{isOpen ? "Hide" : "View"}
 		</button>
 	</div>
 </div>
+
+{#if edit}
+	<Form logEntry={item} on:submit={() => (edit = false)} on:submit />
+{/if}
 
 <style lang="scss">
 	.response-indicator {
@@ -85,6 +85,7 @@
 	}
 	.summary {
 		width: 100%;
+		padding: 20px;
 		display: flex;
 		justify-content: space-between;
 	}

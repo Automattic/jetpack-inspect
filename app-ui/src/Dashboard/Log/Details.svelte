@@ -13,7 +13,7 @@
 	const { args, response } = item;
 </script>
 
-<div transition:slide={{ easing: cubicInOut, duration: 200 }}>
+<div class="details" transition:slide={{ easing: cubicInOut, duration: 200 }}>
 	<Tabs>
 		<TabList>
 			<Tab>Body</Tab>
@@ -58,8 +58,8 @@
 </div>
 
 <style>
-	div {
-		padding-top: 20px;
+	.details {
+		padding: 20px;
 	}
 
 	h3 {

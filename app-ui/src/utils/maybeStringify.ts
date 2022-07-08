@@ -1,6 +1,6 @@
 import type { JSONSchema } from '@src/utils/Validator';
 
-export function maybeStringify(value: JSONSchema | string) {
+export function maybeStringify(value: JSONSchema | string): string {
 	if (typeof value === "string") {
 		return value;
 	}

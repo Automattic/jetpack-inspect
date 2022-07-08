@@ -47,7 +47,7 @@
 	{:then items}
 		{#each items as item (item.id)}
 			<div animate:flip={{ duration: 560, easing: sineInOut }}>
-				<LogEntry {item} on:select on:retry={refresh} />
+				<LogEntry {item} on:select on:submit={refresh} on:retry={refresh} />
 			</div>
 		{/each}
 	{/await}

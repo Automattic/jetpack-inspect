@@ -20,7 +20,7 @@
 </script>
 
 <div class="log-entry" in:fade|local={{ delay: 1000, duration: 560 }}>
-	<LogSummary {item} bind:isOpen on:select on:retry />
+	<LogSummary {item} bind:isOpen on:select on:submit on:retry />
 	{#if isOpen}
 		<LogDetails {item} />
 	{/if}
@@ -30,7 +30,6 @@
 	.log-entry {
 		border-bottom: 1px solid rgb(215, 215, 215);
 		min-height: 78px;
-		padding: 20px;
 		background-color: #fff;
 	}
 </style>
