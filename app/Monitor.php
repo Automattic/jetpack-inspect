@@ -64,7 +64,6 @@ class Monitor {
 		$log_data = [
 			'url'      => $url,
 			'args'  => $args,
-			'transport' => $transport,
 			'response' => $response,
 			'duration' => floor( 1000 * ( microtime( true ) - $this->start_time[ $url ] ) ),
 		];
