@@ -17,6 +17,5 @@
 		background-color: #f3f3f3;
 		padding: 20px;
 		overflow: auto;
-		max-width: 75vw;
 	}
 </style>
