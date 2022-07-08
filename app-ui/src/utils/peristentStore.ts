@@ -1,7 +1,7 @@
 import type { Writable } from "svelte/store";
 import { writable } from 'svelte/store';
 
-const createWritableStore = <T>(key: string, startValue: T): Writable<T> => {
+export const createPersistentStore = <T>(key: string, startValue: T): Writable<T> => {
 	const { subscribe, update, set } = writable(startValue);
 
 	const json = localStorage.getItem(key);
@@ -20,4 +20,3 @@ const createWritableStore = <T>(key: string, startValue: T): Writable<T> => {
 	};
 };
 
-export default createWritableStore;

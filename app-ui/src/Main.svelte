@@ -1,5 +1,5 @@
 <script type="ts">
-	import storageStore from "@src/utils/localStorageStore";
+	import { createPersistentStore } from "@src/utils/peristentStore";
 	import Logo from "./Dashboard/Logo.svelte";
 
 	import LogList from "@src/Dashboard/Log/List.svelte";
@@ -14,7 +14,7 @@
 	}
 
 	let List: SvelteComponentTyped<LogList> | any;
-	let isFormOpen = storageStore("jetpack_devtools_form_open", false);
+	let isFormOpen = createPersistentStore("jetpack_devtools_form_open", false);
 	let poll: boolean = false;
 
 	/**

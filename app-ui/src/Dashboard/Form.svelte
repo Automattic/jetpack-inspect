@@ -5,7 +5,7 @@
 	import { createEventDispatcher } from "svelte";
 	import { maybeStringify } from "@src/utils/maybeStringify";
 
-	import storageStore from "@src/utils/localStorageStore";
+	import { createPersistentStore } from "@src/utils/peristentStore";
 	import type { LogEntry } from "@src/utils/Validator";
 	import { EntryData } from "@src/utils/Validator";
 	import API from "@src/utils/API";
@@ -14,13 +14,16 @@
 	export let logEntry: LogEntry | false = false;
 	const dispatch = createEventDispatcher();
 
-	const data: Writable<EntryData> = storageStore("jetpack_devtools_form", {
-		url: "",
-		body: "",
-		headers: "",
-		method: "POST",
-		transport: "wp",
-	});
+	const data: Writable<EntryData> = createPersistentStore(
+		"jetpack_devtools_form",
+		{
+			url: "",
+			body: "",
+			headers: "",
+			method: "POST",
+			transport: "wp",
+		}
+	);
 
 	const api = new API();
 
@@ -111,7 +114,8 @@
 			<div>
 				<div class="control-label">Jetpack Authentication</div>
 				<div class="hint">
-					Optional: Should the request be signed with Jetpack Connection credentials?
+					Optional: Should the request be signed with Jetpack Connection
+					credentials?
 				</div>
 
 				<label for="authenticate">
@@ -141,7 +145,7 @@
 		margin-bottom: 1.4rem;
 	}
 
-	label[for=authenticate] {
+	label[for="authenticate"] {
 		margin-bottom: 10px;
 		margin-top: 10px;
 		display: block;
