@@ -14,6 +14,8 @@ const jsonSchema: z.ZodType<Json> = z.lazy(() =>
 );
 
 
+
+
 export const RequestArgs = z.object({
 	"method": z.string(),
 	"timeout": z.number(),
@@ -71,25 +73,11 @@ export const LogEntry = z.object({
 
 });
 
-const validateJSON = (val: string) => {
-
-	if (!val) {
-		return true;
-	}
-
-	try {
-		JSON.parse(val);
-	} catch (e) {
-		return false;
-	}
-	return true;
-}
-
 export const EntryData = z.object({
 	"method": z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
 	"url": z.string().url(),
-	"headers": z.string().refine(validateJSON, { message: "Must be valid JSON string" }),
-	"body": z.string().nullable(),
+	"headers": z.union([jsonSchema, z.string().nullable()]),
+	"body": z.union([jsonSchema, z.string().nullable()])
 	// "type": z.enum(["jetpack_connection", "wp_remote_get"]),
 });
 
@@ -102,3 +90,4 @@ export type Response = z.infer<typeof Response>;
 export type LogEntry = z.infer<typeof LogEntry>;
 export type LogEntries = z.infer<typeof LogEntries>;
 export type EntryData = z.infer<typeof EntryData>;
+export type JSONSchema = z.infer<typeof jsonSchema>;

@@ -3,13 +3,16 @@
 	import type { ZodFormattedError } from "zod";
 	import FormError from "./FormError.svelte";
 	import { createEventDispatcher } from "svelte";
-	const dispatch = createEventDispatcher();
+	import { maybeStringify } from "@src/utils/maybeStringify";
+
 	import storageStore from "@src/utils/localStorageStore";
 	import { EntryData, type LogEntry } from "@src/utils/Validator";
 	import API from "@src/utils/API";
 
 	export let logEntry: LogEntry | false = false;
 	export let isOpen = false;
+
+	const dispatch = createEventDispatcher();
 
 	const data = storageStore("jetpack_devtools_form", {
 		url: "",
@@ -20,20 +23,12 @@
 
 	const api = new API();
 
-	function stringify(obj: any) {
-		if (!obj) {
-			return "";
-		}
-
-		return JSON.stringify(obj, null, 2);
-	}
-
 	$: if (logEntry) {
 		$data = {
 			url: logEntry.url,
 			method: logEntry.args.method,
-			body: stringify(logEntry.args.body),
-			headers: stringify(logEntry.args.headers),
+			body: maybeStringify(logEntry.args.body),
+			headers: maybeStringify(logEntry.args.headers),
 		};
 	}
 
