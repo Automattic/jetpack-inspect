@@ -20,7 +20,7 @@
 			<Tab>Headers</Tab>
 			<Tab>Cookies</Tab>
 			<Tab>Args</Tab>
-			<Tab>Raw</Tab>
+			<Tab>Raw Response</Tab>
 		</TabList>
 
 		<TabPanel>
