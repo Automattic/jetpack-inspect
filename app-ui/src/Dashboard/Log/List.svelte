@@ -15,17 +15,6 @@
 		let newEntries = await api.latest();
 		entries = newEntries;
 	}
-
-	function fade(node, { duration, delay }) {
-		return {
-			duration,
-			delay,
-			css: (t) => {
-				const lightness = 94 + sineInOut(t) * 6;
-				return `background-color: hsl(110deg 21% ${lightness}%);`;
-			},
-		};
-	}
 </script>
 
 <section>
@@ -58,9 +47,7 @@
 	{:then items}
 		{#each items as item (item.id)}
 			<div animate:flip={{ duration: 560, easing: sineInOut }}>
-				<div class="log-entry" in:fade|local={{ delay: 1000, duration: 560 }}>
-					<LogEntry {item} on:select />
-				</div>
+				<LogEntry {item} />
 			</div>
 		{/each}
 	{/await}
@@ -80,11 +67,5 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-	}
-	.log-entry {
-		border-bottom: 1px solid rgb(215, 215, 215);
-		min-height: 78px;
-		padding: 20px;
-		background-color: #fff;
 	}
 </style>

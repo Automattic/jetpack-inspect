@@ -1,75 +1,36 @@
 <script type="ts">
-	import { slide } from "svelte/transition";
-	import { cubicInOut } from "svelte/easing";
-	import PrettyJSON from "@src/Dashboard/Log/PrettyJSON.svelte";
+	import { sineInOut } from "svelte/easing";
 	import LogSummary from "@src/Dashboard/Log/Summary.svelte";
+	import LogDetails from "@src/Dashboard/Log/Details.svelte";
 	import type { LogEntry } from "@src/utils/Validator";
-	import Tabs from "@src/Components/Tabs/Tabs.svelte";
-	import TabList from "@src/Components/Tabs/TabList.svelte";
-	import TabPanel from "@src/Components/Tabs/TabPanel.svelte";
-	import Tab from "@src/Components/Tabs/Tab.svelte";
 
 	export let item: LogEntry;
-	const { args, response } = item;
+	let isOpen = false;
 
-	let isOpen;
+	function fade(node, { duration, delay }) {
+		return {
+			duration,
+			delay,
+			css: (t) => {
+				const lightness = 94 + sineInOut(t) * 6;
+				return `background-color: hsl(110deg 21% ${lightness}%);`;
+			},
+		};
+	}
 </script>
 
-<LogSummary {item} bind:isOpen on:select />
-
-{#if isOpen}
-	<div transition:slide={{ easing: cubicInOut, duration: 200 }}>
-		<Tabs>
-			<TabList>
-				<Tab>Body</Tab>
-				<Tab>Headers</Tab>
-				<Tab>Cookies</Tab>
-				<Tab>Args</Tab>
-				<Tab>Raw</Tab>
-			</TabList>
-
-			<TabPanel>
-				{#if "body" in response}
-					<PrettyJSON data={JSON.parse(response.body)} />
-				{:else}
-					<div class="error">Whoops! An error!</div>
-					<PrettyJSON data={response} />
-				{/if}
-			</TabPanel>
-
-			<TabPanel>
-				{#if "headers" in response}
-					<PrettyJSON data={response.headers} />
-				{/if}
-			</TabPanel>
-
-			<TabPanel>
-				{#if "cookies" in response}
-					<PrettyJSON data={response.cookies} />
-				{/if}
-			</TabPanel>
-
-			<TabPanel>
-				<div class="note">
-					These are the arguments passed to <code>wp_remote_*</code> function.
-				</div>
-				<PrettyJSON data={args} />
-			</TabPanel>
-
-			<TabPanel>
-				<PrettyJSON data={response} />
-			</TabPanel>
-		</Tabs>
-	</div>
-{/if}
+<div class="log-entry" in:fade|local={{ delay: 1000, duration: 560 }}>
+	<LogSummary {item} bind:isOpen on:select />
+	{#if isOpen}
+		<LogDetails {item} />
+	{/if}
+</div>
 
 <style>
-	div {
-		padding-top: 20px;
-	}
-
-	h3 {
-		border-bottom: 1px solid #eaeaea;
-		padding-bottom: 0.6em;
+	.log-entry {
+		border-bottom: 1px solid rgb(215, 215, 215);
+		min-height: 78px;
+		padding: 20px;
+		background-color: #fff;
 	}
 </style>
