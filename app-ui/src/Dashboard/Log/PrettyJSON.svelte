@@ -1,15 +1,12 @@
 <script type="ts">
-	export let data;
-	function stringify(data) {
-		if (!data) {
-			return;
-		}
-		return JSON.stringify(data, null, 4);
-	}
+	import { maybeStringify } from "@src/utils/maybeStringify";
+	import type { JSONSchema } from "@src/utils/Validator";
+
+	export let data: JSONSchema | string;
 </script>
 
 <div>
-	<pre>{stringify(data)}</pre>
+	<pre>{maybeStringify(data)}</pre>
 </div>
 
 <style>

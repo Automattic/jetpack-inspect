@@ -25,7 +25,7 @@
 
 		<TabPanel>
 			{#if "body" in response}
-				<PrettyJSON data={JSON.parse(response.body)} />
+				<PrettyJSON data={response.body} />
 			{:else}
 				<div class="error">Whoops! An error!</div>
 				<PrettyJSON data={response} />
