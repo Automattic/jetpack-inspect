@@ -30,9 +30,10 @@
 		dispatch("retry", item);
 	}
 
-	const responseCode = item.response?.response?.code || false;
+	let responseCode = item.response?.response?.code || 0;
+
 	const isError =
-		"errors" in item.response || item.response?.response?.code >= 400;
+		"errors" in item.response || (responseCode !== 0 && responseCode >= 400);
 </script>
 
 <div class="summary">
