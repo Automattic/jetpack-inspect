@@ -1,4 +1,5 @@
 <script type="ts">
+	import storageStore from "@src/utils/localStorageStore";
 	import Logo from "./Dashboard/Logo.svelte";
 
 	import LogList from "@src/Dashboard/Log/List.svelte";
@@ -13,9 +14,12 @@
 	}
 
 	let List: SvelteComponentTyped<LogList> | any;
-	let isFormOpen = false;
+	let isFormOpen = storageStore("jetpack_devtools_form_open", false);
 	let poll: boolean = false;
 
+	/**
+	 * Polling
+	 */
 	let pollTimeout: ReturnType<typeof setTimeout>;
 	async function infinitePoll() {
 		if (!poll && pollTimeout) {
@@ -48,13 +52,15 @@
 		<div class="controls">
 			<button
 				class="ji-button"
-				on:click|preventDefault={() => (isFormOpen = !isFormOpen)}
+				on:click|preventDefault={() => ($isFormOpen = !$isFormOpen)}
 			>
 				New Request
 			</button>
 		</div>
 	</div>
-	<Form bind:isOpen={isFormOpen} bind:logEntry on:submit={refresh} />
+	{#if $isFormOpen}
+		<Form bind:logEntry on:submit={refresh} />
+	{/if}
 
 	<div class="logs">
 		<h4>Capture Requests</h4>

@@ -12,8 +12,6 @@
 	import type { Writable } from "svelte/store";
 
 	export let logEntry: LogEntry | false = false;
-	export let isOpen = false;
-
 	const dispatch = createEventDispatcher();
 
 	const data: Writable<EntryData> = storageStore("jetpack_devtools_form", {
@@ -51,7 +49,6 @@
 	}
 </script>
 
-{#if isOpen}
 	<div transition:slide class="new-request">
 		<form on:submit|preventDefault={() => submit($data)}>
 			<h3>New Request</h3>
@@ -114,7 +111,6 @@
 			</fieldset>
 		</form>
 	</div>
-{/if}
 
 <style type="scss">
 	.new-request {
