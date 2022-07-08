@@ -62,6 +62,10 @@
 		padding: 20px;
 	}
 
+	.note {
+		padding-top: 20px;
+	}
+
 	h3 {
 		border-bottom: 1px solid #eaeaea;
 		padding-bottom: 0.6em;
