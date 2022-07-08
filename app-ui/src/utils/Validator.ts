@@ -77,8 +77,8 @@ export const EntryData = z.object({
 	"method": z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
 	"url": z.string().url(),
 	"headers": z.union([jsonSchema, z.string().nullable()]),
-	"body": z.union([jsonSchema, z.string().nullable()])
-	// "type": z.enum(["jetpack_connection", "wp_remote_get"]),
+	"body": z.union([jsonSchema, z.string().nullable()]),
+	"transport": z.enum(["wp", "jetpack_connection"]),
 });
 
 
