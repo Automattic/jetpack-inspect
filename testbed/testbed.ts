@@ -18,6 +18,8 @@ const handler = (request: Request) => {
 		body: request.body,
 		params: Object.fromEntries(new URL(request.url).searchParams.entries())
 	}, null, 4);
+
+	console.log("Received a request", body);
 	return new Response(body, {
 		headers: new Headers({
 			"Content-Type": "application/json",
