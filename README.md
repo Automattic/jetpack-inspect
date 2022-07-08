@@ -12,3 +12,4 @@ There are still quite a few things left to do:
 - Add an option to monitor only admin, only front-end, or both.
 - The UI still needs some work.
 - Embed the form in each list item instead of using only the one form at the top.
+- Add error handling when WordPress errors are received and network request wasn't even issued.
