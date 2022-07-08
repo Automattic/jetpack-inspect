@@ -98,6 +98,7 @@
 	.url {
 		font-weight: 500;
 		-webkit-font-smoothing: antialiased;
+		word-wrap: break-word;
 		color: var(--gray_80);
 	}
 
