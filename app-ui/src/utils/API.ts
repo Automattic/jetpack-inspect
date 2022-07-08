@@ -37,7 +37,7 @@ export default class API {
 	public async latest(): Promise<LogEntry[]> {
 		const entries = await this.request("latest");
 		if (!entries) {
-			return;
+			[];
 		}
 		return LogEntries.parse(entries);
 	}

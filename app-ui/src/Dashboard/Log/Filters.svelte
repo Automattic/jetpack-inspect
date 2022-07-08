@@ -5,8 +5,8 @@
 	const api = new API();
 	let filter = "";
 
-	let timeout;
-	function updateFilter(value) {
+	let timeout: ReturnType<typeof setTimeout>;
+	function updateFilter(value: string) {
 		if (timeout) {
 			clearTimeout(timeout);
 		}

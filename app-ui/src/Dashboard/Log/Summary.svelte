@@ -22,9 +22,10 @@
 		const api = new API();
 		await api.submit({
 			url: item.url,
-			method: item.args.method || "GET",
+			method: item.args.method,
 			body: item.args.body,
 			headers: item.args.headers,
+			transport: "wp",
 		});
 		dispatch("retry", item);
 	}

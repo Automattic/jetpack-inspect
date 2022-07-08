@@ -14,10 +14,10 @@ const jsonSchema: z.ZodType<Json> = z.lazy(() =>
 );
 
 
-
+const RequestMethods = z.enum(["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"])
 
 export const RequestArgs = z.object({
-	"method": z.string(),
+	"method": RequestMethods,
 	"timeout": z.number(),
 	"redirection": z.number(),
 	"httpversion": z.string(),
@@ -74,7 +74,7 @@ export const LogEntry = z.object({
 });
 
 export const EntryData = z.object({
-	"method": z.enum(["GET", "POST", "PUT", "DELETE", "PATCH"]),
+	"method": RequestMethods,
 	"url": z.string().url(),
 	"headers": z.union([jsonSchema, z.string().nullable()]),
 	"body": z.union([jsonSchema, z.string().nullable()]),

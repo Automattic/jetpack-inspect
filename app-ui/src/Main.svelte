@@ -5,31 +5,36 @@
 	import LogActions from "@src/Dashboard/Log/Actions.svelte";
 	import Form from "@src/Dashboard/Form.svelte";
 	import type { LogEntry } from "@src/utils/Validator";
+	import type { SvelteComponentTyped } from "svelte";
 
 	let logEntry: LogEntry | false = false;
 	function onLogSelect(e) {
 		logEntry = e.detail;
 	}
 
-	let List;
+	let List: SvelteComponentTyped<LogList> | any;
 	let isFormOpen = false;
 	let poll: boolean = false;
 
-	let pollTimeout;
+	let pollTimeout: ReturnType<typeof setTimeout>;
 	async function infinitePoll() {
 		if (!poll && pollTimeout) {
 			clearTimeout(pollTimeout);
 			return;
 		}
-		await List.refresh();
+		await refresh();
 		pollTimeout = setTimeout(infinitePoll, 1000);
 	}
 
 	async function startInfinitePoll() {
-		if( ! List ) {
+		infinitePoll();
+	}
+
+	function refresh() {
+		if (!List || !List.refresh) {
 			return;
 		}
-		infinitePoll();
+		List.refresh();
 	}
 
 	$: if (poll) {
@@ -49,7 +54,7 @@
 			</button>
 		</div>
 	</div>
-	<Form bind:isOpen={isFormOpen} bind:logEntry on:submit={List.refresh} />
+	<Form bind:isOpen={isFormOpen} bind:logEntry on:submit={refresh} />
 
 	<div class="logs">
 		<h4>Capture Requests</h4>

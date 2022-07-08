@@ -1,24 +1,27 @@
 <script type="ts">
 	import { slide } from "svelte/transition";
-	import type { ZodFormattedError } from "zod";
+	import type { z, ZodFormattedError } from "zod";
 	import FormError from "./FormError.svelte";
 	import { createEventDispatcher } from "svelte";
 	import { maybeStringify } from "@src/utils/maybeStringify";
 
 	import storageStore from "@src/utils/localStorageStore";
-	import { EntryData, type LogEntry } from "@src/utils/Validator";
+	import type { LogEntry } from "@src/utils/Validator";
+	import { EntryData } from "@src/utils/Validator";
 	import API from "@src/utils/API";
+	import type { Writable } from "svelte/store";
 
 	export let logEntry: LogEntry | false = false;
 	export let isOpen = false;
 
 	const dispatch = createEventDispatcher();
 
-	const data = storageStore("jetpack_devtools_form", {
+	const data: Writable<EntryData> = storageStore("jetpack_devtools_form", {
 		url: "",
 		body: "",
 		headers: "",
 		method: "POST",
+		transport: "wp",
 	});
 
 	const api = new API();
@@ -29,11 +32,12 @@
 			method: logEntry.args.method,
 			body: maybeStringify(logEntry.args.body),
 			headers: maybeStringify(logEntry.args.headers),
+			transport: "wp",
 		};
 	}
 
 	let errors: ZodFormattedError<EntryData>;
-	async function submit(formData) {
+	async function submit(formData: EntryData) {
 		const data = EntryData.safeParse(formData);
 
 		if (!data.success && "error" in data) {

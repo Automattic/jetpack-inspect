@@ -44,11 +44,34 @@ class Submit {
 			'headers' => $headers,
 		];
 
+		$function = $this->get_transport_function( $request );
+		if ( is_wp_error( $function ) ) {
+			return rest_ensure_response( $function );
+		}
+
 		maybe_start_capture_manually();
-		$results = jetpack_inspect_request( $url, $args,  );
+		$results = $function( $url, $args, );
 		maybe_stop_capture_manually();
 
 		return rest_ensure_response( $results );
+	}
+
+	private function get_transport_function( $request ) {
+		$transport_name       = $request->get_param( 'transport' ) ?? 'wp_remote_request';
+		$available_transports = [
+			'jetpack_connection' => 'jetpack_inspect_request',
+			'wp'                 => 'wp_remote_request',
+		];
+
+		if ( isset( $available_transports[ $transport_name ] ) ) {
+			$function = $available_transports[ $transport_name ];
+		}
+
+		if ( ! isset( $function ) || ! function_exists( $function ) ) {
+			return new \WP_Error( 'Invalid Request Type' );
+		}
+
+		return $function;
 	}
 
 	public function permissions() {
