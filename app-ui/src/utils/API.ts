@@ -10,7 +10,7 @@ export default class API {
 		body?: unknown
 	): Promise<unknown> {
 
-		const result = await fetch(`/wp-json/jetpack-inspect/${endpoint}`, {
+		const result = await fetch(`${window.wpApiSettings.root}/wp-json/jetpack-inspect/${endpoint}`, {
 			method,
 			headers: {
 				"Content-Type": "application/json",
