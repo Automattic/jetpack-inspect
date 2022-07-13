@@ -10,10 +10,12 @@ export default class API {
 		body?: unknown
 	): Promise<unknown> {
 
-		const result = await fetch(`${window.wpApiSettings.root}/wp-json/jetpack-inspect/${endpoint}`, {
+		// @ts-ignore
+		const result = await fetch(`${window.wpApiSettings.root}/jetpack-inspect/${endpoint}`, {
 			method,
 			headers: {
 				"Content-Type": "application/json",
+				// @ts-ignore
 				'X-WP-Nonce': window.wpApiSettings.nonce
 			},
 			credentials: 'same-origin',
