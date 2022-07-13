@@ -52,7 +52,7 @@ function render_admin_page() {
 		'jetpack-inspect-main',
 		'wpApiSettings',
 		array(
-			'root' => esc_url_raw( rest_url() ),
+			'root' => untrailingslashit( esc_url_raw( rest_url() ) ),
 			'nonce' => wp_create_nonce( 'wp_rest' )
 		)
 	);
@@ -69,6 +69,7 @@ add_action( 'init', [ Log::class, 'register_post_type' ] );
 add_action( 'plugins_loaded', [ Monitor::instance(), 'initialize' ] );
 
 add_action( 'init', function() {
+
 	REST_API::register( Latest::class );
 	REST_API::register( Clear::class );
 	REST_API::register( Monitor_Status::class );
