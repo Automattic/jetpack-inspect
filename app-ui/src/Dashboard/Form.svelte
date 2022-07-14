@@ -51,7 +51,7 @@
 			return;
 		}
 
-		await api.submit(formData);
+		await api.sendRequest(formData);
 		dispatch("submit");
 	}
 

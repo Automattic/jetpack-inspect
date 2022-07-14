@@ -17,7 +17,7 @@
 
 	async function retryRequest() {
 		const api = new API();
-		await api.submit({
+		await api.sendRequest({
 			url: item.url,
 			method: item.args.method,
 			body: item.args.body,

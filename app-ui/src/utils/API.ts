@@ -66,10 +66,10 @@ export default class API {
 		return await this.request("filter");
 	}
 
-	public async submit(data: EntryData) {
+	public async sendRequest(data: EntryData) {
 		data.body = maybeStringify(data.body);
 		data.headers = maybeStringify(data.headers);
-		return await this.request("submit", "POST", data);
+		return await this.request("send-request", "POST", data);
 	}
 
 }

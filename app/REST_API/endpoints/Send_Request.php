@@ -6,9 +6,9 @@ use Automattic\Jetpack_Inspect\Monitors;
 use Automattic\Jetpack_Inspect\REST_API\Permissions\Current_User_Admin;
 use WP_REST_Server;
 
-class Submit {
+class Send_Request {
 	public function name() {
-		return 'submit';
+		return 'send-request';
 	}
 
 	public function request_methods() {

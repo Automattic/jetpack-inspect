@@ -21,7 +21,7 @@ use Automattic\Jetpack_Inspect\REST_API\Endpoints\Monitor_Status;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Clear;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Filter;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Latest;
-use Automattic\Jetpack_Inspect\REST_API\Endpoints\Submit;
+use Automattic\Jetpack_Inspect\REST_API\Endpoints\Send_Request;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Test_Request;
 use Automattic\Jetpack_Inspect\REST_API\REST_API;
 
@@ -34,7 +34,7 @@ function jetpack_inspect_initialize() {
 			Latest::class,
 			Clear::class,
 			Monitor_Status::class,
-			Submit::class,
+			Send_Request::class,
 			Filter::class,
 		]
 	);
