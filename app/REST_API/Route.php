@@ -49,7 +49,12 @@ class Route {
 			return true;
 		}
 
+		if ( is_bool( $this->permissions ) ) {
+			return $this->permissions;
+		}
+
 		foreach ( $this->permissions as $permission ) {
+
 			if ( true !== $permission->verify( $request ) ) {
 				return false;
 			}
