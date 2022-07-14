@@ -2,6 +2,7 @@
 
 namespace Automattic\Jetpack_Inspect\REST_API\Endpoints;
 
+use Automattic\Jetpack_Inspect\Monitors;
 use Automattic\Jetpack_Inspect\REST_API\Permissions\Current_User_Admin;
 use WP_REST_Server;
 
@@ -49,9 +50,9 @@ class Submit {
 			return rest_ensure_response( $function );
 		}
 
-		maybe_start_monitor_manually();
+		$monitor = Monitors::get( 'remote_request' );
+		$monitor->ensure_enabled();
 		$results = $function( $url, $args, );
-		maybe_stop_monitor_manually();
 
 		return rest_ensure_response( $results );
 	}

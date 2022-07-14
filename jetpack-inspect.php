@@ -11,11 +11,12 @@
  * Text Domain: jetpack-inspect
  */
 
-require_once  plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
+require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
 require __DIR__ . '/functions.php';
 
-use Automattic\Jetpack_Inspect\Monitor;
 use Automattic\Jetpack_Inspect\Log;
+use Automattic\Jetpack_Inspect\Monitors;
+use Automattic\Jetpack_Inspect\REST_API\Endpoints\Make;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Monitor_Status;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Clear;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Filter;
@@ -53,7 +54,7 @@ function render_admin_page() {
 		'wpApiSettings',
 		array(
 			'root' => untrailingslashit( esc_url_raw( rest_url() ) ),
-			'nonce' => wp_create_nonce( 'wp_rest' )
+			'nonce' => wp_create_nonce( 'wp_rest' ),
 		)
 	);
 	?>
@@ -66,10 +67,10 @@ add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
 //add_action( 'rest_api_init', 'Automattic\Jetpack_Inspect\API\register_rest_routes' );
 
 add_action( 'init', [ Log::class, 'register_post_type' ] );
-add_action( 'plugins_loaded', [ Monitor::instance(), 'initialize' ] );
+add_action( 'plugins_loaded', [ Monitors::class, 'initialize' ] );
 
 add_action( 'init', function() {
-
+	REST_API::register( Make::class );
 	REST_API::register( Latest::class );
 	REST_API::register( Clear::class );
 	REST_API::register( Monitor_Status::class );

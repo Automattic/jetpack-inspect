@@ -2,31 +2,45 @@
 
 namespace Automattic\Jetpack_Inspect;
 
+use Automattic\Jetpack_Inspect\Monitor\Observable;
+
 class Monitor {
 
-	private        $start_time = [];
-	private static $instance;
+	protected Observable $observer;
+	protected string     $name;
+	protected bool       $bypass_filter = false;
 
-	public static function instance() {
-		if ( ! self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
+	public function __construct( string $name, Observable $observable ) {
+		$this->name     = $name;
+		$this->observer = $observable;
 	}
 
 	public function initialize() {
-		if ( $this->is_enabled() ) {
-			$this->attach_filters();
+
+		if ( defined( "DOING_CRON" ) && DOING_CRON ) {
+			return false;
 		}
+
+		if ( $this->is_enabled() ) {
+			$this->observer->attach_hooks();
+
+		}
+		add_action( 'shutdown', [ $this, 'log' ] );
 	}
 
-	public function attach_filters() {
-		add_filter( 'http_request_args', [ $this, 'start_timer' ], 10, 2 );
-		add_action( 'http_api_debug', [ $this, 'monitor_request' ], 10, 5 );
+	public function ensure_enabled() {
+		if( $this->is_enabled() ) {
+			return;
+		}
+		$this->observer->attach_hooks();
+		add_action( 'shutdown', [ $this, 'log' ] );
 	}
 
 	protected function match_request_filter( $url ): bool {
+		if( $this->bypass_filter ) {
+			return true;
+		}
+
 		$filter = get_option( 'jetpack_inspect_filter' );
 		if ( ! $filter ) {
 			return true;
@@ -47,44 +61,38 @@ class Monitor {
 		return str_contains( $url, $filter );
 	}
 
-	public function detach_filters() {
-		remove_filter( 'http_request_args', [ $this, 'start_timer' ], 10 );
-		remove_action( 'http_api_debug', [ $this, 'monitor_request' ], 10 );
-	}
+	public function log() {
 
-	public function monitor_request( $response, $context, $transport, $args, $url ) {
-		if ( false !== strpos( $url, 'doing_wp_cron' ) ) {
+		$log_data = $this->observer->get();
+		if ( ! $log_data ) {
 			return;
 		}
+		foreach ( $log_data as $log ) {
 
-		if ( ! $this->match_request_filter( $url ) ) {
-			return;
+			if ( empty( $log ) || ! $this->match_request_filter( $log['url'] ) ) {
+				continue;
+			}
+
+			Log::insert( $log['url'], $log );
 		}
 
-		$log_data = [
-			'url'      => $url,
-			'args'  => $args,
-			'response' => $response,
-			'duration' => floor( 1000 * ( microtime( true ) - $this->start_time[ $url ] ) ),
-		];
 
-		if ( false !== $log_data ) {
-			Log::insert( $url, $log_data );
-		}
 	}
 
-	public function start_timer( $args, $url ) {
-		$this->start_time[ $url ] = microtime( true );
-		return $args;
+	private function key() {
+		// @TODO: Compose from $this->name
+		//		return 'jetpack_inspect_' . $this->name;
+		return 'jetpack_inspect_enabled';
 	}
 
 	public function is_enabled() {
-		return get_option( 'jetpack_inspect_enabled', false );
+		return get_option( $this->key(), false );
 	}
 
 	public function toggle() {
 		$new_status = ! $this->is_enabled();
-		update_option( 'jetpack_inspect_enabled', $new_status, false );
+		update_option( $this->key(), $new_status, false );
 		return $new_status;
 	}
+
 }

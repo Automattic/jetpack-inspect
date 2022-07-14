@@ -1,31 +1,7 @@
 <?php
 
 use Automattic\Jetpack\Connection\Client;
-use Automattic\Jetpack_Inspect\Monitor;
 
-function maybe_start_monitor_manually() {
-	$monitor = Monitor::instance();
-
-	// Don't attach filters if the monitor is already enabled as an option.
-	if ( $monitor->is_enabled() ) {
-		return;
-	}
-
-	add_filter( 'option_jetpack_inspect_filter', '__return_null' );
-	$monitor->attach_filters();
-}
-
-function maybe_stop_monitor_manually() {
-	$monitor = Monitor::instance();
-
-	// Don't detach filters if the monitor is enabled as an option.
-	if ( $monitor->is_enabled() ) {
-		return;
-	}
-
-	remove_filter( 'option_jetpack_inspect_filter', '__return_null' );
-	$monitor->detach_filters();
-}
 
 function jetpack_inspect_default_args( $args = [] ) {
 	$defaults = [
