@@ -9,29 +9,31 @@
 	export let item: LogEntry;
 	export let isOpen = false;
 
-	const { date, url, duration, args } = item;
+	const { date, url } = item;
 
 	function toggleOpen() {
 		isOpen = !isOpen;
 	}
 
 	async function retryRequest() {
+		if (!item.outbound_request) {
+			return;
+		}
+		const data = item.outbound_request;
 		const api = new API();
 		await api.sendRequest({
 			url: item.url,
-			method: item.args.method,
-			body: item.args.body,
-			headers: item.args.headers,
+			method: data.args.method,
+			body: data.args.body,
+			headers: data.args.headers,
 			transport: "wp",
 		});
 		dispatch("retry", item);
 	}
 
 	let edit = false;
-	let responseCode = item.response?.response?.code || 0;
-
-	const isError =
-		"errors" in item.response || (responseCode !== 0 && responseCode >= 400);
+	let responseCode = item.outbound_request?.response.code || "";
+	const isError = "wp_error" in item;
 </script>
 
 <div class="summary">
@@ -40,14 +42,25 @@
 	</div>
 
 	<div class="header" on:click={toggleOpen}>
-		<div class="date">{responseCode} {args.method} {duration}ms - {date}</div>
+		<div class="date">
+			{responseCode}
+			{#if item.outbound_request}
+				{item.outbound_request.args.method} {item.outbound_request.duration}ms
+			{/if}
+
+			- {date}
+		</div>
 		<div class="url">{url}</div>
 	</div>
 
 	<div class="actions">
-		<button class="ji-button--altii" on:click={retryRequest}>Retry</button>
+		{#if item.outbound_request}
+			<button class="ji-button--altii" on:click={retryRequest}>Retry</button>
 
-		<button class="ji-button--altii" on:click={() => edit = ! edit}>Edit</button>
+			<button class="ji-button--altii" on:click={() => (edit = !edit)}
+				>Edit</button
+			>
+		{/if}
 		<button class="ji-button--alt" on:click|preventDefault={toggleOpen}>
 			{isOpen ? "Hide" : "View"}
 		</button>

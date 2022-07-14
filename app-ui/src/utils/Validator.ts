@@ -1,6 +1,4 @@
 import { z } from 'zod';
-
-
 /**
  * JSON Schema form Zod
  * Straight out of the docs:
@@ -37,41 +35,57 @@ export const RequestArgs = z.object({
 	"_redirection": z.number()
 });
 
-const ResponseError = z.object({
-	"errors": z.object({
-		"http_request_failed": z.string().array()
-	}).optional(),
-	"error_data": z.string().array().optional()
+
+
+export const InboundRestRequest = z.object({
+	"request": z.object({
+		"method": RequestMethods,
+		"query": jsonSchema,
+		"body": z.string().or(jsonSchema),
+		"headers": jsonSchema,
+	}),
+	"response": jsonSchema,
 });
 
-const ResponseSuccess = z.object({
-	"headers": z.array(z.string()),
-	"body": z.string(),
+export const OutboundRequestError = z.object({
+	"args": RequestArgs,
+	"duration": z.number(),
 	"response": z.object({
 		"code": z.number(),
 		"message": z.string(),
+		"data": z.unknown().optional(),
 	}),
-	"cookies": z.array(z.string()),
-	"filename": z.string().nullable(),
-	"http_response": z.object({
-		"data": z.string().nullable(),
-		"headers": z.array(z.string()).nullable(),
-		"status": z.number().nullable()
-	})
-});
+})
 
-export const Response = ResponseSuccess.or(ResponseError);
-
+export const OutboundRequestResponse = z.object({
+	"args": RequestArgs,
+	"duration": z.number(),
+	"response": z.object({
+		"headers": z.array(z.string()),
+		"body": z.string(),
+		"response": z.object({
+			"code": z.number(),
+			"message": z.string(),
+		}),
+		"cookies": z.array(z.string()),
+		"filename": z.string().nullable(),
+		"http_response": z.object({
+			"data": z.string().nullable(),
+			"headers": z.array(z.string()).nullable(),
+			"status": z.number().nullable()
+		}),
+	}),
+})
 
 export const LogEntry = z.object({
 	"id": z.number(),
 	"date": z.string(),
 	"url": z.string(),
-	"duration": z.number(),
-	"args": RequestArgs,
-	"response": Response,
-
+	"inbound_rest_request": InboundRestRequest.optional(),
+	"wp_error": OutboundRequestError.optional(),
+	"outbound_request": OutboundRequestResponse.optional(),
 });
+
 
 export const EntryData = z.object({
 	"method": RequestMethods,
@@ -86,8 +100,8 @@ export const EntryData = z.object({
 export const LogEntries = z.array(LogEntry);
 
 export type RequestArgs = z.infer<typeof RequestArgs>;
-export type Response = z.infer<typeof Response>;
 export type LogEntry = z.infer<typeof LogEntry>;
 export type LogEntries = z.infer<typeof LogEntries>;
 export type EntryData = z.infer<typeof EntryData>;
 export type JSONSchema = z.infer<typeof jsonSchema>;
+

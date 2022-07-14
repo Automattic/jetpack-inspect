@@ -28,6 +28,7 @@ class Log {
 
 
 	public static function insert( $url, $data ) {
+
 		$data_post_data = array(
 			'post_type'    => static::POST_TYPE_NAME,
 			'post_title'   => $url,

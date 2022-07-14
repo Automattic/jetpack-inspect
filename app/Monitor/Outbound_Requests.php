@@ -22,12 +22,20 @@ class Outbound_Requests implements Observable {
 	}
 
 	public function log( $response, $context, $transport, $args, $url ) {
-		$this->logs[] = [
-			'url'      => $url,
+
+		$log = [
+			'url'     => $url,
 			'args'     => $args,
-			'response' => $response,
 			'duration' => floor( 1000 * ( microtime( true ) - $this->start_time[ $url ] ) ),
 		];
+
+		if ( is_wp_error( $response ) ) {
+			$log['error'] = $response;
+		} else {
+			$log['response'] = $response;
+		}
+
+		$this->logs[] = $log;
 	}
 
 	public function get() {

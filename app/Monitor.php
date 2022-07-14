@@ -25,7 +25,7 @@ class Monitor {
 			$this->observer->attach_hooks();
 
 		}
-		add_action( 'shutdown', [ $this, 'log' ] );
+		add_action( 'shutdown', [ $this, 'save' ] );
 	}
 
 	public function ensure_enabled() {
@@ -61,19 +61,35 @@ class Monitor {
 		return str_contains( $url, $filter );
 	}
 
-	public function log() {
+	public function save() {
 
 		$log_data = $this->observer->get();
 		if ( ! $log_data ) {
 			return;
 		}
-		foreach ( $log_data as $log ) {
 
-			if ( empty( $log ) || ! $this->match_request_filter( $log['url'] ) ) {
+		foreach ( $log_data as $data ) {
+
+			if ( empty( $data ) || ! $this->match_request_filter( $data['url'] ) ) {
 				continue;
 			}
 
-			Log::insert( $log['url'], $log );
+			// @TODO: Create a Log object. This will do for now.
+			$url = $data['url'];
+			unset( $data['url'] );
+
+			$log_name = $this->name;
+			if ( isset( $data['error'] ) ) {
+				$log_name .= 'wp_error';
+			}
+
+			$log = [
+				'url'     => $url,
+				$log_name => $data,
+			];
+
+
+			Log::insert( $url, $log );
 		}
 
 

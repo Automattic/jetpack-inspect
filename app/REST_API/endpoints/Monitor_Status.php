@@ -25,9 +25,8 @@ class Monitor_Status implements Endpoint {
 
 	public function response( $request ) {
 
-		$monitor = Monitors::get('outbound_requests');
+		$monitor = Monitors::get($request->get_param('name'));
 		if ( $request->get_method() === 'GET' ) {
-
 			return rest_ensure_response( $monitor->is_enabled() );
 		}
 

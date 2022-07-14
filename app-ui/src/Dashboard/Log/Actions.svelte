@@ -4,15 +4,25 @@
 
 	export let monitorStatus = false;
 	import REST_API from "@src/utils/API";
+
 	let message;
+	let inboundActive = false;
+	let outboundActive = false;
 
 	const api = new REST_API();
 
-	async function monitor() {
-		monitorStatus = !monitorStatus;
-		const request = await api.toggleMonitorStatus();
+	async function monitorOutbound() {
+		outboundActive = !outboundActive;
+		const request = await api.toggleMonitorStatus('outbound_request');
 
-		monitorStatus = request
+		outboundActive = request
+	}
+
+	async function monitorInbound() {
+		inboundActive = !inboundActive;
+		const request = await api.toggleMonitorStatus('inbound_rest_request');
+
+		inboundActive = request
 	}
 
 	async function clear() {
@@ -24,17 +34,28 @@
 
 
 	onMount(async () => {
-		monitorStatus = await api.getMonitorStatus();
+		inboundActive = await api.getMonitorStatus('inbound_rest_request');
+		outboundActive = await api.getMonitorStatus('outbound_request');
 	});
 
-	let monitorLabel: string;
-	$: monitorLabel = monitorStatus ? "Monitoring..." : "Start monitoring";
+	let inboundLabel: string;
+	let outboundLabel: string;
+	$: inboundLabel = inboundActive ? "Inbound Monitoring..." : "Monitor Inbound";
+	$: outboundLabel = outboundActive ? "Outbound Monitoring..." : "Monitor Outbound";
+	$: monitorStatus = inboundActive || outboundActive
 </script>
 
 <div class="actions">
-	<Filters />
-	<button class="ji-button" on:click|preventDefault={monitor}>
-		{monitorLabel}
+	<Filters name="inbound_rest_request" />
+	<button class="ji-button" on:click|preventDefault={monitorInbound}>
+		{inboundLabel}
+	</button>
+
+	<br>
+
+	<Filters name="outbound_request" />
+	<button class="ji-button" on:click|preventDefault={monitorOutbound}>
+		{outboundLabel}
 	</button>
 
 	<button id="clear" class="ji-button" on:click|preventDefault={clear}>
