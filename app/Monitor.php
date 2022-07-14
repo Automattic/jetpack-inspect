@@ -29,7 +29,7 @@ class Monitor {
 	}
 
 	public function ensure_enabled() {
-		if( $this->is_enabled() ) {
+		if ( $this->is_enabled() ) {
 			return;
 		}
 		$this->observer->attach_hooks();
@@ -37,11 +37,11 @@ class Monitor {
 	}
 
 	protected function match_request_filter( $url ): bool {
-		if( $this->bypass_filter ) {
+		if ( $this->bypass_filter ) {
 			return true;
 		}
 
-		$filter = get_option( 'jetpack_inspect_filter' );
+		$filter = $this->get_filter();
 		if ( ! $filter ) {
 			return true;
 		}
@@ -79,20 +79,32 @@ class Monitor {
 
 	}
 
-	private function key() {
-		// @TODO: Compose from $this->name
-		//		return 'jetpack_inspect_' . $this->name;
-		return 'jetpack_inspect_enabled';
+	/**
+	 * Generate keys for wp options dynamically
+	 *   Example keys:
+	 *      * jp_inspect_remote_request_enabled => boolean
+	 *      * jp_inspect_remote_request_filter => string
+	 */
+	private function key( $name ) {
+		return "jp_inspect_{$this->name}_{$name}";
 	}
 
 	public function is_enabled() {
-		return get_option( $this->key(), false );
+		return get_option( $this->key( 'enabled' ), false );
 	}
 
 	public function toggle() {
 		$new_status = ! $this->is_enabled();
-		update_option( $this->key(), $new_status, false );
+		update_option( $this->key( 'enabled' ), $new_status, false );
 		return $new_status;
+	}
+
+	public function set_filter( $value ) {
+		return update_option( $this->key( 'filter' ), sanitize_text_field( $value ), false );
+	}
+
+	public function get_filter() {
+		return get_option( $this->key( 'filter' ), '' );
 	}
 
 }
