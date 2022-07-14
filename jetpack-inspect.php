@@ -16,13 +16,14 @@ require __DIR__ . '/functions.php';
 
 use Automattic\Jetpack_Inspect\Log;
 use Automattic\Jetpack_Inspect\Monitors;
-use Automattic\Jetpack_Inspect\REST_API\Endpoints\Make;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Monitor_Status;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Clear;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Filter;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Latest;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Submit;
+use Automattic\Jetpack_Inspect\REST_API\Endpoints\Test_Request;
 use Automattic\Jetpack_Inspect\REST_API\REST_API;
+
 
 function enqueue_admin_scripts() {
 	wp_enqueue_script( 'jetpack-inspect-main', plugins_url( 'app-ui/build/jetpack-inspect.js', __FILE__ ), [], '1.0.0', true );
@@ -64,16 +65,19 @@ function render_admin_page() {
 
 
 add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
-//add_action( 'rest_api_init', 'Automattic\Jetpack_Inspect\API\register_rest_routes' );
 
-add_action( 'init', [ Log::class, 'register_post_type' ] );
 add_action( 'plugins_loaded', [ Monitors::class, 'initialize' ] );
 
-add_action( 'init', function() {
-	REST_API::register( Make::class );
+add_action( 'init', __NAMESPACE__ . '\jetpack_inspect_initialize' );
+function jetpack_inspect_initialize() {
+	Log::register_post_type();
 	REST_API::register( Latest::class );
 	REST_API::register( Clear::class );
 	REST_API::register( Monitor_Status::class );
 	REST_API::register( Submit::class );
 	REST_API::register( Filter::class );
-} );
+
+	if ( defined( 'JETPACK_INSPECT_DEBUG' ) && JETPACK_INSPECT_DEBUG ) {
+		REST_API::register( Test_Request::class );
+	}
+}
