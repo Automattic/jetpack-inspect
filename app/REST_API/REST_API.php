@@ -27,7 +27,7 @@ class REST_API {
 	}
 
 	/**
-	 * @param Endpoint|Endpoint[]|string $endpoints
+	 * @param string|array $endpoints
 	 *
 	 * @return void
 	 */

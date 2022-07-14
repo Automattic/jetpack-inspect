@@ -12,8 +12,9 @@
  */
 
 require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
-require __DIR__ . '/functions.php';
 
+
+use Automattic\Jetpack_Inspect\Admin_Page;
 use Automattic\Jetpack_Inspect\Log;
 use Automattic\Jetpack_Inspect\Monitors;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Monitor_Status;
@@ -24,60 +25,25 @@ use Automattic\Jetpack_Inspect\REST_API\Endpoints\Submit;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Test_Request;
 use Automattic\Jetpack_Inspect\REST_API\REST_API;
 
+require __DIR__ . '/functions.php';
 
-function enqueue_admin_scripts() {
-	wp_enqueue_script( 'jetpack-inspect-main', plugins_url( 'app-ui/build/jetpack-inspect.js', __FILE__ ), [], '1.0.0', true );
-	wp_enqueue_style( 'jetpack-inspect-css', plugins_url( 'app-ui/build/jetpack-inspect.css', __FILE__ ), [], '1.0.0' );
-}
-
-/**
- * Create an admin menu item for Jetpack Boost Svelte edition.
- */
-function register_admin_menu() {
-	$title = __( 'Jetpack Inspect', 'jetpack-boost' );
-
-	$page = add_menu_page(
-		$title,
-		$title,
-		'manage_options',
-		'jetpack-inspect',
-		__NAMESPACE__ . '\render_admin_page',
-		'dashicons-hammer',
-		50
-	);
-
-	add_action( 'load-' . $page, __NAMESPACE__ . '\enqueue_admin_scripts' );
-}
-
-function render_admin_page() {
-	wp_localize_script(
-		'jetpack-inspect-main',
-		'wpApiSettings',
-		array(
-			'root' => untrailingslashit( esc_url_raw( rest_url() ) ),
-			'nonce' => wp_create_nonce( 'wp_rest' ),
-		)
-	);
-	?>
-	<div id="jetpack-inspect"></div>
-	<?php
-}
-
-
-add_action( 'admin_menu', __NAMESPACE__ . '\register_admin_menu' );
-
-add_action( 'plugins_loaded', [ Monitors::class, 'initialize' ] );
-
-add_action( 'init', __NAMESPACE__ . '\jetpack_inspect_initialize' );
 function jetpack_inspect_initialize() {
 	Log::register_post_type();
-	REST_API::register( Latest::class );
-	REST_API::register( Clear::class );
-	REST_API::register( Monitor_Status::class );
-	REST_API::register( Submit::class );
-	REST_API::register( Filter::class );
+	REST_API::register(
+		[
+			Latest::class,
+			Clear::class,
+			Monitor_Status::class,
+			Submit::class,
+			Filter::class,
+		]
+	);
 
 	if ( defined( 'JETPACK_INSPECT_DEBUG' ) && JETPACK_INSPECT_DEBUG ) {
 		REST_API::register( Test_Request::class );
 	}
 }
+
+add_action( 'init', 'jetpack_inspect_initialize' );
+add_action( 'admin_menu', [ new Admin_Page(), 'register' ] );
+add_action( 'plugins_loaded', [ Monitors::class, 'initialize' ] );
