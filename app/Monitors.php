@@ -2,11 +2,11 @@
 
 namespace Automattic\Jetpack_Inspect;
 
-use Automattic\Jetpack_Inspect\Monitor\Remote_Requests;
+use Automattic\Jetpack_Inspect\Monitor\Outbound_Requests;
 
 class Monitors {
 	protected const AVAILABLE_OBSERVERS = [
-		'remote_request' => Remote_Requests::class,
+		'outbound_requests' => Outbound_Requests::class,
 	];
 	protected static $instances = [];
 

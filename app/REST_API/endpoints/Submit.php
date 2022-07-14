@@ -50,7 +50,7 @@ class Submit {
 			return rest_ensure_response( $function );
 		}
 
-		$monitor = Monitors::get( 'remote_request' );
+		$monitor = Monitors::get( 'outbound_requests' );
 		$monitor->ensure_enabled();
 		$results = $function( $url, $args, );
 

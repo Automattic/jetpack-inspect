@@ -16,15 +16,15 @@ class Filter {
 
 	public function response( $request ) {
 
-		$remote_request = Monitors::get( 'remote_request' );
+		$outbound_requests = Monitors::get( 'outbound_requests' );
 		if ( $request->get_method() === 'GET' ) {
-			return rest_ensure_response( $remote_request->get_filter() );
+			return rest_ensure_response( $outbound_requests->get_filter() );
 		}
 
 		$filter = $request->get_param( 'filter' );
 
 		try {
-			return rest_ensure_response( $remote_request->set_filter( $filter ) );
+			return rest_ensure_response( $outbound_requests->set_filter( $filter ) );
 		} catch ( \Exception $e ) {
 			return rest_ensure_response( [ 'error' => $e->getMessage() ] );
 		}
