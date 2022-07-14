@@ -82,10 +82,15 @@
 	}
 	.actions {
 		min-width: 300px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
 	}
 	.summary {
 		width: 100%;
 		padding: 20px;
+		gap: 10px;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -99,6 +104,7 @@
 		font-weight: 500;
 		-webkit-font-smoothing: antialiased;
 		word-wrap: break-word;
+		word-break: break-all;
 		color: var(--gray_80);
 	}
 
