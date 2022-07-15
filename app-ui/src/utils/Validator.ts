@@ -104,4 +104,5 @@ export type LogEntry = z.infer<typeof LogEntry>;
 export type LogEntries = z.infer<typeof LogEntries>;
 export type EntryData = z.infer<typeof EntryData>;
 export type JSONSchema = z.infer<typeof jsonSchema>;
-
+export type OutboundRequestDetails = z.infer<typeof OutboundRequestResponse>;
+export type InboundRestDetails = z.infer<typeof InboundRestRequest>;
