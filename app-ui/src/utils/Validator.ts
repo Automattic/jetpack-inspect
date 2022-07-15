@@ -63,7 +63,7 @@ export const OutboundRequestResponse = z.object({
 	"args": RequestArgs,
 	"duration": z.number(),
 	"response": z.object({
-		"headers": z.array(z.string()),
+		"headers": z.record(z.string()),
 		"body": z.string(),
 		"response": z.object({
 			"code": z.number(),
