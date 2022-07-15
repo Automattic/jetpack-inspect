@@ -80,7 +80,7 @@ class Monitor {
 
 			$log_name = $this->name;
 			if ( isset( $data['error'] ) ) {
-				$log_name .= 'wp_error';
+				$log_name = 'wp_error';
 			}
 
 			$log = [

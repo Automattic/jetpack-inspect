@@ -1,6 +1,7 @@
 <script type="ts">
 	import InboundDetails from "@src/Dashboard/Log/InboundDetails.svelte";
 	import OutboundDetails from "@src/Dashboard/Log/OutboundDetails.svelte";
+	import OutboundErrorDetails from "@src/Dashboard/Log/OutboundErrorDetails.svelte";
 	import { sineInOut } from "svelte/easing";
 	import LogSummary from "@src/Dashboard/Log/Summary.svelte";
 
@@ -35,6 +36,15 @@
 				component: OutboundDetails,
 				props: {
 					details: item.outbound_request,
+				},
+			};
+		}
+
+		if( item.wp_error ) {
+			return {
+				component: OutboundErrorDetails,
+				props: {
+					details: item.wp_error,
 				},
 			};
 		}

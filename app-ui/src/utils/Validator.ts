@@ -50,11 +50,13 @@ export const InboundRestRequest = z.object({
 export const OutboundRequestError = z.object({
 	"args": RequestArgs,
 	"duration": z.number(),
-	"response": z.object({
-		"code": z.number(),
-		"message": z.string(),
-		"data": z.unknown().optional(),
-	}),
+	"error": z.object({
+		"errors": z.record(
+			z.array(z.string())
+		),
+		"error_data": z.array(z.unknown())
+	})
+
 })
 
 export const OutboundRequestResponse = z.object({
@@ -106,3 +108,4 @@ export type EntryData = z.infer<typeof EntryData>;
 export type JSONSchema = z.infer<typeof jsonSchema>;
 export type OutboundRequestDetails = z.infer<typeof OutboundRequestResponse>;
 export type InboundRestDetails = z.infer<typeof InboundRestRequest>;
+export type OutboundRequestError = z.infer<typeof OutboundRequestError>;

@@ -1,8 +1,7 @@
 <script type="ts">
 	import { maybeStringify } from "@src/utils/maybeStringify";
-	import type { JSONSchema } from "@src/utils/Validator";
 
-	export let data: JSONSchema | string;
+	export let data: any;
 </script>
 
 <div>

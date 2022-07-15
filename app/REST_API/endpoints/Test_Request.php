@@ -25,7 +25,7 @@ class Test_Request implements Endpoint {
 	//phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 	public function response( $request ) {
 		return rest_ensure_response(
-			wp_remote_request( 'http://localhost:3001/?test-request=' . time() )
+			wp_remote_request( 'http://timeout.comm' . time() )
 	);
 
 	}
