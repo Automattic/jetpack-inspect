@@ -109,3 +109,4 @@ export type JSONSchema = z.infer<typeof jsonSchema>;
 export type OutboundRequestDetails = z.infer<typeof OutboundRequestResponse>;
 export type InboundRestDetails = z.infer<typeof InboundRestRequest>;
 export type OutboundRequestError = z.infer<typeof OutboundRequestError>;
+export type LogType = "inbound_rest_request" | "wp_error" | "outbound_request";

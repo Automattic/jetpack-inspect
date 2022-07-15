@@ -21,40 +21,59 @@
 		};
 	}
 
-	function getSvelteComponent() {
-		if (item.inbound_rest_request) {
-			return {
-				component: InboundDetails,
-				props: {
-					details: item.inbound_rest_request,
-				},
-			};
-		}
-
+	function getLogType() {
 		if (item.outbound_request) {
-			return {
-				component: OutboundDetails,
-				props: {
-					details: item.outbound_request,
-				},
-			};
+			return "outbound_request";
 		}
-
-		if( item.wp_error ) {
-			return {
-				component: OutboundErrorDetails,
-				props: {
-					details: item.wp_error,
-				},
-			};
+		if (item.inbound_rest_request) {
+			return "inbound_rest_request";
+		}
+		if (item.wp_error) {
+			return "wp_error";
 		}
 	}
 
-	let component = getSvelteComponent();
+	type EntryComponent = {
+		component:
+			| typeof InboundDetails
+			| typeof OutboundDetails
+			| typeof OutboundErrorDetails;
+		props: { details: any };
+		icon: "in" | "out" | "bug";
+	};
+
+	function getComponent(): EntryComponent | false {
+		const type = getLogType();
+		switch (type) {
+			case "inbound_rest_request":
+				return {
+					component: InboundDetails,
+					props: { details: item.inbound_rest_request },
+					icon: "in",
+				};
+			case "outbound_request":
+				return {
+					component: OutboundDetails,
+					props: { details: item.outbound_request },
+					icon: "out",
+				};
+			case "wp_error":
+				return {
+					component: OutboundErrorDetails,
+					props: { details: item.wp_error },
+					icon: "out",
+				};
+			default:
+				return false;
+		}
+	}
+
+	let component = getComponent();
+	const icon = component ? component.icon : "bug";
 </script>
 
 <div class="log-entry" in:fade|local={{ delay: 1000, duration: 560 }}>
-	<LogSummary {item} bind:isOpen on:select on:submit on:retry />
+	<LogSummary {item} {icon} bind:isOpen on:select on:submit on:retry />
 	{#if isOpen && component}
 		<svelte:component this={component.component} {...component.props} />
 	{/if}

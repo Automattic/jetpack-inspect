@@ -14,3 +14,10 @@
 		<PrettyJson data={details.error.error_data} />
 	{/if}
 </div>
+
+
+<style>
+	div {
+		padding: 20px;
+	}
+</style>

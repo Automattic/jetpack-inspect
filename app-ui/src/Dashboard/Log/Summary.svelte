@@ -2,11 +2,13 @@
 	import Form from "@src/Dashboard/Form.svelte";
 	import API from "@src/utils/API";
 
-	import type { LogEntry } from "@src/utils/Validator";
+	import type { LogEntry, LogType } from "@src/utils/Validator";
 	import { createEventDispatcher } from "svelte";
+	import StatusIcon from "./StatusIcon.svelte";
 	const dispatch = createEventDispatcher();
 
 	export let item: LogEntry;
+	export let icon: "in" | "out" | "bug";
 	export let isOpen = false;
 
 	const { date, url } = item;
@@ -32,24 +34,37 @@
 	}
 
 	let edit = false;
-	let responseCode = item.outbound_request?.response.response.code || "";
-	const isError = "wp_error" in item;
+	let responseCode = item.outbound_request?.response.response.code;
+	let bubbleColor = "gray";
+	if (responseCode) {
+		bubbleColor = responseCode ? "green" : "red";
+	}
+	if (item.wp_error) {
+		bubbleColor = "red";
+	}
 </script>
 
 <div class="summary">
-	<div class="response-indicator">
-		<div class="bubble" class:red={isError} class:green={!isError} />
+	<div class="response-type">
+		<StatusIcon {icon} />
 	</div>
 
 	<div class="header" on:click={toggleOpen}>
 		<div class="date">
-			{responseCode}
-			{#if item.outbound_request}
-				{item.outbound_request.args.method} {item.outbound_request.duration}ms -
+			{#if responseCode}
+				{responseCode}
+				{#if item.outbound_request}
+					{item.outbound_request.args.method}
+					{item.outbound_request.duration}ms -
+				{/if}
 			{/if}
 			{date}
 		</div>
-		<div class="url">{url}</div>
+
+		<div class="url">
+			<div class="bubble {bubbleColor}" />
+			{url}
+		</div>
 	</div>
 
 	<div class="actions">
@@ -75,12 +90,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-right: 20px;
+	}
+	.response-type {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.bubble {
 		width: 5px;
 		height: 5px;
 		border-radius: 3px;
+		margin-right: 10px;
+		transform: translateY(-2.5px);
 		background-color: var(--gray_30);
 
 		&.red {
@@ -96,13 +117,13 @@
 		min-width: 300px;
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-end;
 		gap: 5px;
 	}
 	.summary {
 		width: 100%;
 		padding: 20px;
-		gap: 10px;
+		gap: 20px;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -118,6 +139,8 @@
 		word-wrap: break-word;
 		word-break: break-all;
 		color: var(--gray_80);
+		display: flex;
+		align-items: baseline;
 	}
 
 	.date {
