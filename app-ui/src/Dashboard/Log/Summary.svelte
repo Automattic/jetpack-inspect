@@ -32,7 +32,7 @@
 	}
 
 	let edit = false;
-	let responseCode = item.outbound_request?.response.code || "";
+	let responseCode = item.outbound_request?.response.response.code || "";
 	const isError = "wp_error" in item;
 </script>
 
@@ -45,10 +45,9 @@
 		<div class="date">
 			{responseCode}
 			{#if item.outbound_request}
-				{item.outbound_request.args.method} {item.outbound_request.duration}ms
+				{item.outbound_request.args.method} {item.outbound_request.duration}ms -
 			{/if}
-
-			- {date}
+			{date}
 		</div>
 		<div class="url">{url}</div>
 	</div>
