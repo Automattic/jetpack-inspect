@@ -1,29 +1,12 @@
 <script lang="ts">
-	import Filters from './Filters.svelte';
-	import { onMount } from "svelte";
+	import ActivateMonitor from "./ActivateMonitor.svelte";
 
-	export let monitorStatus = false;
+	export let isMonitoring = false;
 	import REST_API from "@src/utils/API";
 
 	let message;
-	let inboundActive = false;
-	let outboundActive = false;
 
 	const api = new REST_API();
-
-	async function monitorOutbound() {
-		outboundActive = !outboundActive;
-		const request = await api.toggleMonitorStatus('outbound_request');
-
-		outboundActive = request
-	}
-
-	async function monitorInbound() {
-		inboundActive = !inboundActive;
-		const request = await api.toggleMonitorStatus('inbound_rest_request');
-
-		inboundActive = request
-	}
 
 	async function clear() {
 		message = "";
@@ -32,31 +15,23 @@
 		}
 	}
 
-
-	onMount(async () => {
-		inboundActive = await api.getMonitorStatus('inbound_rest_request');
-		outboundActive = await api.getMonitorStatus('outbound_request');
-	});
-
-	let inboundLabel: string;
-	let outboundLabel: string;
-	$: inboundLabel = inboundActive ? "Inbound Monitoring..." : "Monitor Inbound";
-	$: outboundLabel = outboundActive ? "Outbound Monitoring..." : "Monitor Outbound";
-	$: monitorStatus = inboundActive || outboundActive
+	let isMonitoringInbound = false;
+	let isMonitoringOutbound = false;
+	$: isMonitoring = isMonitoringInbound || isMonitoringOutbound;
 </script>
 
 <div class="actions">
-	<Filters name="inbound_rest_request" />
-	<button class="ji-button" on:click|preventDefault={monitorInbound}>
-		{inboundLabel}
-	</button>
-
-	<br>
-
-	<Filters name="outbound_request" />
-	<button class="ji-button" on:click|preventDefault={monitorOutbound}>
-		{outboundLabel}
-	</button>
+	<ActivateMonitor
+		label="Inbound"
+		name="inbound_rest_request"
+		bind:status={isMonitoringInbound}
+	/>
+	<br />
+	<ActivateMonitor
+		label="Outbound"
+		name="outbound_request"
+		bind:status={isMonitoringOutbound}
+	/>
 
 	<button id="clear" class="ji-button" on:click|preventDefault={clear}>
 		Clear All

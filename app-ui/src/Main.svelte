@@ -68,7 +68,7 @@
 			Filters allow capturing only specific requests. Wildcards are supported,
 			for example <code>https://jetpack.com/*</code>
 		</div>
-		<LogActions bind:monitorStatus={poll} />
+		<LogActions bind:isMonitoring={poll} />
 
 		<LogList bind:this={List} on:select={onLogSelect} />
 	</div>
