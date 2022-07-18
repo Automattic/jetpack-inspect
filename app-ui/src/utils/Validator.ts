@@ -66,7 +66,7 @@ export const OutboundRequestResponse = z.object({
 		"headers": jsonSchema,
 		"body": z.string(),
 		"response": z.object({
-			"code": z.number(),
+			"code": z.number().or(z.string()).or(z.null()).or(z.boolean()),
 			"message": z.string(),
 		}),
 		"cookies": z.array(z.string()),
