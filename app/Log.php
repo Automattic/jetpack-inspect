@@ -64,6 +64,8 @@ class Log {
 				'numberposts' => 50,
 				'orderby'     => 'date',
 				'order'       => 'DESC',
+				'no_found_rows' => true,
+				'ignore_sticky_posts' => true,
 			)
 		);
 
