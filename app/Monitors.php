@@ -3,11 +3,11 @@
 namespace Automattic\Jetpack_Inspect;
 
 use Automattic\Jetpack_Inspect\Monitor\Inbound_REST_API;
-use Automattic\Jetpack_Inspect\Monitor\Outbound_Requests;
+use Automattic\Jetpack_Inspect\Monitor\Outbound_Request;
 
 class Monitors {
 	protected const AVAILABLE_OBSERVERS = [
-		'outbound_request' => Outbound_Requests::class,
+		'outbound_request' => Outbound_Request::class,
 		'inbound_rest_request'  => Inbound_REST_API::class,
 	];
 	protected static $instances = [];
@@ -15,7 +15,7 @@ class Monitors {
 	public static function get( $name ): Monitor {
 
 		if ( ! isset( static::AVAILABLE_OBSERVERS[ $name ] ) ) {
-			throw new \Exception( "The requested monitor doesn't exist." );
+			return new \WP_Error( "The requested monitor doesn't exist." );
 		}
 
 		if ( ! isset( static::$instances[ $name ] ) ) {

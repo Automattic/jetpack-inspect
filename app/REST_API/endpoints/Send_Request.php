@@ -40,7 +40,7 @@ class Send_Request {
 
 
 		$headers = $this->maybe_get_json( $headers );
-		$body = $this->maybe_get_json( $body );
+		$body    = $this->maybe_get_json( $body );
 
 
 
@@ -56,6 +56,10 @@ class Send_Request {
 		}
 
 		$monitor = Monitors::get( 'outbound_request' );
+		if ( is_wp_error( $monitor ) ) {
+			return rest_ensure_response( $monitor );
+		}
+		
 		$monitor->ensure_enabled();
 		$results = $function( $url, $args, );
 
