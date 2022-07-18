@@ -104,7 +104,7 @@
 		margin-right: 10px;
 		transform: translateY(-2.5px);
 		background-color: var(--gray_30);
-
+		box-shadow: 0 0 0px 1px hsl(121 1% 60%), 0 0 3px 3px hsl(121 1% 95%);
 		&.red {
 			background-color: hsl(28deg 94% 70%);
 			box-shadow: 0 0 1px 1px hsl(28deg 94% 55%), 0 0 3px 3px hsl(28deg 98% 94%);
