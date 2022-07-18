@@ -24,13 +24,13 @@
 	<ActivateMonitor
 		label="Inbound"
 		name="inbound_rest_request"
-		bind:status={isMonitoringInbound}
+		bind:isActive={isMonitoringInbound}
 	/>
 	<br />
 	<ActivateMonitor
 		label="Outbound"
 		name="outbound_request"
-		bind:status={isMonitoringOutbound}
+		bind:isActive={isMonitoringOutbound}
 	/>
 
 	<button id="clear" class="ji-button" on:click|preventDefault={clear}>

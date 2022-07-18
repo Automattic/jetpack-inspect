@@ -5,7 +5,7 @@
 	import Filters from "./Filters.svelte";
 
 	export let label: string;
-	export let status: boolean = false;
+	export let isActive: boolean = false;
 	export let name: Monitor;
 
 	const api = new API();
@@ -15,16 +15,16 @@
 	}
 
 	async function toggleMonitoring() {
-		status = !status;
+		isActive = !isActive;
 		const request = await api.toggleMonitorStatus(name);
-		status = request;
+		isActive = request;
 	}
 
 	let buttonText: string;
-	$: buttonText = getButtonLabel(status);
+	$: buttonText = getButtonLabel(isActive);
 
 	onMount(async () => {
-		status = await api.getMonitorStatus(name);
+		isActive = await api.getMonitorStatus(name);
 	});
 </script>
 
