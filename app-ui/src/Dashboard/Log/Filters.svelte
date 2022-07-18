@@ -8,7 +8,6 @@
 	const api = new API();
 	let filter = "";
 
-
 	let timeout: ReturnType<typeof setTimeout>;
 	function updateFilter(value: string) {
 		if (timeout) {
@@ -33,4 +32,13 @@
 	$: mounted && updateFilter(filter);
 </script>
 
-<input placeholder="*" type="text" bind:value={filter} />
+<input
+	placeholder="for example: http://jetpack*"
+	type="text"
+	bind:value={filter}
+/>
+<style>
+	input {
+		flex: 1;
+	}
+</style>

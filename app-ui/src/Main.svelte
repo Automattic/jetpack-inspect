@@ -38,11 +38,6 @@
 	{/if}
 
 	<div class="logs">
-		<h4>Monitor Requests</h4>
-		<div class="info">
-			Filters allow capturing only specific requests. Wildcards are supported,
-			for example <code>https://jetpack.com/*</code>
-		</div>
 		<LogActions bind:isMonitoring={logIsMonitoring} on:clear={onLogReset} />
 
 		<LogList
@@ -70,13 +65,5 @@
 
 	.logs {
 		padding: 10px 40px;
-	}
-
-	h4 {
-		margin-bottom: 0;
-	}
-
-	.info {
-		font-size: 0.8rem;
 	}
 </style>
