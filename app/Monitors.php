@@ -12,7 +12,7 @@ class Monitors {
 	];
 	protected static $instances = [];
 
-	public static function get( $name ): Monitor {
+	public static function get( $name ) {
 
 		if ( ! isset( static::AVAILABLE_OBSERVERS[ $name ] ) ) {
 			return new \WP_Error( "The requested monitor doesn't exist." );
