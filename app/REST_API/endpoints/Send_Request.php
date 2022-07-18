@@ -15,15 +15,20 @@ class Send_Request {
 		return WP_REST_Server::EDITABLE;
 	}
 
-	public function maybe_get_json( $string ) {
+	public function maybe_get_json( $value ) {
+
+		if ( ! is_string( $value ) ) {
+			return $value;
+		}
+
 		try {
-			return json_decode( $string, ARRAY_A, 512, JSON_THROW_ON_ERROR );
+			return json_decode( $value, ARRAY_A, 512, JSON_THROW_ON_ERROR );
 		} catch ( \Exception $e ) {
-			if ( "" === $string ) {
+			if ( "" === $value ) {
 				return [];
 			}
-			return $string;
 		}
+		return $value;
 	}
 
 	public function response( $request ) {
@@ -35,7 +40,7 @@ class Send_Request {
 
 
 		$headers = $this->maybe_get_json( $headers );
-		$body    = $this->maybe_get_json( $body );
+		$body = $this->maybe_get_json( $body );
 
 
 
@@ -50,7 +55,7 @@ class Send_Request {
 			return rest_ensure_response( $function );
 		}
 
-		$monitor = Monitors::get( 'outbound_requests' );
+		$monitor = Monitors::get( 'outbound_request' );
 		$monitor->ensure_enabled();
 		$results = $function( $url, $args, );
 

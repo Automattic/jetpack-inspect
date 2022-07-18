@@ -70,7 +70,7 @@ function jetpack_inspect_request( $url, $args ) {
 	//	if ( ! isset( $headers['Content-Type'] ) ) {
 	//		$headers['Content-Type'] = 'application/json; charset=utf-8;';
 	//	}
-
+	
 	$request   = jetpack_inspect_connection_request( $url, $args );
 
 	if( is_wp_error( $request ) ) {
