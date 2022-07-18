@@ -8,13 +8,17 @@
 	import type { LogEntry } from "@src/utils/Validator";
 
 	let logEntry: LogEntry | false = false;
-	function onLogSelect(e) {
+	function onLogSelect(e: CustomEvent<LogEntry>) {
 		logEntry = e.detail;
+	}
+	function onLogReset() {
+		logEntries = [];
 	}
 
 	let isFormOpen = createPersistentStore("jetpack_devtools_form_open", false);
-	let refreshList = true;
-	let isMonitoring = false;
+	let logRefresh = true;
+	let logIsMonitoring = false;
+	let logEntries: LogEntry[] = [];
 </script>
 
 <main>
@@ -30,7 +34,7 @@
 		</div>
 	</div>
 	{#if $isFormOpen}
-		<Form bind:logEntry on:submit={() => (refreshList = true)} />
+		<Form bind:logEntry on:submit={() => (logRefresh = true)} />
 	{/if}
 
 	<div class="logs">
@@ -39,9 +43,14 @@
 			Filters allow capturing only specific requests. Wildcards are supported,
 			for example <code>https://jetpack.com/*</code>
 		</div>
-		<LogActions bind:isMonitoring />
+		<LogActions bind:isMonitoring={logIsMonitoring} on:clear={onLogReset} />
 
-		<LogList bind:refresh={refreshList} isPolling={isMonitoring} on:select={onLogSelect} />
+		<LogList
+			bind:entries={logEntries}
+			bind:refresh={logRefresh}
+			bind:isPolling={logIsMonitoring}
+			on:select={onLogSelect}
+		/>
 	</div>
 </main>
 

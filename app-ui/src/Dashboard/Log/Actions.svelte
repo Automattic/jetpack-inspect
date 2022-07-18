@@ -1,17 +1,17 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte";
 	import ActivateMonitor from "./ActivateMonitor.svelte";
+
+	const dispatch = createEventDispatcher();
 
 	export let isMonitoring = false;
 	import REST_API from "@src/utils/API";
 
-	let message;
-
 	const api = new REST_API();
 
 	async function clear() {
-		message = "";
 		if (await api.clear()) {
-			message = "Cleared all data!";
+			dispatch("clear");
 		}
 	}
 
