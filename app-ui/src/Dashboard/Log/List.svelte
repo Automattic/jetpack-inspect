@@ -7,13 +7,41 @@
 	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
 	import API from "@src/utils/API";
 
+	export let isPolling = false;
+	export let refresh = false;
+	export let entries: Promise<TypeLogEntry[]> | TypeLogEntry[] = [];
+
 	const api = new API();
+	entries = api.latest();
 
-	let entries: Promise<TypeLogEntry[]> | TypeLogEntry[] = api.latest();
+	export async function getLatestEntries() {
+		let latest = await api.latest();
+		// Awaiting new entries here because `entries` is a reactive
+		// variable that will trigger an unwanted DOM update
+		// This is a workaround to prevent that.
+		entries = latest;
+	}
 
-	export async function refresh() {
-		let newEntries = await api.latest();
-		entries = newEntries;
+	/**
+	 * Polling
+	 */
+	let pollTimeout: ReturnType<typeof setTimeout>;
+	async function infinitePoll() {
+		if (!isPolling && pollTimeout) {
+			clearTimeout(pollTimeout);
+			return;
+		}
+		await getLatestEntries();
+		pollTimeout = setTimeout(infinitePoll, 1000);
+	}
+
+	$: if (isPolling) {
+		infinitePoll();
+	}
+
+	$: if (refresh && !isPolling) {
+		getLatestEntries();
+		refresh = false;
 	}
 </script>
 
@@ -47,7 +75,7 @@
 	{:then items}
 		{#each items as item (item.id)}
 			<div animate:flip={{ duration: 560, easing: sineInOut }}>
-				<LogEntry {item} on:select on:submit={refresh} on:retry={refresh} />
+				<LogEntry {item} on:select on:submit={getLatestEntries} on:retry={getLatestEntries} />
 			</div>
 		{/each}
 	{/await}

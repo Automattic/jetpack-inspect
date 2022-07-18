@@ -6,44 +6,15 @@
 	import LogActions from "@src/Dashboard/Log/Actions.svelte";
 	import Form from "@src/Dashboard/Form.svelte";
 	import type { LogEntry } from "@src/utils/Validator";
-	import type { SvelteComponentTyped } from "svelte";
 
 	let logEntry: LogEntry | false = false;
 	function onLogSelect(e) {
 		logEntry = e.detail;
 	}
 
-	let List: SvelteComponentTyped<LogList> | any;
 	let isFormOpen = createPersistentStore("jetpack_devtools_form_open", false);
-	let poll: boolean = false;
-
-	/**
-	 * Polling
-	 */
-	let pollTimeout: ReturnType<typeof setTimeout>;
-	async function infinitePoll() {
-		if (!poll && pollTimeout) {
-			clearTimeout(pollTimeout);
-			return;
-		}
-		await refresh();
-		pollTimeout = setTimeout(infinitePoll, 1000);
-	}
-
-	async function startInfinitePoll() {
-		infinitePoll();
-	}
-
-	function refresh() {
-		if (!List || !List.refresh) {
-			return;
-		}
-		List.refresh();
-	}
-
-	$: if (poll) {
-		startInfinitePoll();
-	}
+	let refreshList = true;
+	let isMonitoring = false;
 </script>
 
 <main>
@@ -59,7 +30,7 @@
 		</div>
 	</div>
 	{#if $isFormOpen}
-		<Form bind:logEntry on:submit={refresh} />
+		<Form bind:logEntry on:submit={() => (refreshList = true)} />
 	{/if}
 
 	<div class="logs">
@@ -68,9 +39,9 @@
 			Filters allow capturing only specific requests. Wildcards are supported,
 			for example <code>https://jetpack.com/*</code>
 		</div>
-		<LogActions bind:isMonitoring={poll} />
+		<LogActions bind:isMonitoring />
 
-		<LogList bind:this={List} on:select={onLogSelect} />
+		<LogList bind:refresh={refreshList} isPolling={isMonitoring} on:select={onLogSelect} />
 	</div>
 </main>
 
