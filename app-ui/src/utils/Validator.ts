@@ -63,7 +63,7 @@ export const OutboundRequestResponse = z.object({
 	"args": RequestArgs,
 	"duration": z.number(),
 	"response": z.object({
-		"headers": z.record(z.string()),
+		"headers": jsonSchema,
 		"body": z.string(),
 		"response": z.object({
 			"code": z.number(),
@@ -73,7 +73,7 @@ export const OutboundRequestResponse = z.object({
 		"filename": z.string().nullable(),
 		"http_response": z.object({
 			"data": z.string().nullable(),
-			"headers": z.array(z.string()).nullable(),
+			"headers": jsonSchema,
 			"status": z.number().nullable()
 		}),
 	}),
@@ -92,7 +92,7 @@ export const LogEntry = z.object({
 export const EntryData = z.object({
 	"method": RequestMethods,
 	"url": z.string().url(),
-	"headers": z.union([jsonSchema, z.string().nullable()]),
+	"headers": jsonSchema,
 	"body": z.union([jsonSchema, z.string().nullable()]),
 	"transport": z.enum(["wp", "jetpack_connection"]),
 });
