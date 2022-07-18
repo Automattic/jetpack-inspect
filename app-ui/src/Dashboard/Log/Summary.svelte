@@ -98,6 +98,7 @@
 	}
 	.bubble {
 		width: 5px;
+		min-width: 5px;
 		height: 5px;
 		border-radius: 3px;
 		margin-right: 10px;
