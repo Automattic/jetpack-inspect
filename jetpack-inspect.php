@@ -47,3 +47,6 @@ function jetpack_inspect_initialize() {
 add_action( 'init', 'jetpack_inspect_initialize' );
 add_action( 'admin_menu', [ new Admin_Page(), 'register' ] );
 add_action( 'plugins_loaded', [ Monitors::class, 'initialize' ] );
+
+
+require_once __DIR__ . './app/Async_Option/usage.php';
