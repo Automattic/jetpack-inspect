@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
+	import { createEventDispatcher, onMount } from "svelte";
 	import Toggle from "@src/Components/Toggle.svelte";
 	import ActivateMonitor from "./ActivateMonitor.svelte";
-	import { slide } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
+	import { slide } from "svelte/transition";
+	import { cubicOut } from "svelte/easing";
 
 	const dispatch = createEventDispatcher();
 
@@ -18,20 +18,29 @@
 		}
 	}
 
+	async function toggleMonitor() {
+		isMonitoring = !isMonitoring
+		const result = await api.toggleMonitorStatus();
+		isMonitoring = result;
+	}
+
+	onMount(async () => {
+		const status = await api.getMonitorStatus();
+		isMonitoring = status;
+	});
+
 	let monitorInbound = true;
 	let monitorOutbound = true;
 	let expanded = false;
 </script>
 
 <div class="actions">
-
-
 	<div class="advanced">
 		<div class="toggle-monitor">
 			<label for="monitor">
 				<Toggle
 					id="monitor"
-					on:click={() => (isMonitoring = !isMonitoring)}
+					on:click={toggleMonitor}
 					bind:checked={isMonitoring}
 				/>
 				<strong>Monitor Requests</strong>
@@ -44,12 +53,20 @@
 			>{@html expanded ? "&uarr;" : "&darr;"} Monitor Settings</button
 		>
 		{#if expanded}
-			<div class="advanced__expanded" transition:slide={{easing: cubicOut, duration: 300}}>
+			<div
+				class="advanced__expanded"
+				transition:slide={{ easing: cubicOut, duration: 300 }}
+			>
 				<div class="info">
 					<h4>Filter monitored requests</h4>
-					<p>By default, incoming and outgoing requests are monitored by default.
-						Use the settings below to control which requests are monitored.</p>
-					<p>Requests can be filterd by URL. Partial queries and wildcards are supported.</p>
+					<p>
+						By default, incoming and outgoing requests are monitored by default.
+						Use the settings below to control which requests are monitored.
+					</p>
+					<p>
+						Requests can be filterd by URL. Partial queries and wildcards are
+						supported.
+					</p>
 				</div>
 
 				<ActivateMonitor
@@ -138,12 +155,11 @@
 			margin-bottom: 5px;
 		}
 		p {
-			margin: .5em 0;
+			margin: 0.5em 0;
 		}
 	}
 
 	#clear {
 		margin-left: auto;
 	}
-
 </style>

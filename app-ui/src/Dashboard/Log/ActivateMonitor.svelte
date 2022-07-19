@@ -11,13 +11,13 @@
 
 	const api = new API();
 
-	async function toggleMonitoring() {
-		const request = await api.toggleMonitorStatus(name);
-		isActive = request;
+	async function toggleObserver() {
+		const result = await api.toggleObserverStatus(name);
+		isActive = result;
 	}
 
 	onMount(async () => {
-		const status = await api.getMonitorStatus(name);
+		const status = await api.getObserverStatus(name);
 		isActive = status;
 	});
 </script>
@@ -25,7 +25,7 @@
 <div class="monitor-control">
 	<strong>{label}</strong>
 	<div class="inline">
-		<Toggle id={label} on:click={toggleMonitoring} bind:checked={isActive} />
+		<Toggle id={label} on:click={toggleObserver} bind:checked={isActive} />
 		<Filters {name} />
 	</div>
 </div>

@@ -56,11 +56,19 @@ export default class API {
 		return await this.request("clear", "DELETE");
 	}
 
-	public async getMonitorStatus(name: Monitor): Promise<boolean> {
+	public async getMonitorStatus(): Promise<boolean> {
+		return !! await this.request("monitor-status", "GET");
+	}
+
+	public async toggleMonitorStatus(): Promise<boolean> {
+		return !! await this.request("monitor-status", "POST");
+	}
+
+	public async getObserverStatus(name: Monitor): Promise<boolean> {
 		return !! await this.request("monitor-status", "GET", { name });
 	}
 
-	public async toggleMonitorStatus(name: Monitor): Promise<boolean> {
+	public async toggleObserverStatus(name: Monitor): Promise<boolean> {
 		return !! await this.request("monitor-status", "POST", { name });
 	}
 
