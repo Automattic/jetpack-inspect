@@ -112,7 +112,7 @@ class Monitor {
 	public function toggle() {
 		$new_status = ! $this->is_enabled();
 		update_option( $this->key( 'enabled' ), $new_status, false );
-		return $new_status;
+		return $this->is_enabled();
 	}
 
 	public function set_filter( $value ) {
