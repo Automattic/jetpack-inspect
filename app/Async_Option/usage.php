@@ -2,42 +2,44 @@
 
 namespace Automattic\Jetpack_Inspect\Async_Option;
 
-Async_Option::setup( 'monitor-status' )
-            ->validate_with( 'is_string', "The 'name' parameter must be a string." )
-            ->valid_values( Monitors::names() )
-            ->sanitize_with( 'sanitize_text_field' )
-            ->get_value_with( 'get_option' )
-            ->set_value_with( 'update_option' )
-            ->default( 'enabled' )
-            ->on_save( 'strtolower' )
-            ->on_get( 'strtolower' );
+use Automattic\Jetpack_Inspect\Async_Option\Storage\WP_Option;
+use Automattic\Jetpack_Inspect\Options\Monitor_Status;
 
+$registry = new Registry();
 
-Async_Option::setup( 'monitor-filter' )
-			->validate_with( 'is_string', "The 'name' parameter must be a string." )
-			->valid_values( Monitors::names() )
-			->sanitize_with( 'sanitize_text_field' )
-			->get_value_with( 'get_option' )
-			->set_value_with( 'update_option' )
-			->default( 'enabled' )
-			->on_save( 'strtolower' )
-			->on_get( 'strtolower' );
+$monitor_status = new Async_Option('monitoring_active');
 
-Async_Option::setup(['remote_request_filter', 'remote_'])
-			->validate_with( 'is_string', "The 'name' parameter must be a string." )
-			->valid_values( Monitors::names() )
-			->sanitize_with( 'sanitize_text_field' )
-			->get_value_with( 'get_option' )
-			->set_value_with( 'update_option' )
-			->default( 'enabled' )
-			->on_save( 'strtolower' )
-			->on_get( 'strtolower' );
+$monitor_status
+	->store( new WP_Option() )
+	->handler( new Monitor_Status() );
 
-Async_Option::setup('dismissed_notices')
-			->validate_with( 'is_array', "The 'dismissed_notices' parameter must be an array." )
-			->
-			->get_value_with( 'get_option' )
-			->set_value_with( 'update_option' )
-			->default( 'enabled' )
-			->on_save( 'strtolower' )
-			->on_get( 'strtolower' );
+$registry->add( $monitor_status );
+
+//Async_Option::setup( 'monitor-filter' )
+//			->validate_with( 'is_string', "The 'name' parameter must be a string." )
+//			->valid_values( Monitors::names() )
+//			->sanitize_with( 'sanitize_text_field' )
+//			->get_value_with( 'get_option' )
+//			->set_value_with( 'update_option' )
+//			->default( 'enabled' )
+//			->on_save( 'strtolower' )
+//			->on_get( 'strtolower' );
+//
+//Async_Option::setup(['remote_request_filter', 'remote_'])
+//			->validate_with( 'is_string', "The 'name' parameter must be a string." )
+//			->valid_values( Monitors::names() )
+//			->sanitize_with( 'sanitize_text_field' )
+//			->get_value_with( 'get_option' )
+//			->set_value_with( 'update_option' )
+//			->default( 'enabled' )
+//			->on_save( 'strtolower' )
+//			->on_get( 'strtolower' );
+//
+//Async_Option::setup('dismissed_notices')
+//			->validate_with( 'is_array', "The 'dismissed_notices' parameter must be an array." )
+//			->
+//			->get_value_with( 'get_option' )
+//			->set_value_with( 'update_option' )
+//			->default( 'enabled' )
+//			->on_save( 'strtolower' )
+//			->on_get( 'strtolower' );

@@ -27,31 +27,6 @@ class Monitors {
 
 	}
 
-	public static function activate() {
-		update_option( 'jetpack_inspect_monitoring_active', true );
-		return self::status();
-	}
-
-	public static function deactivate() {
-		update_option( 'jetpack_inspect_monitoring_active', false );
-		return self::status();
-	}
-
-	public static function status() {
-		return get_option( 'jetpack_inspect_monitoring_active' );
-	}
-
-	public static function toggle() {
-		$status = static::status();
-		if ( $status ) {
-			return static::deactivate();
-		}
-
-		return static::activate();
-	}
-
-
-
 	public static function initialize() {
 		foreach ( self::AVAILABLE_OBSERVERS as $name => $class ) {
 			self::get( $name )->initialize();
