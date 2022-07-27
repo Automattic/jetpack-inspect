@@ -3,9 +3,10 @@
 namespace Automattic\Jetpack_Inspect\Options;
 
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Sanitizer;
+use Automattic\Jetpack_Inspect\Async_Option\Contracts\Transformer;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Validator;
 
-class Monitor_Status implements Validator, Sanitizer {
+class Monitor_Status implements Validator, Sanitizer, Transformer {
 
 	public function sanitize( $value ): bool {
 		return (bool) $value;
@@ -17,6 +18,10 @@ class Monitor_Status implements Validator, Sanitizer {
 		}
 
 		return true;
+	}
+
+	public function transform( $value ) {
+		return (bool) $value;
 	}
 }
 
