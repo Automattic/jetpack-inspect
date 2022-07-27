@@ -19,4 +19,8 @@ class Unsafe_Handler implements Transformer, Validator, Sanitizer {
 	public function sanitize( $value ) {
 		return $value;
 	}
+
+	public function parse( $value ) {
+		return $value;
+	}
 }

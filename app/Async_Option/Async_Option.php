@@ -2,6 +2,7 @@
 
 namespace Automattic\Jetpack_Inspect\Async_Option;
 
+use Automattic\Jetpack_Inspect\Async_Option\Contracts\Parser;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Sanitizer;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Transformer;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Validator;
@@ -31,6 +32,11 @@ class Async_Option {
 	private $validator;
 
 	/**
+	 * @var Parser
+	 */
+	private $parser;
+
+	/**
 	 * @var string
 	 */
 	private $key;
@@ -48,6 +54,7 @@ class Async_Option {
 		$this->sanitizer   = $default_handler;
 		$this->transformer = $default_handler;
 		$this->validator   = $default_handler;
+		$this->parser      = $default_handler;
 
 		$this->storage = new WP_Option();
 	}
@@ -69,6 +76,10 @@ class Async_Option {
 
 		if ( $handler instanceof Transformer ) {
 			$this->transformer = $handler;
+		}
+
+		if ( $handler instanceof Parser ) {
+			$this->parser = $handler;
 		}
 
 	}
@@ -98,6 +109,9 @@ class Async_Option {
 	}
 
 	public function set( $value ) {
+
+		$value = $this->parser->parse( $value );
+
 		if ( true !== $this->validator->validate( $value ) ) {
 			$this->add_error( 'validator', $this->validator->validate( $value ) );
 		}
