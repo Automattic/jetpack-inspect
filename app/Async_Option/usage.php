@@ -12,6 +12,9 @@ $monitor_status
 	->store( new WP_Option() )
 	->handler( new Monitor_Status() );
 
+$endpoint = new Endpoint( 'jetpack-inspect', $monitor_status );
+add_action('rest_api_init', [$endpoint, 'register_rest_route']);
+
 //$registry->add( $monitor_status );
 
 //Async_Option::setup( 'monitor-filter' )
