@@ -10,13 +10,32 @@ use Automattic\Jetpack_Inspect\Async_Option\Storage\WP_Option;
 
 class Async_Option {
 
-	private Sanitizer   $sanitizer;
-	private Transformer $transformer;
-	private Storage     $storage;
-	private Validator   $validator;
-	private string      $key;
-	private             $default = false;
-	private             $errors  = [
+	/**
+	 * @var Sanitizer
+	 */
+	private $sanitizer;
+
+	/**
+	 * @var Transformer
+	 */
+	private $transformer;
+
+	/**
+	 * @var Storage
+	 */
+	private $storage;
+
+	/**
+	 * @var Validator
+	 */
+	private $validator;
+
+	/**
+	 * @var string
+	 */
+	private $key;
+	private $default = false;
+	private $errors  = [
 		'validation'   => [],
 		'sanitization' => [],
 		'validator'    => [],
@@ -54,8 +73,8 @@ class Async_Option {
 
 	}
 
-	public function error( $group, $message ) {
-		return new Error( $group, $message );
+	public function add_error( $group, $message ) {
+		$this->errors[ $group ][] = $message;
 
 	}
 
@@ -73,7 +92,7 @@ class Async_Option {
 
 	public function set( $value ) {
 		if ( true !== $this->validator->validate( $value ) ) {
-			$this->error( 'validator', $this->validator->validate( $value ) );
+			$this->add_error( 'validator', $this->validator->validate( $value ) );
 		}
 		if ( ! empty( $this->storage ) ) {
 			return $this->storage->set( $this->key, $this->sanitizer->sanitize( $value ) );
