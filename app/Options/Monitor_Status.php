@@ -11,7 +11,7 @@ class Monitor_Status implements Validator, Sanitizer {
 		return (bool) $value;
 	}
 
-	public function validate( $value ): bool|string {
+	public function validate( $value ) {
 		if ( ! is_bool( $value ) ) {
 			return esc_html__( 'Monitor status should be a boolean.', 'jetpack-inspect' );
 		}
