@@ -78,6 +78,6 @@ class Endpoint {
 	}
 
 	public function permissions() {
-		return true;
+		return current_user_can( 'manage_options' );
 	}
 }
