@@ -5,15 +5,14 @@ namespace Automattic\Jetpack_Inspect\Async_Option;
 use Automattic\Jetpack_Inspect\Async_Option\Storage\WP_Option;
 use Automattic\Jetpack_Inspect\Options\Monitor_Status;
 
-$registry = new Registry();
+//$registry = new Registry();
 
 $monitor_status = new Async_Option('monitoring_active');
-
 $monitor_status
 	->store( new WP_Option() )
 	->handler( new Monitor_Status() );
 
-$registry->add( $monitor_status );
+//$registry->add( $monitor_status );
 
 //Async_Option::setup( 'monitor-filter' )
 //			->validate_with( 'is_string', "The 'name' parameter must be a string." )
