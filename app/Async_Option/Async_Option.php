@@ -73,9 +73,16 @@ class Async_Option {
 
 	}
 
-	public function add_error( $group, $message ) {
-		$this->errors[ $group ][] = $message;
+	public function add_error( $message ) {
+		$this->errors[] = $message;
+	}
 
+	public function has_errors() {
+		return ! empty( $this->errors );
+	}
+
+	public function get_errors() {
+		return implode( "\n", $this->errors );
 	}
 
 	public function store( Storage $storage ) {
@@ -99,8 +106,12 @@ class Async_Option {
 		}
 	}
 
-	public function delete( $key ) {
-		return $this->storage->delete( $key );
+	public function delete() {
+		return $this->storage->delete( $this->key );
+	}
+
+	public function key() {
+		return $this->key;
 	}
 
 
