@@ -10,8 +10,7 @@ export default class API {
 		method = "GET",
 		params?: string | Record<string, string>
 	): Promise<unknown> {
-
-		let url = `${window.wpApiSettings.root}/jetpack-inspect/${endpoint}`;
+		let url = `${window.Jetpack_Inspect.root}/jetpack-inspect/${endpoint}`;
 
 		if (method === "GET" && params) {
 			url += "?" + new URLSearchParams(params).toString();
@@ -22,7 +21,7 @@ export default class API {
 			headers: {
 				"Content-Type": "application/json",
 				// @ts-ignore
-				'X-WP-Nonce': window.wpApiSettings.nonce
+				'X-WP-Nonce': window.Jetpack_Inspect.nonce
 			},
 			credentials: 'same-origin',
 			body: method === "POST" && params ? maybeStringify(params) : undefined,
@@ -60,8 +59,8 @@ export default class API {
 		return !! await this.request("monitor-status", "GET");
 	}
 
-	public async toggleMonitorStatus(): Promise<boolean> {
-		return !! await this.request("monitor-status", "POST");
+	public async setMonitorStatus(status: boolean): Promise<boolean> {
+		return !! await this.request("monitor-status", "POST", status.toString() );
 	}
 
 	public async getObserverStatus(name: Monitor): Promise<boolean> {

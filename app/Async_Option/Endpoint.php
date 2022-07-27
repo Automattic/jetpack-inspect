@@ -20,11 +20,12 @@ class Endpoint {
 	}
 
 	public function register_rest_route() {
+
 		register_rest_route(
 			$this->group,
 			$this->option->key(),
 			array(
-				'methods'             => "GET, POST, DELETE",
+				'methods'             => \WP_REST_Server::ALLMETHODS,
 				'callback'            => array( $this, 'handler' ),
 				'permission_callback' => array( $this, 'permissions' ),
 			)

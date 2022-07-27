@@ -30,9 +30,9 @@ class Admin_Page {
 	public function render() {
 		wp_localize_script(
 			'jetpack-inspect-main',
-			'wpApiSettings',
+			'Jetpack_Inspect',
 			array(
-				'root' => untrailingslashit( esc_url_raw( rest_url() ) ),
+				'root' => esc_url_raw( untrailingslashit( rest_url() ) ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 			)
 		);

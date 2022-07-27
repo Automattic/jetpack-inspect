@@ -7,7 +7,7 @@ use Automattic\Jetpack_Inspect\Options\Monitor_Status;
 
 //$registry = new Registry();
 
-$monitor_status = new Async_Option('monitoring_active');
+$monitor_status = new Async_Option('monitor-status');
 $monitor_status
 	->store( new WP_Option() )
 	->handler( new Monitor_Status() );

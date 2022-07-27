@@ -19,8 +19,8 @@
 	}
 
 	async function toggleMonitor() {
-		isMonitoring = !isMonitoring
-		const result = await api.toggleMonitorStatus();
+		isMonitoring = !isMonitoring;
+		const result = await api.setMonitorStatus(isMonitoring);
 		isMonitoring = result;
 	}
 

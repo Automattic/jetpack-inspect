@@ -33,7 +33,6 @@ function jetpack_inspect_initialize() {
 		[
 			Latest::class,
 			Clear::class,
-			Monitor_Status::class,
 			Send_Request::class,
 			Filter::class,
 		]
