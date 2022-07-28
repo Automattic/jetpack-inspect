@@ -34,3 +34,12 @@ function jetpack_inspect_update_option( $option, $value ) {
 
 
 jetpack_inspect_register_option( 'monitor_status', Monitor_Status::class );
+add_action( 'admin_init', function() {
+
+	add_action( get_plugin_page_hook( 'jetpack-inspect', 'admin' ), function() {
+		Registry::get_instance( 'jetpack_inspect' )
+		        ->attach_to_script( 'jetpack-inspect-main' );
+	} );
+
+} );
+

@@ -79,4 +79,20 @@ class Registry {
 		return $this->options[ $name ];
 	}
 
+	public function attach_to_script( $script_handle_name ) {
+		$data = [
+			'rest_api' => [
+				'base'  => rest_url( $this->namespace ),
+				'nonce' => wp_create_nonce( 'rest_api' ),
+			],
+		];
+		foreach ( $this->options as $option ) {
+			$data[ $option->key() ] = [
+				'value' => $option->get(),
+				'nonce' => $option->nonce->create(),
+			];
+		}
+		wp_localize_script( $script_handle_name, $this->namespace, $data );
+	}
+
 }
