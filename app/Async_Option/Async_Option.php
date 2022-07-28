@@ -48,17 +48,17 @@ class Async_Option {
 	 */
 	public $nonce;
 
-	public function __construct( $key ) {
-		$this->key = $key;
 
-		$default_handler   = new Unsafe_Handler();
-		$this->sanitizer   = $default_handler;
-		$this->transformer = $default_handler;
-		$this->validator   = $default_handler;
-		$this->parser      = $default_handler;
-
-		$this->storage = new WP_Option();
-		$this->nonce   = new Authenticated_Nonce( $key );
+	/**
+	 * @param $namespace string
+	 * @param $key       string
+	 * @param $storage   Storage
+	 */
+	public function __construct( $namespace, $key, $storage ) {
+		$this->key     = $key;
+		$this->storage = $storage;
+		$this->handler( new Unsafe_Handler() );
+		$this->nonce = new Authenticated_Nonce( $key );
 	}
 
 	/**

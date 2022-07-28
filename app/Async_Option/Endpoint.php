@@ -10,20 +10,31 @@ class Endpoint {
 	private $option;
 
 	/**
-	 * @var string $group
+	 * @var string $namespace
 	 */
-	private $group;
+	private $namespace;
 
-	public function __construct( $group, Async_Option $option ) {
-		$this->option = $option;
-		$this->group  = $group;
+
+	/**
+	 * @var string $route
+	 */
+	private $route;
+
+	/**
+	 * @param string       $namespace
+	 * @param string       $route
+	 * @param Async_Option $option
+	 */
+	public function __construct( $namespace, Async_Option $option ) {
+		$this->option    = $option;
+		$this->namespace = str_replace( '_', '-', $namespace );
+		$this->route     = str_replace( '_', '-', $this->option->key() );
 	}
 
 	public function register_rest_route() {
-
 		register_rest_route(
-			$this->group,
-			$this->option->key(),
+			$this->namespace,
+			$this->route,
 			array(
 				'methods'             => \WP_REST_Server::ALLMETHODS,
 				'callback'            => array( $this, 'handler' ),
