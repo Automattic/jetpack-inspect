@@ -15,7 +15,7 @@ class Monitor_Status implements Validator, Sanitizer, Transformer, Parser {
 
 	public function validate( $value ) {
 		if ( ! is_bool( $value ) ) {
-			return sprintf( esc_html__( 'Monitor status should be a boolean. Received "%s". ', 'jetpack-inspect' ), gettype( $value ) );
+			return sprintf( __( "Monitor status should be a 'boolean'. Received '%s'.", 'jetpack-inspect' ), gettype( $value ) );
 		}
 		return true;
 	}
