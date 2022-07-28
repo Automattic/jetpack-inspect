@@ -64,7 +64,7 @@ class Endpoint {
 	public function handle_post( $request ) {
 		$this->option->set( $request->get_body() );
 		if ( $this->option->has_errors() ) {
-			return $this->option->get_errors();
+			return new \WP_Error( 400, $this->option->get_errors(), array( 'status' => 400 ) );
 		}
 		return $this->option->get();
 	}

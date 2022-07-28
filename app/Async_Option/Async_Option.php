@@ -41,11 +41,7 @@ class Async_Option {
 	 */
 	private $key;
 	private $default = false;
-	private $errors  = [
-		'validation'   => [],
-		'sanitization' => [],
-		'validator'    => [],
-	];
+	private $errors  = [];
 
 	public function __construct( $key ) {
 		$this->key = $key;
@@ -113,11 +109,14 @@ class Async_Option {
 		$value = $this->parser->parse( $value );
 
 		if ( true !== $this->validator->validate( $value ) ) {
-			$this->add_error( 'validator', $this->validator->validate( $value ) );
+			$this->add_error( $this->validator->validate( $value ) );
 		}
-		if ( ! empty( $this->storage ) ) {
+
+		if ( isset( $this->storage ) ) {
 			return $this->storage->set( $this->key, $this->sanitizer->sanitize( $value ) );
 		}
+
+		return false;
 	}
 
 	public function delete() {
