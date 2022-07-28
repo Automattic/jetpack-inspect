@@ -43,6 +43,11 @@ class Async_Option {
 	private $default = false;
 	private $errors  = [];
 
+	/**
+	 * @var Authenticated_Nonce
+	 */
+	public $nonce;
+
 	public function __construct( $key ) {
 		$this->key = $key;
 
@@ -53,6 +58,7 @@ class Async_Option {
 		$this->parser      = $default_handler;
 
 		$this->storage = new WP_Option();
+		$this->nonce   = new Authenticated_Nonce( $key );
 	}
 
 	/**

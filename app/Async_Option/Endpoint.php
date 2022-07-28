@@ -51,6 +51,8 @@ class Endpoint {
 		return rest_ensure_response( $this->$method( $request ) );
 	}
 
+
+
 	/**
 	 * @param \WP_REST_Request $request
 	 */
@@ -78,6 +80,8 @@ class Endpoint {
 	}
 
 	public function permissions() {
-		return current_user_can( 'manage_options' );
+		// TMP: Need to implement nonce passing first
+		return true;
+		return current_user_can( 'manage_options' ) && $this->option->nonce->verify();
 	}
 }
