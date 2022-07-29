@@ -25,18 +25,20 @@ function parseOptions<T extends z.ZodTypeAny>(parser: T, key: string) {
 const options = parseOptions(Jetpack_Inspect, "jetpack_inspect");
 console.log(options)
 
-function asyncOption<T>(initialValue: <T>): Writable<T> {
+function asyncOption(initialValue) {
 	const store = writable(initialValue);
+	const pending = writable("no");
 
 	const api = new API();
 
 	let requestLock = false;
 	let debounce = 0;
 
+
 	// Sync the value to the API
 	// And make sure that the value
 	// hasn't changed since it was last submitted.
-	store.subscribe(async (value) => {
+	const send = async (value) => {
 
 		// Prevent multiple requests from being sent at once.
 		if (requestLock) {
@@ -56,14 +58,24 @@ function asyncOption<T>(initialValue: <T>): Writable<T> {
 
 			// Ensure that the value returned is reflected in the UI.
 			if (result !== value) {
-				store.set(result);
+				value.update(() => result);
 			}
+			pending.set("no");
 		}, 200);
+	}
+
+	// Send the store value to the API
+	store.set = (value) => {
+		pending.set("yes");
+		store.update(() => value);
+		send(value);
+	}
 
 
-	});
-
-	return store;
+	return {
+		value: store,
+		state: pending,
+	};
 }
 
 

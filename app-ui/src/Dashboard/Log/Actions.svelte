@@ -10,6 +10,7 @@
 	export let isMonitoring = false;
 	import REST_API from "@src/utils/API";
 	import { monitorStatus } from "@src/utils/Async_Options";
+	const { value, state } = monitorStatus;
 
 	const api = new REST_API();
 
@@ -24,7 +25,9 @@
 	let monitorOutbound = true;
 	let expanded = false;
 
-	$: console.log("Status is", $monitorStatus)
+	$: console.log("Value: ", $value)
+	$: console.log("Pending: ", $state)
+
 </script>
 
 <div class="actions">
@@ -33,7 +36,8 @@
 			<label for="monitor">
 				<Toggle
 					id="monitor"
-					bind:checked={$monitorStatus}
+					bind:checked={$value}
+
 				/>
 				<strong>Monitor Requests</strong>
 			</label>
