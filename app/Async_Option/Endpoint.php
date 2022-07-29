@@ -10,9 +10,9 @@ class Endpoint {
 	private $option;
 
 	/**
-	 * @var string $namespace
+	 * @var string $rest_namespace
 	 */
-	private $namespace;
+	private $rest_namespace;
 
 
 	/**
@@ -22,18 +22,17 @@ class Endpoint {
 
 	/**
 	 * @param string       $namespace
-	 * @param string       $route
 	 * @param Async_Option $option
 	 */
-	public function __construct( $namespace, Async_Option $option ) {
-		$this->option    = $option;
-		$this->namespace = str_replace( '_', '-', $namespace );
-		$this->route     = str_replace( '_', '-', $this->option->key() );
+	public function __construct( $namespace, $route, Async_Option $option ) {
+		$this->option         = $option;
+		$this->rest_namespace = $namespace;
+		$this->route          = $route;
 	}
 
 	public function register_rest_route() {
 		register_rest_route(
-			$this->namespace,
+			$this->rest_namespace,
 			$this->route,
 			array(
 				'methods'             => \WP_REST_Server::ALLMETHODS,
@@ -92,7 +91,7 @@ class Endpoint {
 
 	public function permissions() {
 		// TMP: Need to implement nonce passing first
-		return true;
+		return current_user_can( 'manage_options' );
 		return current_user_can( 'manage_options' ) && $this->option->nonce->verify();
 	}
 }

@@ -26,8 +26,14 @@ class Registry {
 	 */
 	private $namespace;
 
+	/**
+	 * @var string
+	 */
+	private $rest_namespace;
+
 	private function __construct( $namespace ) {
-		$this->namespace = $namespace;
+		$this->namespace      = $namespace;
+		$this->rest_namespace = $this->sanitize_http_name( $namespace );
 	}
 
 	public static function get_instance( $namespace ) {
@@ -47,6 +53,10 @@ class Registry {
 		return $sanitized_key;
 	}
 
+	public function sanitize_http_name( $key ) {
+		return str_replace( '_', '-', sanitize_key( $key ) );
+	}
+
 	public function regsiter( $option_name, $handler = null ) {
 
 		$storage     = new WP_Option();
@@ -59,7 +69,7 @@ class Registry {
 			$option->handler( new $handler() );
 		}
 
-		$endpoint                        = new Endpoint( $this->namespace, $option );
+		$endpoint                        = new Endpoint( $this->rest_namespace, $this->sanitize_http_name( $option->key() ), $option );
 		$this->endpoints[ $option_name ] = $endpoint;
 
 		add_action( 'rest_api_init', [ $endpoint, 'register_rest_route' ] );
@@ -82,7 +92,7 @@ class Registry {
 	public function attach_to_script( $script_handle_name ) {
 		$data = [
 			'rest_api' => [
-				'base'  => rest_url( $this->namespace ),
+				'base'  => rest_url( $this->rest_namespace ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 			],
 		];
