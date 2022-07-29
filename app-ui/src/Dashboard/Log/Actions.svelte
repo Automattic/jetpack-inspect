@@ -9,6 +9,7 @@
 
 	export let isMonitoring = false;
 	import REST_API from "@src/utils/API";
+	import { monitorStatus } from "@src/utils/Async_Options";
 
 	const api = new REST_API();
 
@@ -18,20 +19,12 @@
 		}
 	}
 
-	async function toggleMonitor() {
-		isMonitoring = !isMonitoring;
-		const result = await api.setMonitorStatus(isMonitoring);
-		isMonitoring = result;
-	}
-
-	onMount(async () => {
-		const status = await api.getMonitorStatus();
-		isMonitoring = status;
-	});
 
 	let monitorInbound = true;
 	let monitorOutbound = true;
 	let expanded = false;
+
+	$: console.log("Status is", $monitorStatus)
 </script>
 
 <div class="actions">
@@ -40,8 +33,7 @@
 			<label for="monitor">
 				<Toggle
 					id="monitor"
-					on:click={toggleMonitor}
-					bind:checked={isMonitoring}
+					bind:checked={$monitorStatus}
 				/>
 				<strong>Monitor Requests</strong>
 			</label>
