@@ -83,7 +83,7 @@ class Registry {
 		$data = [
 			'rest_api' => [
 				'base'  => rest_url( $this->namespace ),
-				'nonce' => wp_create_nonce( 'rest_api' ),
+				'nonce' => wp_create_nonce( 'wp_rest' ),
 			],
 		];
 		foreach ( $this->options as $option ) {
