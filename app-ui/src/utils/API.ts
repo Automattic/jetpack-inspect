@@ -9,8 +9,10 @@ export default class API {
 		endpoint: string,
 		method = "GET",
 		params?: string | Record<string, string>
+		nonce?: string,
 	): Promise<unknown> {
-		let url = `${window.Jetpack_Inspect.root}/jetpack-inspect/${endpoint}`;
+
+		let url = `${window.jetpack_inspect.rest_api.base}/${endpoint}`;
 
 		if (method === "GET" && params) {
 			url += "?" + new URLSearchParams(params).toString();
@@ -21,7 +23,7 @@ export default class API {
 			headers: {
 				"Content-Type": "application/json",
 				// @ts-ignore
-				'X-WP-Nonce': window.Jetpack_Inspect.nonce
+				'X-WP-Nonce': window.jetpack_inspect.rest_api.nonce
 			},
 			credentials: 'same-origin',
 			body: method === "POST" && params ? maybeStringify(params) : undefined,
