@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { Writable, Readable } from "svelte/store";
+import type { Writable } from "svelte/store";
 import { z } from 'zod';
 import API from './API';
 
@@ -23,8 +23,6 @@ function createPendingStore(): PendingStore {
 		start: () => set(true),
 	}
 }
-
-
 
 function asyncOption<T>(initialValue: T, updateCb: (value: T) => Promise<T>): AsyncStore<T> {
 	const store = writable(initialValue);
@@ -70,14 +68,13 @@ function asyncOption<T>(initialValue: T, updateCb: (value: T) => Promise<T>): As
 		send(value);
 	}
 
-
 	return {
 		value: store,
 		state: pending,
 	};
 }
 
-function parseOptions<T extends z.ZodTypeAny>(parser: T, key: string): z.infer<T> {
+function getValidatedOptions<T extends z.ZodTypeAny>(parser: T, key: string): z.infer<T> {
 	let options = {};
 	if (key in window) {
 		// Ignore TypeScript complaints just this once.
@@ -108,7 +105,7 @@ const Jetpack_Inspect = z.object({
 	}),
 });
 
-const options = parseOptions(Jetpack_Inspect, "jetpack_inspect");
+const options = getValidatedOptions(Jetpack_Inspect, "jetpack_inspect");
 
 const monitorStatus = asyncOption(options.monitor_status.value, async (value) => {
 	const api = new API();
