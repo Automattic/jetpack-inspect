@@ -14,12 +14,6 @@ interface AsyncStore<T> {
 	state: PendingStore;
 }
 
-const Jetpack_Inspect = z.object({
-	"rest_api": z.object({
-		"base": z.string().url(),
-		"nonce": z.string()
-	}),
-});
 
 function parseOptions<T extends z.ZodTypeAny>(parser: T, key: string) {
 	let options = {};
@@ -31,8 +25,6 @@ function parseOptions<T extends z.ZodTypeAny>(parser: T, key: string) {
 
 	return parser.safeParse(options);
 }
-
-const options = parseOptions(Jetpack_Inspect, "jetpack_inspect");
 
 function createPendingStore(): PendingStore {
 	const { set, subscribe } = writable(false);
@@ -96,8 +88,20 @@ function asyncOption<T>(initialValue: T, updateCb: (value: T) => Promise<T>): As
 	};
 }
 
+const Jetpack_Inspect = z.object({
+	"rest_api": z.object({
+		"base": z.string().url(),
+		"nonce": z.string()
+	}),
+	"monitor_status": z.object({
+		"value": z.boolean(),
+		"nonce": z.string()
+	}),
+});
+const options = parseOptions(Jetpack_Inspect, "jetpack_inspect");
 
-const monitorStatusOption: boolean = window.jetpack_inspect["monitor_status"].value
+
+const monitorStatusOption: boolean = options["monitor_status"].value
 
 const monitorStatus = asyncOption(monitorStatusOption, async (value) => {
 	const api = new API();
