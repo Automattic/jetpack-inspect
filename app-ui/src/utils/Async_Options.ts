@@ -1,7 +1,18 @@
 import { writable } from 'svelte/store';
-import type { Writable } from "svelte/store";
+import type { Writable, Readable } from "svelte/store";
 import { z } from 'zod';
 import API from './API';
+
+interface PendingStore {
+	subscribe: Writable<boolean>["subscribe"];
+	stop: () => void;
+	start: () => void;
+}
+
+interface AsyncStore<T> {
+	value: Writable<T>;
+	state: PendingStore;
+}
 
 const Jetpack_Inspect = z.object({
 	"rest_api": z.object({
@@ -22,9 +33,8 @@ function parseOptions<T extends z.ZodTypeAny>(parser: T, key: string) {
 }
 
 const options = parseOptions(Jetpack_Inspect, "jetpack_inspect");
-console.log(options)
 
-function createPendingStore() {
+function createPendingStore(): PendingStore {
 	const { set, subscribe } = writable(false);
 	return {
 		subscribe,
@@ -33,11 +43,11 @@ function createPendingStore() {
 	}
 }
 
-function asyncOption(initialValue) {
+
+
+function asyncOption<T>(initialValue: T, updateCb: (value: T) => Promise<T>): AsyncStore<T> {
 	const store = writable(initialValue);
 	const pending = createPendingStore();
-
-	const api = new API();
 
 	let requestLock = false;
 	let debounce = 0;
@@ -46,7 +56,7 @@ function asyncOption(initialValue) {
 	// Sync the value to the API
 	// And make sure that the value
 	// hasn't changed since it was last submitted.
-	const send = async (value) => {
+	const send = async (value: T) => {
 
 		// Prevent multiple requests from being sent at once.
 		if (requestLock) {
@@ -61,19 +71,19 @@ function asyncOption(initialValue) {
 		// Sync the setting to the server
 		debounce = setTimeout(async () => {
 			requestLock = true;
-			let result = await api.setMonitorStatus(value);
+			let result = await updateCb(value);
 			requestLock = false;
 
 			// Ensure that the value returned is reflected in the UI.
 			if (result !== value) {
-				value.update(() => result);
+				store.update(() => result);
 			}
 			pending.stop();
 		}, 200);
 	}
 
 	// Send the store value to the API
-	store.set = (value) => {
+	store.set = (value: T) => {
 		pending.start();
 		store.update(() => value);
 		send(value);
@@ -87,8 +97,12 @@ function asyncOption(initialValue) {
 }
 
 
+const monitorStatusOption: boolean = window.jetpack_inspect["monitor_status"].value
 
-const monitorStatus = asyncOption(window.jetpack_inspect["monitor_status"].value);
+const monitorStatus = asyncOption(monitorStatusOption, async (value) => {
+	const api = new API();
+	return api.setMonitorStatus(value);
+});
 
 export {
 	monitorStatus
