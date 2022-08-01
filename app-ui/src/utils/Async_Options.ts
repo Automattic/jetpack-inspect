@@ -15,17 +15,6 @@ interface AsyncStore<T> {
 }
 
 
-function parseOptions<T extends z.ZodTypeAny>(parser: T, key: string) {
-	let options = {};
-	if (key in window) {
-		// Ignore TypeScript complaints just this once.
-		// @ts-ignore
-		options = window[key];
-	}
-
-	return parser.safeParse(options);
-}
-
 function createPendingStore(): PendingStore {
 	const { set, subscribe } = writable(false);
 	return {
@@ -88,6 +77,26 @@ function asyncOption<T>(initialValue: T, updateCb: (value: T) => Promise<T>): As
 	};
 }
 
+function parseOptions<T extends z.ZodTypeAny>(parser: T, key: string): z.infer<T> {
+	let options = {};
+	if (key in window) {
+		// Ignore TypeScript complaints just this once.
+		// @ts-ignore
+		options = window[key];
+		console.log("Setting options to", options);
+	} else {
+		console.error("No options found for", key);
+	}
+
+	const parsed = parser.safeParse(options);
+	if (!parsed.success) {
+		console.error("Error parsing options for", key, parsed.error);
+		return false;
+	}
+
+	return parsed.data;
+}
+
 const Jetpack_Inspect = z.object({
 	"rest_api": z.object({
 		"base": z.string().url(),
@@ -98,15 +107,14 @@ const Jetpack_Inspect = z.object({
 		"nonce": z.string()
 	}),
 });
+
 const options = parseOptions(Jetpack_Inspect, "jetpack_inspect");
 
-
-const monitorStatusOption: boolean = options["monitor_status"].value
-
-const monitorStatus = asyncOption(monitorStatusOption, async (value) => {
+const monitorStatus = asyncOption(options.monitor_status.value, async (value) => {
 	const api = new API();
 	return api.setMonitorStatus(value);
 });
+
 
 export {
 	monitorStatus
