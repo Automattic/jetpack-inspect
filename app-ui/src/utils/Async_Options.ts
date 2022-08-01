@@ -2,7 +2,6 @@ import { writable } from 'svelte/store';
 import type { Writable } from "svelte/store";
 import { z } from 'zod';
 import API from './API';
-import { tick } from 'svelte';
 
 const Jetpack_Inspect = z.object({
 	"rest_api": z.object({
@@ -25,9 +24,18 @@ function parseOptions<T extends z.ZodTypeAny>(parser: T, key: string) {
 const options = parseOptions(Jetpack_Inspect, "jetpack_inspect");
 console.log(options)
 
+function createPendingStore() {
+	const { set, subscribe } = writable(false);
+	return {
+		subscribe,
+		stop: () => set(false),
+		start: () => set(true),
+	}
+}
+
 function asyncOption(initialValue) {
 	const store = writable(initialValue);
-	const pending = writable("no");
+	const pending = createPendingStore();
 
 	const api = new API();
 
@@ -60,13 +68,13 @@ function asyncOption(initialValue) {
 			if (result !== value) {
 				value.update(() => result);
 			}
-			pending.set("no");
+			pending.stop();
 		}, 200);
 	}
 
 	// Send the store value to the API
 	store.set = (value) => {
-		pending.set("yes");
+		pending.start();
 		store.update(() => value);
 		send(value);
 	}
