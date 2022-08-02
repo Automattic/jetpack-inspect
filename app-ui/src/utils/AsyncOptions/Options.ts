@@ -14,7 +14,7 @@ function createPendingStore(): AO.PendingStore {
 export class Options<T extends AO.Options> {
 	private options: T;
 
-	constructor(namespace: string, options: T) {
+	constructor(options: T) {
 		this.options = options;
 	}
 

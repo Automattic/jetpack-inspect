@@ -46,7 +46,7 @@ if (!validatedOptions) {
 }
 
 
-const options = new Options<OptionType>("jetpack_inspect", validatedOptions);
+const options = new Options<OptionType>(validatedOptions);
 
 export const {
 	pending: isMonitorUpdating,
