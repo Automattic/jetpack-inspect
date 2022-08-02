@@ -12,7 +12,7 @@ export default class API {
 		nonce?: string,
 	): Promise<unknown> {
 
-		let url = `${window.jetpack_inspect.rest_api.base}/${endpoint}`;
+		let url = `${window.jetpack_inspect.rest_api.value}/${endpoint}`;
 
 		if (method === "GET" && params) {
 			url += "?" + new URLSearchParams(params).toString();
