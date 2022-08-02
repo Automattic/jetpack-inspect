@@ -59,7 +59,7 @@ class Registry {
 
 	public function regsiter( $option_name, $handler = null ) {
 
-		$storage     = new WP_Option();
+		$storage     = new WP_Option( $this->namespace );
 		$option_name = $this->sanitize_option_name( $option_name );
 
 		$option                        = new Async_Option( $this->namespace, $option_name, $storage );
@@ -92,7 +92,7 @@ class Registry {
 	public function attach_to_script( $script_handle_name ) {
 		$data = [
 			'rest_api' => [
-				'value'  => rest_url( $this->rest_namespace ),
+				'value' => rest_url( $this->rest_namespace ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 			],
 		];

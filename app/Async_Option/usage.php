@@ -35,7 +35,6 @@ function jetpack_inspect_update_option( $option, $value ) {
 /**
  * Register Options
  */
-// @TODO: Don't forget to add auto prefixes to options
 jetpack_inspect_register_option( 'monitor_status', Monitor_Status::class );
 
 
