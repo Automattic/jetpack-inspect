@@ -1,27 +1,8 @@
+// @TODO: need feedback on this: 👇
+import type { AsyncOptions as AO } from "./types";
 import { writable } from 'svelte/store';
-import type { Writable } from "svelte/store";
 
-interface OptionShape {
-	[key: string]: {
-		value: any,
-		nonce: string,
-	}
-}
-
-interface PendingStore {
-	subscribe: Writable<boolean>["subscribe"];
-	stop: () => void;
-	start: () => void;
-}
-
-interface AsyncStore<T> {
-	store: Writable<T>
-	pending: PendingStore;
-}
-
-
-
-function createPendingStore(): PendingStore {
+function createPendingStore(): AO.PendingStore {
 	const { set, subscribe } = writable(false);
 	return {
 		subscribe,
@@ -30,7 +11,7 @@ function createPendingStore(): PendingStore {
 	}
 }
 
-export class Options<T extends OptionShape> {
+export class Options<T extends AO.Options> {
 	private options: T;
 
 	constructor(namespace: string, options: T) {
@@ -41,7 +22,7 @@ export class Options<T extends OptionShape> {
 		return this.options[key].value;
 	}
 
-	createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]["value"]>): AsyncStore<T[K]["value"]> {
+	createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]["value"]>): AO.OptionStore<T[K]["value"]> {
 
 		const store = writable(this.value(key));
 		const pending = createPendingStore();
