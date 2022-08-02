@@ -24,56 +24,6 @@ function createPendingStore(): PendingStore {
 	}
 }
 
-function asyncOption<T>(initialValue: T, updateCb: (value: T) => Promise<T>): AsyncStore<T> {
-	const store = writable(initialValue);
-	const pending = createPendingStore();
-
-	let requestLock = false;
-	let debounce = 0;
-
-
-	// Sync the value to the API
-	// And make sure that the value
-	// hasn't changed since it was last submitted.
-	const send = async (value: T) => {
-
-		// Prevent multiple requests from being sent at once.
-		if (requestLock) {
-			return;
-		}
-
-		// If UI Changes rapidly, wait for it to settle before issuing the request.
-		if (debounce) {
-			clearTimeout(debounce);
-		}
-
-		// Sync the setting to the server
-		debounce = setTimeout(async () => {
-			requestLock = true;
-			let result = await updateCb(value);
-			requestLock = false;
-
-			// Ensure that the value returned is reflected in the UI.
-			if (result !== value) {
-				store.update(() => result);
-			}
-			pending.stop();
-		}, 200);
-	}
-
-	// Send the store value to the API
-	store.set = (value: T) => {
-		pending.start();
-		store.update(() => value);
-		send(value);
-	}
-
-	return {
-		value: store,
-		state: pending,
-	};
-}
-
 function getValidatedOptions<T extends z.ZodTypeAny>(parser: T, key: string): z.infer<T> {
 	let options = {};
 	if (key in window) {
@@ -94,7 +44,74 @@ function getValidatedOptions<T extends z.ZodTypeAny>(parser: T, key: string): z.
 	return parsed.data;
 }
 
-const Jetpack_Inspect = z.object({
+class Options<T> {
+	private options: T;
+
+	constructor(namespace: string, options: T) {
+		this.options = options;
+	}
+
+	value<K extends keyof T>(key: K): T[K] {
+		return this.options[key];
+	}
+
+	createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]>): AsyncStore<T[K]> {
+
+		const initialValue = this.value(key);
+
+		const store = writable(initialValue["value"]);
+		const pending = createPendingStore();
+
+		let requestLock = false;
+		let debounce = 0;
+
+
+		// Sync the value to the API
+		// And make sure that the value
+		// hasn't changed since it was last submitted.
+		const send = async (value: T[K]) => {
+
+			// Prevent multiple requests from being sent at once.
+			if (requestLock) {
+				return;
+			}
+
+			// If UI Changes rapidly, wait for it to settle before issuing the request.
+			if (debounce) {
+				clearTimeout(debounce);
+			}
+
+			// Sync the setting to the server
+			debounce = setTimeout(async () => {
+				requestLock = true;
+				let result = await updateCallback(value);
+				requestLock = false;
+
+				// Ensure that the value returned is reflected in the UI.
+				if (result !== value) {
+					store.update(() => result);
+				}
+				pending.stop();
+			}, 200);
+		}
+
+		// Send the store value to the API
+		store.set = (value: T[K]) => {
+			pending.start();
+			store.update(() => value);
+			send(value);
+		}
+
+		return {
+			value: store,
+			state: pending,
+		};
+	}
+}
+
+
+
+const OptionValidator = z.object({
 	"rest_api": z.object({
 		"base": z.string().url(),
 		"nonce": z.string()
@@ -105,14 +122,27 @@ const Jetpack_Inspect = z.object({
 	}),
 });
 
-const options = getValidatedOptions(Jetpack_Inspect, "jetpack_inspect");
 
-const monitorStatus = asyncOption(options.monitor_status.value, async (value) => {
+type OptionType = z.infer<typeof OptionValidator>
+
+
+const validatedOptions = getValidatedOptions(OptionValidator, "jetpack_inspect");
+if (!validatedOptions) {
+	throw new Error("Invalid options");
+}
+
+
+const options = new Options<OptionType>("jetpack_inspect", validatedOptions);
+
+const monitorStore = options.createStore("monitor_status", async (value) => {
 	const api = new API();
-	return api.setMonitorStatus(value);
+
+
+	return await api.setMonitorStatus(value);
 });
 
+// monitorStore.value.set(false);
 
-export {
-	monitorStatus
-};
+// const monitorStatus = registerOption("monitor_status");
+
+export const monitorStatus = monitorStore;
