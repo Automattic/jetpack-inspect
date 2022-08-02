@@ -142,10 +142,11 @@ if (!validatedOptions) {
 
 
 const options = new Options<OptionType>("jetpack_inspect", validatedOptions);
-const monitorStore = options.createStore("monitor_status", async ({ value, nonce }) => {
-	console.log("Value updated!", value, nonce);
+
+export const {
+	pending: isMonitorUpdating,
+	store: isMonitoring
+} = options.createStore("monitor_status", async ({ value, nonce }) => {
 	const api = new API();
 	return await api.setMonitorStatus(value);
 });
-
-export const monitorStatus = monitorStore;
