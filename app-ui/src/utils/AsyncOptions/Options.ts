@@ -9,6 +9,10 @@ export class Options<T extends AO.Options> {
 		this.options = options;
 	}
 
+	public get<K extends keyof T>(key: K) {
+		return this.options[key];
+	}
+
 	private createPendingStore(): AO.PendingStore {
 		const { set, subscribe } = writable(false);
 		return {

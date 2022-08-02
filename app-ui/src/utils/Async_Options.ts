@@ -18,10 +18,18 @@ const Jetpack_Inspect_Options = z.object({
 const opts = getOptionsFromGlobal("jetpack_inspect", Jetpack_Inspect_Options);
 const options = new Options(opts);
 
+const endpoint = options.get("rest_api");
+const api = new API(endpoint.nonce, endpoint.value);
+
+
+const monitorStatus = options.createStore(
+	"monitor_status",
+	async ({ value, nonce }) => await api.setMonitorStatus(value)
+)
+
+
+
 export const {
 	pending: isMonitorUpdating,
 	store: isMonitoring
-} = options.createStore("monitor_status", async ({ value, nonce }) => {
-	const api = new API();
-	return await api.setMonitorStatus(value);
-});
+} = monitorStatus;
