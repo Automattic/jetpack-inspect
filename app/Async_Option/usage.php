@@ -32,8 +32,14 @@ function jetpack_inspect_update_option( $option, $value ) {
 	return jetpack_inspect_option( $option )->set( $value );
 }
 
-
+/**
+ * Register Options
+ */
+// @TODO: Don't forget to add auto prefixes to options
 jetpack_inspect_register_option( 'monitor_status', Monitor_Status::class );
+
+
+
 add_action( 'admin_init', function() {
 
 	add_action( get_plugin_page_hook( 'jetpack-inspect', 'admin' ), function() {

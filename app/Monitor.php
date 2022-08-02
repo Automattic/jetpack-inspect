@@ -3,6 +3,7 @@
 namespace Automattic\Jetpack_Inspect;
 
 use Automattic\Jetpack_Inspect\Monitor\Observable;
+use function Automattic\Jetpack_Inspect\Async_Option\jetpack_inspect_get_option;
 
 class Monitor {
 
@@ -106,7 +107,7 @@ class Monitor {
 	}
 
 	public function is_enabled() {
-		return get_option( $this->key( 'enabled' ), false );
+		return jetpack_inspect_get_option('monitor_status' );
 	}
 
 	public function toggle() {
