@@ -4,24 +4,24 @@ import { Options } from './AsyncOptions/Options';
 
 
 
-function getValidatedOptions<T extends z.ZodTypeAny>(parser: T, key: string): z.infer<T> {
-	let options = {};
-	if (key in window) {
-		// Ignore TypeScript complaints just this once.
-		// @ts-ignore
-		options = window[key];
-		console.log("Setting options to", options);
-	} else {
-		console.error("No options found for", key);
-	}
-
-	const parsed = parser.safeParse(options);
-	if (!parsed.success) {
-		console.error("Error parsing options for", key, parsed.error);
+function getValidatedOptions<T extends z.ZodTypeAny>(key: string, parser: T): z.infer<T> {
+	if (!(key in window)) {
+		console.error(`Could not locate global variable ${key}`);
 		return false;
 	}
 
-	return parsed.data;
+	// @TODO: Mark? Any Ideas to avoid @ts-ignore?
+	// Ignore TypeScript complaints just this once.
+	// @ts-ignore
+	const obj = window[key];
+	const result = parser.safeParse(obj);
+
+	if (!result.success) {
+		console.error("Error parsing options for", key, result.error);
+		return false;
+	}
+
+	return result.data;
 }
 
 
@@ -37,16 +37,13 @@ const OptionValidator = z.object({
 });
 
 
-type OptionType = z.infer<typeof OptionValidator>
-
-
-const validatedOptions = getValidatedOptions(OptionValidator, "jetpack_inspect");
+const validatedOptions = getValidatedOptions("jetpack_inspect", OptionValidator);
 if (!validatedOptions) {
 	throw new Error("Invalid options");
 }
 
 
-const options = new Options<OptionType>(validatedOptions);
+const options = new Options(validatedOptions);
 
 export const {
 	pending: isMonitorUpdating,
