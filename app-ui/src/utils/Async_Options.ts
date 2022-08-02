@@ -3,7 +3,7 @@ import API from './API';
 import { getOptionsFromGlobal } from './AsyncOptions/Global';
 import { Options } from './AsyncOptions/Options';
 
-const OptionValidator = z.object({
+const Jetpack_Inspect_Options = z.object({
 	"rest_api": z.object({
 		"value": z.string().url(),
 		"nonce": z.string()
@@ -15,13 +15,8 @@ const OptionValidator = z.object({
 });
 
 
-const validatedOptions = getOptionsFromGlobal("jetpack_inspect", OptionValidator);
-if (!validatedOptions) {
-	throw new Error("Invalid options");
-}
-
-
-const options = new Options(validatedOptions);
+const opts = getOptionsFromGlobal("jetpack_inspect", Jetpack_Inspect_Options);
+const options = new Options(opts);
 
 export const {
 	pending: isMonitorUpdating,

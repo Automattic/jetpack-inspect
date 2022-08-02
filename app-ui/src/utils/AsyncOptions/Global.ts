@@ -14,6 +14,9 @@ export function getOptionsFromGlobal<T extends z.ZodTypeAny>(key: string, parser
 
 	if (!result.success) {
 		console.error("Error parsing options for", key, result.error);
+
+		// @TODO: Maybe no options are found, return everything as false?
+		// That way at least it's not a fatal?
 		return false;
 	}
 
