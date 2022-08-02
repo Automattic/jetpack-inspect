@@ -5,17 +5,16 @@
 
 	import type { LogEntry as TypeLogEntry } from "@src/utils/Validator";
 	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
-	import API from "@src/utils/API";
+	import { API } from "@src/utils/Async_Options";
 
 	export let isPolling = false;
 	export let refresh = false;
 	export let entries: Promise<TypeLogEntry[]> | TypeLogEntry[] = [];
 
-	const api = new API();
-	entries = api.latest();
+	entries = API.latest();
 
 	export async function getLatestEntries() {
-		let latest = await api.latest();
+		let latest = await API.latest();
 		// Awaiting new entries here because `entries` is a reactive
 		// variable that will trigger an unwanted DOM update
 		// This is a workaround to prevent that.

@@ -1,6 +1,6 @@
 <script type="ts">
 	import Toggle from "@src/Components/Toggle.svelte";
-	import API from "@src/utils/API";
+	import { API } from "@src/utils/Async_Options";
 	import type { Monitor } from "@src/global";
 	import { onMount, tick } from "svelte";
 	import Filters from "./Filters.svelte";
@@ -9,15 +9,13 @@
 	export let isActive: boolean = false;
 	export let name: Monitor;
 
-	const api = new API();
-
 	async function toggleObserver() {
-		const result = await api.toggleObserverStatus(name);
+		const result = await API.toggleObserverStatus(name);
 		isActive = result;
 	}
 
 	onMount(async () => {
-		const status = await api.getObserverStatus(name);
+		const status = await API.getObserverStatus(name);
 		isActive = status;
 	});
 </script>

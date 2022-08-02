@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import API from './API';
+import AsyncAPI from './AsyncOptions/AsyncAPI';
 import { getOptionsFromGlobal } from './AsyncOptions/Global';
 import { Options } from './AsyncOptions/Options';
 
@@ -19,7 +19,7 @@ const opts = getOptionsFromGlobal("jetpack_inspect", Jetpack_Inspect_Options);
 const options = new Options(opts);
 
 const endpoint = options.get("rest_api");
-const api = new API(endpoint.value, endpoint.nonce);
+const api = new AsyncAPI(endpoint.value, endpoint.nonce);
 
 
 const monitorStatus = options.createStore(
@@ -33,3 +33,5 @@ export const {
 	pending: isMonitorUpdating,
 	store: isMonitoring
 } = monitorStatus;
+
+export { api as API };

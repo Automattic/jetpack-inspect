@@ -5,7 +5,7 @@ import type { Monitor } from '@src/global';
 
 type RequestParams = string | { [key: string]: any };
 
-export default class API {
+export default class AsyncAPI {
 
 	constructor(private baseUrl: string, private restNonce: string) { }
 

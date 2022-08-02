@@ -1,11 +1,10 @@
 <script type="ts">
 	import type { Monitor } from "@src/global";
 
-	import API from "@src/utils/API";
+	import { API } from "@src/utils/Async_Options";
 	import { onMount } from "svelte";
 
 	export let name: Monitor;
-	const api = new API();
 	let filter = "";
 
 	let timeout: ReturnType<typeof setTimeout>;
@@ -15,13 +14,13 @@
 		}
 
 		timeout = setTimeout(() => {
-			api.updateFilter(name, value);
+			API.updateFilter(name, value);
 		}, 1000);
 	}
 
 	let mounted = false;
 	onMount(async () => {
-		const existingValue = await api.getFilter(name);
+		const existingValue = await API.getFilter(name);
 
 		if (typeof existingValue === "string" && existingValue !== filter) {
 			filter = existingValue;
