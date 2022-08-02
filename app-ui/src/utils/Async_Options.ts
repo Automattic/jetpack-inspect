@@ -44,7 +44,14 @@ function getValidatedOptions<T extends z.ZodTypeAny>(parser: T, key: string): z.
 	return parsed.data;
 }
 
-class Options<T> {
+type OptionShape = {
+	[key: string]: {
+		value: string,
+		nonce: string,
+	}
+}
+
+class Options<T extends OptionShape> {
 	private options: T;
 
 	constructor(namespace: string, options: T) {
