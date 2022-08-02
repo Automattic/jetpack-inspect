@@ -61,14 +61,12 @@ class Options<T extends OptionShape> {
 	}
 
 	value<K extends keyof T>(key: K): T[K] {
-		return this.options[key];
+		return this.options[key].value;
 	}
 
 	createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]["value"]>): AsyncStore<T[K]> {
 
-		const initialValue = this.value(key);
-
-		const store = writable(initialValue["value"]);
+		const store = writable(this.value(key));
 		const pending = createPendingStore();
 
 		let requestLock = false;
@@ -143,7 +141,7 @@ if (!validatedOptions) {
 
 const options = new Options<OptionType>("jetpack_inspect", validatedOptions);
 
-const monitorStore = options.createStore("monitor_status", async ({value}) => {
+const monitorStore = options.createStore("monitor_status", async ({ value }) => {
 	const api = new API();
 	return await api.setMonitorStatus(value);
 });
@@ -152,4 +150,7 @@ const monitorStore = options.createStore("monitor_status", async ({value}) => {
 
 // const monitorStatus = registerOption("monitor_status");
 
+/**
+ * @TODO: monitorStore doesn't need to carry the nonce around. It can just be a value.
+ */
 export const monitorStatus = monitorStore;
