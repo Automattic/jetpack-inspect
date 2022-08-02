@@ -44,9 +44,10 @@ function getValidatedOptions<T extends z.ZodTypeAny>(parser: T, key: string): z.
 	return parsed.data;
 }
 
+
 type OptionShape = {
 	[key: string]: {
-		value: string,
+		value: any,
 		nonce: string,
 	}
 }
