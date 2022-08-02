@@ -9,10 +9,6 @@ interface PendingStore {
 	start: () => void;
 }
 
-interface AsyncStore<T> {
-	value: Writable<T>;
-	state: PendingStore;
-}
 
 
 function createPendingStore(): PendingStore {
@@ -52,6 +48,11 @@ type OptionShape = {
 	}
 }
 
+interface AsyncStore<T> {
+	value: Writable<T>
+	state: PendingStore;
+}
+
 class Options<T extends OptionShape> {
 	private options: T;
 
@@ -63,7 +64,7 @@ class Options<T extends OptionShape> {
 		return this.options[key];
 	}
 
-	createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]>): AsyncStore<T[K]> {
+	createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]["value"]>): AsyncStore<T[K]> {
 
 		const initialValue = this.value(key);
 
@@ -142,10 +143,8 @@ if (!validatedOptions) {
 
 const options = new Options<OptionType>("jetpack_inspect", validatedOptions);
 
-const monitorStore = options.createStore("monitor_status", async (value) => {
+const monitorStore = options.createStore("monitor_status", async ({value}) => {
 	const api = new API();
-
-
 	return await api.setMonitorStatus(value);
 });
 
