@@ -92,7 +92,7 @@ class Registry {
 	public function attach_to_script( $script_handle_name ) {
 		$data = [
 			'rest_api' => [
-				'base'  => rest_url( $this->rest_namespace ),
+				'value'  => rest_url( $this->rest_namespace ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
 			],
 		];

@@ -120,7 +120,7 @@ class Options<T extends OptionShape> {
 
 const OptionValidator = z.object({
 	"rest_api": z.object({
-		"base": z.string().url(),
+		"value": z.string().url(),
 		"nonce": z.string()
 	}),
 	"monitor_status": z.object({
