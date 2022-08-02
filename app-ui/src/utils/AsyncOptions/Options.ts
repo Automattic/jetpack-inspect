@@ -2,15 +2,6 @@
 import type { AsyncOptions as AO } from "./types";
 import { writable } from 'svelte/store';
 
-function createPendingStore(): AO.PendingStore {
-	const { set, subscribe } = writable(false);
-	return {
-		subscribe,
-		stop: () => set(false),
-		start: () => set(true),
-	}
-}
-
 export class Options<T extends AO.Options> {
 	private options: T;
 
@@ -18,14 +9,23 @@ export class Options<T extends AO.Options> {
 		this.options = options;
 	}
 
-	value<K extends keyof T>(key: K): T[K]["value"] {
+	private createPendingStore(): AO.PendingStore {
+		const { set, subscribe } = writable(false);
+		return {
+			subscribe,
+			stop: () => set(false),
+			start: () => set(true),
+		}
+	}
+
+	public value<K extends keyof T>(key: K): T[K]["value"] {
 		return this.options[key].value;
 	}
 
-	createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]["value"]>): AO.OptionStore<T[K]["value"]> {
+	public createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]["value"]>): AO.OptionStore<T[K]["value"]> {
 
 		const store = writable(this.value(key));
-		const pending = createPendingStore();
+		const pending = this.createPendingStore();
 
 		let requestLock = false;
 		let debounce = 0;
