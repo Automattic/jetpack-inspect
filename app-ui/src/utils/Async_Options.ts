@@ -49,8 +49,8 @@ type OptionShape = {
 }
 
 interface AsyncStore<T> {
-	value: Writable<T>
-	state: PendingStore;
+	store: Writable<T>
+	pending: PendingStore;
 }
 
 class Options<T extends OptionShape> {
@@ -60,11 +60,11 @@ class Options<T extends OptionShape> {
 		this.options = options;
 	}
 
-	value<K extends keyof T>(key: K): T[K] {
+	value<K extends keyof T>(key: K): T[K]["value"] {
 		return this.options[key].value;
 	}
 
-	createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]["value"]>): AsyncStore<T[K]> {
+	createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]["value"]>): AsyncStore<T[K]["value"]> {
 
 		const store = writable(this.value(key));
 		const pending = createPendingStore();
@@ -72,11 +72,10 @@ class Options<T extends OptionShape> {
 		let requestLock = false;
 		let debounce = 0;
 
-
 		// Sync the value to the API
 		// And make sure that the value
 		// hasn't changed since it was last submitted.
-		const send = async (value: T[K]) => {
+		const send = async (value: T[K]["value"]) => {
 
 			// Prevent multiple requests from being sent at once.
 			if (requestLock) {
@@ -91,7 +90,10 @@ class Options<T extends OptionShape> {
 			// Sync the setting to the server
 			debounce = setTimeout(async () => {
 				requestLock = true;
-				let result = await updateCallback(value);
+				let result = await updateCallback({
+					...this.options[key],
+					value,
+				});
 				requestLock = false;
 
 				// Ensure that the value returned is reflected in the UI.
@@ -103,15 +105,15 @@ class Options<T extends OptionShape> {
 		}
 
 		// Send the store value to the API
-		store.set = (value: T[K]) => {
+		store.set = (value: T[K]["value"]) => {
 			pending.start();
 			store.update(() => value);
 			send(value);
 		}
 
 		return {
-			value: store,
-			state: pending,
+			store: store,
+			pending: pending,
 		};
 	}
 }
@@ -140,17 +142,10 @@ if (!validatedOptions) {
 
 
 const options = new Options<OptionType>("jetpack_inspect", validatedOptions);
-
-const monitorStore = options.createStore("monitor_status", async ({ value }) => {
+const monitorStore = options.createStore("monitor_status", async ({ value, nonce }) => {
+	console.log("Value updated!", value, nonce);
 	const api = new API();
 	return await api.setMonitorStatus(value);
 });
 
-// monitorStore.value.set(false);
-
-// const monitorStatus = registerOption("monitor_status");
-
-/**
- * @TODO: monitorStore doesn't need to carry the nonce around. It can just be a value.
- */
 export const monitorStatus = monitorStore;

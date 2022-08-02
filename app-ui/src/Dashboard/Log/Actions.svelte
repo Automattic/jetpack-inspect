@@ -4,13 +4,14 @@
 	import ActivateMonitor from "./ActivateMonitor.svelte";
 	import { slide } from "svelte/transition";
 	import { cubicOut } from "svelte/easing";
+	import { monitorStatus } from "@src/utils/Async_Options";
 
 	const dispatch = createEventDispatcher();
 
 	export let isMonitoring = false;
 	import REST_API from "@src/utils/API";
-	import { monitorStatus } from "@src/utils/Async_Options";
-	const { value, state } = monitorStatus;
+
+	const { store, pending } = monitorStatus;
 
 	const api = new REST_API();
 
@@ -25,9 +26,7 @@
 	let monitorOutbound = true;
 	let expanded = false;
 
-	$: console.log("Value: ", $value)
-	$: console.log("Pending: ", $state)
-
+	$: console.log("Store is updating to", $store, "Pending:", $pending);
 </script>
 
 <div class="actions">
@@ -36,7 +35,7 @@
 			<label for="monitor">
 				<Toggle
 					id="monitor"
-					bind:checked={$value}
+					bind:checked={$store}
 
 				/>
 				<strong>Monitor Requests</strong>
