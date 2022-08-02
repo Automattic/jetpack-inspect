@@ -19,12 +19,12 @@ const opts = getOptionsFromGlobal("jetpack_inspect", Jetpack_Inspect_Options);
 const options = new Options(opts);
 
 const endpoint = options.get("rest_api");
-const api = new API(endpoint.nonce, endpoint.value);
+const api = new API(endpoint.value, endpoint.nonce);
 
 
 const monitorStatus = options.createStore(
 	"monitor_status",
-	async ({ value, nonce }) => await api.setMonitorStatus(value)
+	async ({ value, nonce }) => await api.setMonitorStatus(value, nonce)
 )
 
 
