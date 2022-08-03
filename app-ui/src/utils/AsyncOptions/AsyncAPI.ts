@@ -1,7 +1,6 @@
 import type { EntryData, LogEntry } from '@src/utils/Validator';
 import { LogEntries } from '@src/utils/Validator';
 import { maybeStringify } from '@src/utils/maybeStringify';
-import type { Monitor } from '@src/global';
 
 type RequestParams = string | { [key: string]: any };
 

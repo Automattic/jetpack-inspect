@@ -25,7 +25,7 @@
 	<div class="advanced">
 		<div class="toggle-monitor">
 			<label for="monitor">
-				<Toggle id="monitor" bind:checked={$isMonitoring} />
+				<Toggle id="monitor" checked={$isMonitoring} on:click={() => $isMonitoring = !$isMonitoring} />
 				<strong>Monitor Requests</strong>
 			</label>
 		</div>

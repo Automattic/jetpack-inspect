@@ -5,13 +5,11 @@
 
 	import type { LogEntry as TypeLogEntry } from "@src/utils/Validator";
 	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
-	import { API } from "@src/utils/Async_Options";
+	import { API, asyncOptions } from "@src/utils/Async_Options";
+	import { onMount } from "svelte";
 
-	export let isPolling = false;
 	export let refresh = false;
 	export let entries: Promise<TypeLogEntry[]> | TypeLogEntry[] = [];
-
-	entries = API.latest();
 
 	export async function getLatestEntries() {
 		let latest = await API.latest();
@@ -21,12 +19,18 @@
 		entries = latest;
 	}
 
+	let isMonitoring = asyncOptions.monitorStatus.store;
+
+	onMount(() => {
+		entries = API.latest();
+	});
+
 	/**
 	 * Polling
 	 */
 	let pollTimeout: ReturnType<typeof setTimeout>;
 	async function infinitePoll() {
-		if (!isPolling && pollTimeout) {
+		if (!$isMonitoring && pollTimeout) {
 			clearTimeout(pollTimeout);
 			return;
 		}
@@ -34,11 +38,11 @@
 		pollTimeout = setTimeout(infinitePoll, 1000);
 	}
 
-	$: if (isPolling) {
+	$: if ($isMonitoring) {
 		infinitePoll();
 	}
 
-	$: if (refresh && !isPolling) {
+	$: if (refresh && !$isMonitoring) {
 		getLatestEntries();
 		refresh = false;
 	}
@@ -74,7 +78,12 @@
 	{:then items}
 		{#each items as item (item.id)}
 			<div animate:flip={{ duration: 560, easing: sineInOut }}>
-				<LogEntry {item} on:select on:submit={getLatestEntries} on:retry={getLatestEntries} />
+				<LogEntry
+					{item}
+					on:select
+					on:submit={getLatestEntries}
+					on:retry={getLatestEntries}
+				/>
 			</div>
 		{/each}
 	{/await}
