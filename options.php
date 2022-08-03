@@ -3,7 +3,7 @@
 use Automattic\Jetpack_Inspect\Async_Option\Async_Option;
 use Automattic\Jetpack_Inspect\Async_Option\Registry;
 use Automattic\Jetpack_Inspect\Options\Monitor_Status;
-use Automattic\Jetpack_Inspect\Options\Observer;
+use Automattic\Jetpack_Inspect\Options\Observer_Settings;
 
 /**
  * Functions to make it easier to interface with Async Option:
@@ -45,8 +45,8 @@ $observer_defaults = [
 	"enabled" => true,
 	"filter"  => "",
 ];
-jetpack_inspect_register_option( 'observer_incoming', Observer::class, $observer_defaults );
-jetpack_inspect_register_option( 'observer_outgoing', Observer::class, $observer_defaults );
+jetpack_inspect_register_option( 'observer_incoming', Observer_Settings::class, $observer_defaults );
+jetpack_inspect_register_option( 'observer_outgoing', Observer_Settings::class, $observer_defaults );
 
 
 

@@ -21,11 +21,11 @@ class Authenticated_Nonce {
 		return wp_create_nonce( $this->key );
 	}
 
-	public function verify() {
+	public function verify( $nonce ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && ! did_action( 'set_current_user' ) ) {
 			throw new \Exception( "Debug: Attempting to validate {$this->key} nonce before the user is set." );
 		}
 
-		return wp_verify_nonce( $this->key );
+		return wp_verify_nonce( $nonce, $this->key );
 	}
 }

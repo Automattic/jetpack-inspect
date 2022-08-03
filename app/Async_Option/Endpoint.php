@@ -89,9 +89,10 @@ class Endpoint {
 		return $this->option->get();
 	}
 
-	public function permissions() {
-		// TMP: Need to implement nonce passing first
-		return current_user_can( 'manage_options' );
-		return current_user_can( 'manage_options' ) && $this->option->nonce->verify();
+	/**
+	 * @param \WP_REST_Request $request
+	 */
+	public function permissions( $request ) {
+		return current_user_can( 'manage_options' ) && $this->option->nonce->verify( $request->get_header( 'X-Async-Options-Nonce' ) );
 	}
 }
