@@ -15,7 +15,7 @@ class Monitor {
 	public function __construct( string $name, Observable $observable ) {
 		$this->name     = $name;
 		$this->observer = $observable;
-		$this->option = jetpack_inspect_option( $name );
+		$this->option   = jetpack_inspect_option( $name );
 	}
 
 	public function initialize() {
@@ -26,8 +26,8 @@ class Monitor {
 
 		if ( $this->is_enabled() ) {
 			$this->observer->attach_hooks();
-
 		}
+
 		add_action( 'shutdown', [ $this, 'save' ] );
 	}
 
@@ -109,11 +109,11 @@ class Monitor {
 	}
 
 	public function is_enabled() {
-		return jetpack_inspect_get_option( 'monitor_status' );
+		return jetpack_inspect_get_option( 'monitor_status' ) && $this->option->get()['enabled'];
 	}
 
 	public function get_filter() {
-		return jetpack_inspect_get_option( $this->key( 'filter' ) );
+		return $this->option->get()['filter'];
 	}
 
 
