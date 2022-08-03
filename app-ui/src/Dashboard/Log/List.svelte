@@ -1,4 +1,5 @@
 <script type="ts">
+	import { LogEntries } from "@src/utils/Validator";
 	import { fly } from "svelte/transition";
 	import { sineInOut, cubicOut } from "svelte/easing";
 	import { flip } from "svelte/animate";
@@ -12,17 +13,19 @@
 	export let entries: Promise<TypeLogEntry[]> | TypeLogEntry[] = [];
 
 	export async function getLatestEntries() {
-		let latest = await API.latest();
+		const latest = await API.GET("latest") || [];
+		const parsed = LogEntries.parse(latest);
+
 		// Awaiting new entries here because `entries` is a reactive
 		// variable that will trigger an unwanted DOM update
 		// This is a workaround to prevent that.
-		entries = latest;
+		entries = parsed;
 	}
 
 	let isMonitoring = asyncOptions.monitorStatus.store;
 
 	onMount(() => {
-		entries = API.latest();
+		entries = API.GET<TypeLogEntry[]>("latest");
 	});
 
 	/**
