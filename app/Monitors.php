@@ -2,13 +2,13 @@
 
 namespace Automattic\Jetpack_Inspect;
 
-use Automattic\Jetpack_Inspect\Monitor\Inbound_REST_API;
-use Automattic\Jetpack_Inspect\Monitor\Outbound_Request;
+use Automattic\Jetpack_Inspect\Monitor\Incoming_REST_API;
+use Automattic\Jetpack_Inspect\Monitor\Outgoing;
 
 class Monitors {
 	protected const AVAILABLE_OBSERVERS = [
-		'outbound_request'     => Outbound_Request::class,
-		'inbound_rest_request' => Inbound_REST_API::class,
+		'outgoing' => Outgoing::class,
+		'incoming' => Incoming_REST_API::class,
 	];
 	protected static $instances = [];
 
