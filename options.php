@@ -1,20 +1,18 @@
 <?php
 
-namespace Automattic\Jetpack_Inspect\Async_Option;
-
+use Automattic\Jetpack_Inspect\Async_Option\Async_Option;
+use Automattic\Jetpack_Inspect\Async_Option\Registry;
+use Automattic\Jetpack_Inspect\Options\Monitor_Filter;
 use Automattic\Jetpack_Inspect\Options\Monitor_Status;
 
-
+/**
+ * Functions to make it easier to interface with Async Option:
+ */
 function jetpack_inspect_register_option( $name, $handler = null ) {
 	return Registry::get_instance( 'jetpack_inspect' )
 	               ->regsiter( $name, $handler );
 }
 
-
-
-/**
- * Functions to make it easier to interface with Async Option:
- */
 /**
  * @param $name
  *
@@ -36,6 +34,11 @@ function jetpack_inspect_update_option( $option, $value ) {
  * Register Options
  */
 jetpack_inspect_register_option( 'monitor_status', Monitor_Status::class );
+jetpack_inspect_register_option( 'monitor_status_incoming', Monitor_Status::class );
+jetpack_inspect_register_option( 'monitor_status_outgoing', Monitor_Status::class );
+jetpack_inspect_register_option( 'monitor_filter_incoming', Monitor_Filter::class );
+jetpack_inspect_register_option( 'monitor_filter_outgoing', Monitor_Filter::class );
+
 
 
 
