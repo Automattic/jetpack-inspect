@@ -26,6 +26,17 @@ export class Options<T extends AO.Options> {
 		return this.options[key].value;
 	}
 
+	private compare(a: any, b: any) {
+		if (typeof a == "object" && typeof b == "object") {
+			return (
+				Object.entries(a).sort().toString()
+				===
+				Object.entries(b).sort().toString()
+			);
+		}
+		return a === b;
+	}
+
 	public createStore<K extends keyof T>(key: K, updateCallback: (value: T[K]) => Promise<T[K]["value"]>): AO.OptionStore<T[K]["value"]> {
 
 		const store = writable(this.value(key));
@@ -34,6 +45,7 @@ export class Options<T extends AO.Options> {
 		let requestLock = false;
 		let debounce = 0;
 
+		let retries = 0;
 		// Sync the value to the API
 		// And make sure that the value
 		// hasn't changed since it was last submitted.
@@ -58,12 +70,23 @@ export class Options<T extends AO.Options> {
 				});
 				requestLock = false;
 
-				// Ensure that the value returned is reflected in the UI.
-				if (result !== value) {
-					store.update(() => result);
+				// Ensure that the database has the same value as the UI
+				if (!this.compare(result, value)) {
+
+					if (retries++ > 3) {
+						console.error("Auto-retry failed because REST API keeps returning values that don't match the UI.", result, value);
+						pending.stop();
+						retries = 0;
+						return;
+					}
+
+					send(value);
+				} else {
+					pending.stop();
+					retries = 0;
 				}
-				pending.stop();
-			}, 200);
+
+			}, 200 * (1 + retries * 2));
 		}
 
 		// Send the store value to the API
