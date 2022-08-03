@@ -6,7 +6,7 @@ use Automattic\Jetpack_Inspect\Async_Option\Contracts\Parser;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Sanitizer;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Validator;
 
-class Observer implements Sanitizer, Validator, Parser {
+class Observer_Settings implements Sanitizer, Validator, Parser {
 
 	public function sanitize( $value ) {
 		return [
