@@ -45,11 +45,10 @@ export class Options<T extends AO.Options> {
 		let requestLock = false;
 		let debounce = 0;
 
-		let retries = 0;
 		// Sync the value to the API
 		// And make sure that the value
 		// hasn't changed since it was last submitted.
-		const send = async (value: T[K]["value"]) => {
+		const send = async (value: T[K]["value"], attempt = 0) => {
 
 			// Prevent multiple requests from being sent at once.
 			if (requestLock) {
@@ -72,21 +71,15 @@ export class Options<T extends AO.Options> {
 
 				// Ensure that the database has the same value as the UI
 				if (!this.compare(result, value)) {
-
-					if (retries++ > 3) {
+					if (attempt >= 3) {
 						console.error("Auto-retry failed because REST API keeps returning values that don't match the UI.", result, value);
 						pending.stop();
-						retries = 0;
 						return;
 					}
-
-					send(value);
-				} else {
-					pending.stop();
-					retries = 0;
+					send(value, attempt + 1);
 				}
-
-			}, 200 * (1 + retries * 2));
+				pending.stop();
+			}, 200 * (1 + attempt * 2));
 		}
 
 		// Send the store value to the API
