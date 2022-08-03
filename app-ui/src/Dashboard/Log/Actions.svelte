@@ -9,7 +9,7 @@
 	const dispatch = createEventDispatcher();
 
 	async function clear() {
-		if (await API.clear()) {
+		if (await API.DELETE("clear") === "OK") {
 			dispatch("clear");
 		}
 	}
