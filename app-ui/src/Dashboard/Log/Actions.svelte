@@ -19,32 +19,6 @@
 	let isMonitoring = asyncOptions.monitorStatus.store;
 
 	let expanded = false;
-
-	let outgoingActive = true;
-	let incomingActive = true;
-	let outgoingFilter = "";
-	let incomingFilter = "";
-
-	function updateIncoming(enabled: boolean) {
-		$incoming.enabled = enabled;
-	}
-
-	function updateIncomingFilter(filter: string) {
-		$incoming.filter = filter;
-	}
-
-	function updateOutgoing(enabled: boolean) {
-		$outgoing.enabled = enabled;
-	}
-
-	function updateOutgoingFilter(filter: string) {
-		$outgoing.filter = filter;
-	}
-
-	$: updateIncoming(incomingActive);
-	$: updateIncomingFilter(incomingFilter);
-	$: updateOutgoing(outgoingActive);
-	$: updateOutgoingFilter(outgoingFilter);
 </script>
 
 <div class="actions">
@@ -78,17 +52,16 @@
 					</p>
 				</div>
 
-				Incoming Value: {$incoming.filter}
 				<ActivateMonitor
 					label="Monitor Incoming"
-					bind:isActive={incomingActive}
-					bind:filter={incomingFilter}
+					bind:isActive={$incoming.enabled}
+					bind:filter={$incoming.filter}
 				/>
 
 				<ActivateMonitor
 					label="Monitor Outgoing"
-					bind:isActive={outgoingActive}
-					bind:filter={outgoingFilter}
+					bind:isActive={$outgoing.enabled}
+					bind:filter={$outgoing.filter}
 				/>
 			</div>
 		{/if}
