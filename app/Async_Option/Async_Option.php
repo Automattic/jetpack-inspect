@@ -110,11 +110,17 @@ class Async_Option {
 		);
 	}
 
+	public function set_defaults( $value ) {
+		$this->default = $value;
+	}
+
 	public function set( $value ) {
 
 		$value = $this->parser->parse( $value );
 
 		if ( true !== $this->validator->validate( $value ) ) {
+			// @TODO: Would be nice to be able to return multiple errors at once.
+			// This should become $this->add_errors() and just cast whatever value to array
 			$this->add_error( $this->validator->validate( $value ) );
 		}
 

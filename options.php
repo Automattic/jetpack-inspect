@@ -8,9 +8,15 @@ use Automattic\Jetpack_Inspect\Options\Monitor_Status;
 /**
  * Functions to make it easier to interface with Async Option:
  */
-function jetpack_inspect_register_option( $name, $handler = null ) {
-	return Registry::get_instance( 'jetpack_inspect' )
-	               ->regsiter( $name, $handler );
+function jetpack_inspect_register_option( $name, $handler = null, $default = false ) {
+	$instance = Registry::get_instance( 'jetpack_inspect' )
+	                    ->regsiter( $name, $handler );
+
+	if ( false !== $default ) {
+		$instance->set_defaults( $default );
+	}
+
+	return $instance;
 }
 
 /**
