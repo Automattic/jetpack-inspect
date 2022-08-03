@@ -1,41 +1,57 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from "svelte";
+	import { createEventDispatcher } from "svelte";
 	import Toggle from "@src/Components/Toggle.svelte";
 	import ActivateMonitor from "./ActivateMonitor.svelte";
 	import { slide } from "svelte/transition";
 	import { cubicOut } from "svelte/easing";
-	import { isMonitoring } from "@src/utils/Async_Options";
+	import { API, asyncOptions } from "@src/utils/Async_Options";
 
 	const dispatch = createEventDispatcher();
-	import REST_API from "@src/utils/API";
-
-
-
-	const api = new REST_API();
 
 	async function clear() {
-		if (await api.clear()) {
+		if (await API.clear()) {
 			dispatch("clear");
 		}
 	}
 
+	let incoming = asyncOptions.observerIncoming.store;
+	let outgoing = asyncOptions.observerOutgoing.store;
+	let isMonitoring = asyncOptions.monitorStatus.store;
 
-	let monitorInbound = true;
-	let monitorOutbound = true;
 	let expanded = false;
 
-	$: console.log("Store is updating to", $isMonitoring);
+	let outgoingActive = true;
+	let incomingActive = true;
+	let outgoingFilter = "";
+	let incomingFilter = "";
+
+	function updateIncoming(enabled: boolean) {
+		$incoming.enabled = enabled;
+	}
+
+	function updateIncomingFilter(filter: string) {
+		$incoming.filter = filter;
+	}
+
+	function updateOutgoing(enabled: boolean) {
+		$outgoing.enabled = enabled;
+	}
+
+	function updateOutgoingFilter(filter: string) {
+		$outgoing.filter = filter;
+	}
+
+	$: updateIncoming(incomingActive);
+	$: updateIncomingFilter(incomingFilter);
+	$: updateOutgoing(outgoingActive);
+	$: updateOutgoingFilter(outgoingFilter);
 </script>
 
 <div class="actions">
 	<div class="advanced">
 		<div class="toggle-monitor">
 			<label for="monitor">
-				<Toggle
-					id="monitor"
-					bind:checked={$isMonitoring}
-
-				/>
+				<Toggle id="monitor" bind:checked={$isMonitoring} />
 				<strong>Monitor Requests</strong>
 			</label>
 		</div>
@@ -62,16 +78,17 @@
 					</p>
 				</div>
 
+				Incoming Value: {$incoming.filter}
 				<ActivateMonitor
 					label="Monitor Incoming"
-					name="outbound_request"
-					bind:isActive={monitorOutbound}
+					bind:isActive={incomingActive}
+					bind:filter={incomingFilter}
 				/>
 
 				<ActivateMonitor
 					label="Monitor Outgoing"
-					name="inbound_rest_request"
-					bind:isActive={monitorInbound}
+					bind:isActive={outgoingActive}
+					bind:filter={outgoingFilter}
 				/>
 			</div>
 		{/if}

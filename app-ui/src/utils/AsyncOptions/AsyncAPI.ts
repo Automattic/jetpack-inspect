@@ -52,8 +52,10 @@ export default class AsyncAPI {
 		return await this.request(endpoint, nonce, "GET", params);
 	}
 
-	private async POST(endpoint: string, nonce: string, params?: RequestParams) {
-		return await this.request(endpoint, nonce, "POST", params);
+	public async POST<T>(endpoint: string, nonce: string, params?: RequestParams): Promise<T> {
+		// @TODO: This is a hack
+		// @TODO Validate T somewhere.
+		return await this.request(endpoint, nonce, "POST", params) as T;
 	}
 
 
@@ -65,32 +67,9 @@ export default class AsyncAPI {
 		return LogEntries.parse(entries);
 	}
 
-	public async clear(nonce: string) {
-		return await this.request("clear", nonce, "DELETE");
-	}
-
-	public async getMonitorStatus(nonce: string): Promise<boolean> {
-		return !! await this.GET("monitor-status", nonce);
-	}
-
-	public async setMonitorStatus(status: boolean, nonce: string): Promise<boolean> {
-		return !! await this.POST("monitor-status", nonce, status.toString());
-	}
-
-	public async getObserverStatus(name: Monitor, nonce: string): Promise<boolean> {
-		return !! await this.GET("monitor-status", nonce, { name });
-	}
-
-	public async toggleObserverStatus(name: Monitor, nonce: string): Promise<boolean> {
-		return !! await this.POST("monitor-status", nonce, { name });
-	}
-
-	public async updateFilter(name: Monitor, filter: string, nonce: string) {
-		return await this.POST("filter", nonce, { name, filter });
-	}
-
-	public async getFilter(name: Monitor, nonce: string) {
-		return await this.GET("filter", nonce, { name });
+	public async clear() {
+		// @TODO: Do we need a double-nonce here?
+		return await this.request("clear", "NO_NONCE_AT_THE_MOMENT", "DELETE");
 	}
 
 	public async sendRequest(data: EntryData, nonce: string) {

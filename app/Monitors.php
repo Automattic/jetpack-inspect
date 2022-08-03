@@ -20,7 +20,7 @@ class Monitors {
 
 		if ( ! isset( static::$instances[ $name ] ) ) {
 			$class                      = static::AVAILABLE_OBSERVERS[ $name ];
-			static::$instances[ $name ] = new Monitor( $name, new $class() );
+			static::$instances[ $name ] = new Monitor( "observer_{$name}", new $class() );
 		}
 
 		return static::$instances[ $name ];
@@ -32,28 +32,4 @@ class Monitors {
 			self::get( $name )->initialize();
 		}
 	}
-
-	public static function activate() {
-		update_option( 'jetpack_inspect_monitoring_active', true );
-		return self::status();
-	}
-
-	public static function deactivate() {
-		update_option( 'jetpack_inspect_monitoring_active', false );
-		return self::status();
-	}
-
-	public static function status() {
-		return get_option( 'jetpack_inspect_monitoring_active' );
-	}
-
-	public static function toggle() {
-		$status = static::status();
-		if ( $status ) {
-			return static::deactivate();
-		}
-
-		return static::activate();
-	}
-
 }

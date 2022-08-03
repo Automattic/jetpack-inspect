@@ -18,7 +18,6 @@ use Automattic\Jetpack_Inspect\Admin_Page;
 use Automattic\Jetpack_Inspect\Log;
 use Automattic\Jetpack_Inspect\Monitors;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Clear;
-use Automattic\Jetpack_Inspect\REST_API\Endpoints\Filter;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Latest;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Send_Request;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Test_Request;
@@ -34,7 +33,6 @@ function jetpack_inspect_initialize() {
 			Latest::class,
 			Clear::class,
 			Send_Request::class,
-			Filter::class,
 		]
 	);
 
@@ -46,6 +44,3 @@ function jetpack_inspect_initialize() {
 add_action( 'init', 'jetpack_inspect_initialize' );
 add_action( 'admin_menu', [ new Admin_Page(), 'register' ] );
 add_action( 'plugins_loaded', [ Monitors::class, 'initialize' ] );
-
-
-require_once __DIR__ . '/app/Async_Option/usage.php';
