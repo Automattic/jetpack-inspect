@@ -64,15 +64,15 @@ class Registry {
 	 * @return Async_Option
 	 * @throws \Exception
 	 */
-	public function regsiter( $option_name, $template ) {
+	public function regsiter( $key, $template ) {
 
-		$option_name = $this->sanitize_option_name( $option_name );
+		$key = $this->sanitize_option_name( $key );
 
-		$option                        = new Async_Option( $this->namespace, $option_name, $template );
-		$this->options[ $option_name ] = $option;
+		$option                = new Async_Option( $this->namespace, $key, $template );
+		$this->options[ $key ] = $option;
 
-		$endpoint                        = new Endpoint( $this->rest_namespace, $this->sanitize_http_name( $option->key() ), $option );
-		$this->endpoints[ $option_name ] = $endpoint;
+		$endpoint                = new Endpoint( $this->rest_namespace, $this->sanitize_http_name( $option->key() ), $option );
+		$this->endpoints[ $key ] = $endpoint;
 
 		add_action( 'rest_api_init', [ $endpoint, 'register_rest_route' ] );
 
@@ -83,12 +83,18 @@ class Registry {
 		return $this->options;
 	}
 
-	public function get_endpoint( $name ) {
-		return $this->endpoints[ $name ];
+	public function get_endpoint( $key ) {
+		if ( ! isset( $this->endpoints[ $key ] ) ) {
+			return false;
+		}
+		return $this->endpoints[ $key ];
 	}
 
-	public function get_option( $name ) {
-		return $this->options[ $name ];
+	public function get_option( $key ) {
+		if ( ! isset( $this->options[ $key ] ) ) {
+			return false;
+		}
+		return $this->options[ $key ];
 	}
 
 	public function attach_to_script( $script_handle_name ) {
@@ -104,7 +110,7 @@ class Registry {
 				'nonce' => $this->get_endpoint( $option->key() )->create_nonce(),
 			];
 		}
-		
+
 		wp_localize_script( $script_handle_name, $this->namespace, $data );
 	}
 
