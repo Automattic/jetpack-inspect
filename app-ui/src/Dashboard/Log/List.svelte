@@ -6,7 +6,7 @@
 
 	import type { LogEntry as TypeLogEntry } from "@src/utils/Validator";
 	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
-	import { API, asyncOptions } from "@src/utils/Async_Options";
+	import { API, options } from "@src/utils/API";
 	import { onMount } from "svelte";
 
 	export let refresh = false;
@@ -22,7 +22,7 @@
 		entries = parsed;
 	}
 
-	let isMonitoring = asyncOptions.monitorStatus.store;
+	let isMonitoring = options.monitorStatus.store;
 
 	onMount(() => {
 		entries = API.GET<TypeLogEntry[]>("latest");

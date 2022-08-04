@@ -4,7 +4,7 @@
 	import ActivateMonitor from "./ActivateMonitor.svelte";
 	import { slide } from "svelte/transition";
 	import { cubicOut } from "svelte/easing";
-	import { API, asyncOptions } from "@src/utils/Async_Options";
+	import { API, options } from "@src/utils/API";
 
 	const dispatch = createEventDispatcher();
 
@@ -14,9 +14,9 @@
 		}
 	}
 
-	let incoming = asyncOptions.observerIncoming.store;
-	let outgoing = asyncOptions.observerOutgoing.store;
-	let isMonitoring = asyncOptions.monitorStatus.store;
+	let incoming = options.observerIncoming.store;
+	let outgoing = options.observerOutgoing.store;
+	let isMonitoring = options.monitorStatus.store;
 
 	let expanded = false;
 </script>

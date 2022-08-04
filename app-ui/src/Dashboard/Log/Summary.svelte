@@ -4,7 +4,7 @@
 	import type { LogEntry, LogType } from "@src/utils/Validator";
 	import { createEventDispatcher } from "svelte";
 	import StatusIcon from "./StatusIcon.svelte";
-	import { API } from "@src/utils/Async_Options";
+	import { API } from "@src/utils/API";
 
 	const dispatch = createEventDispatcher();
 
