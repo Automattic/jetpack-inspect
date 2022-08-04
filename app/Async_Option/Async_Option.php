@@ -13,11 +13,6 @@ class Async_Option {
 	private $key;
 
 
-	/**
-	 * @var Authenticated_Nonce
-	 */
-	public $nonce;
-
 
 	/**
 	 * @var Storage
@@ -29,9 +24,7 @@ class Async_Option {
 	 */
 	protected $value;
 
-
-
-
+	
 	/**
 	 * @param $namespace string
 	 * @param $key       string

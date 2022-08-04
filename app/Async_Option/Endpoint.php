@@ -48,10 +48,6 @@ class Endpoint {
 		);
 	}
 
-	public function create_nonce() {
-		return $this->nonce->create();
-	}
-
 	/**
 	 * @param \WP_REST_Request $request
 	 */
@@ -97,6 +93,15 @@ class Endpoint {
 	public function handle_delete( $request ) {
 		$this->option->delete();
 		return $this->option->get();
+	}
+
+	/**
+	 * Create a nonce for this endpoint
+	 *
+	 * @return false|string
+	 */
+	public function create_nonce() {
+		return $this->nonce->create();
 	}
 
 	/**
