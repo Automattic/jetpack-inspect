@@ -40,7 +40,6 @@ class Async_Option {
 	public function __construct( $namespace, $key, $value ) {
 		$this->key     = $key;
 		$this->value   = $value;
-		$this->nonce   = new Authenticated_Nonce( "{$namespace}_{$key}" );
 		$this->storage = $this->value->setup_storage( $namespace );
 	}
 

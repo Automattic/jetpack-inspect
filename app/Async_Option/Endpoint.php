@@ -21,6 +21,11 @@ class Endpoint {
 	private $route;
 
 	/**
+	 * @var Authenticated_Nonce
+	 */
+	private $nonce;
+
+	/**
 	 * @param string       $namespace
 	 * @param Async_Option $option
 	 */
@@ -28,6 +33,7 @@ class Endpoint {
 		$this->option         = $option;
 		$this->rest_namespace = $namespace;
 		$this->route          = $route;
+		$this->nonce          = new Authenticated_Nonce( "{$namespace}_{$option->key()}" );
 	}
 
 	public function register_rest_route() {
@@ -40,6 +46,10 @@ class Endpoint {
 				'permission_callback' => array( $this, 'permissions' ),
 			)
 		);
+	}
+
+	public function create_nonce() {
+		return $this->nonce->create();
 	}
 
 	/**
@@ -93,6 +103,6 @@ class Endpoint {
 	 * @param \WP_REST_Request $request
 	 */
 	public function permissions( $request ) {
-		return current_user_can( 'manage_options' ) && $this->option->nonce->verify( $request->get_header( 'X-Async-Options-Nonce' ) );
+		return current_user_can( 'manage_options' ) && $this->nonce->verify( $request->get_header( 'X-Async-Options-Nonce' ) );
 	}
 }

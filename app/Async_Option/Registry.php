@@ -101,9 +101,10 @@ class Registry {
 		foreach ( $this->options as $option ) {
 			$data[ $option->key() ] = [
 				'value' => $option->get(),
-				'nonce' => $option->nonce->create(),
+				'nonce' => $this->get_endpoint( $option->key() )->create_nonce(),
 			];
 		}
+		
 		wp_localize_script( $script_handle_name, $this->namespace, $data );
 	}
 
