@@ -2,17 +2,18 @@
 
 namespace Automattic\Jetpack_Inspect\Async_Option;
 
+use Automattic\Jetpack_Inspect\Async_Option\Contracts\Storage;
 use Automattic\Jetpack_Inspect\Async_Option\Storage\WP_Option;
 
 /**
- * This is a null-class.
- *
- * It's used as a fallback handler by default on every option that is registered.
- * When an option registers a custom handler, it's going to
- * automatically overwrite the method listed here.
+ * Any registered async option should use this async option template
+ * and extend the methods that are necessary.
  */
 abstract class Async_Option_Template {
 
+	/**
+	 * The default value if no option is found.
+	 */
 	const DEFAULT = false;
 
 	/**
@@ -20,26 +21,80 @@ abstract class Async_Option_Template {
 	 */
 	private $errors = [];
 
+	/**
+	 * Setup storage mechanism that subscribes to `Storage` contract
+	 *
+	 * @param $storage_namespace string
+	 *
+	 * @return Storage
+	 *
+	 */
 	public function setup_storage( $storage_namespace ) {
 		return new WP_Option( $storage_namespace );
 	}
 
+	/**
+	 * On get,
+	 * Transform the value when it's retreived from storage.
+	 *
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
 	public function transform( $value ) {
 		return $value;
 	}
 
-	public function validate( $value ) {
-		return ! $this->has_errors();
-	}
-
-	public function sanitize( $value ) {
-		return $value;
-	}
-
+	/**
+	 * 1) On submit,
+	 * Parse the received value before it's validated.
+	 *
+	 * This can be used for things like json_decode or casting types.
+	 *
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
 	public function parse( $value ) {
 		return $value;
 	}
 
+	/**
+	 * 2) On submit,
+	 * Validate a received value before storing it.
+	 *
+	 * Use this method to provide feedback if the value isn't valid.
+	 * Using `$this->add_error()` will prevent the value from being stored.
+	 *
+	 * @param $value
+	 *
+	 * @return bool - Return true on success, false on failure.
+	 */
+	public function validate( $value ) {
+		return ! $this->has_errors();
+	}
+
+	/**
+	 * 3) On submit,
+	 * Sanitize the value before inserting it into storage.
+	 *
+	 * This is the only required method of any async option
+	 * because values shouldn't be stored unsanitized.
+	 * Wash your values, friends.
+	 *
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
+	abstract function sanitize( $value );
+
+
+
+	/**
+	 *
+	 *  Methods to help handling errors
+	 *
+	 */
 	public function has_errors() {
 		return ! empty( $this->errors );
 	}

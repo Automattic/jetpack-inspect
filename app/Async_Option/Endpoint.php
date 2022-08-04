@@ -49,6 +49,8 @@ class Endpoint {
 	}
 
 	/**
+	 * Route the request to the apropriate handler.
+	 * 
 	 * @param \WP_REST_Request $request
 	 */
 	public function handler( $request ) {
@@ -70,6 +72,8 @@ class Endpoint {
 
 
 	/**
+	 * Handle GET Requests
+	 *
 	 * @param \WP_REST_Request $request
 	 */
 	public function handle_get( $request ) {
@@ -77,6 +81,8 @@ class Endpoint {
 	}
 
 	/**
+	 * Handle POST Requests
+	 *
 	 * @param \WP_REST_Request $request
 	 */
 	public function handle_post( $request ) {
