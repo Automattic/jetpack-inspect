@@ -18,10 +18,10 @@ class Observer_Settings implements Sanitizer, Validator, Parser {
 	public function validate( $value ) {
 		// @TODO: Would be nice to be able to return multiple errors at once.
 		if ( ! isset( $value['enabled'] ) ) {
-			return "Missing required paramtered 'enabled'";
+			return "Missing required key 'enabled'";
 		}
 		if ( ! isset( $value['filter'] ) ) {
-			return "Missing required paramtered 'filters'";
+			return "Missing required key 'filters'";
 		}
 
 		return true;
