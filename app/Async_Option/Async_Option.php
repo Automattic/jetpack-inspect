@@ -2,12 +2,13 @@
 
 namespace Automattic\Jetpack_Inspect\Async_Option;
 
+use Automattic\Jetpack_Inspect\Async_Option\Contracts\Has_Storage;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Parser;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Sanitizer;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Transformer;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Validator;
 use Automattic\Jetpack_Inspect\Async_Option\Contracts\Storage;
-use Automattic\Jetpack_Inspect\Async_Option\Storage\WP_Option;
+
 
 class Async_Option {
 
@@ -54,11 +55,11 @@ class Async_Option {
 	 * @param $key       string
 	 * @param $storage   Storage
 	 */
-	public function __construct( $namespace, $key, $storage ) {
-		$this->key     = $key;
-		$this->storage = $storage;
-		$this->handler( new Unsafe_Handler() );
+	public function __construct( $namespace, $key ) {
+		$this->key   = $key;
 		$this->nonce = new Authenticated_Nonce( $key );
+		$this->setup_handlers( new Async_Option_Template() );
+
 	}
 
 	/**
@@ -66,22 +67,26 @@ class Async_Option {
 	 *
 	 * @return void
 	 */
-	public function handler( $handler ) {
+	public function setup_handlers( $object ) {
 
-		if ( $handler instanceof Sanitizer ) {
-			$this->sanitizer = $handler;
+		if ( $object instanceof Sanitizer ) {
+			$this->sanitizer = $object;
 		}
 
-		if ( $handler instanceof Validator ) {
-			$this->validator = $handler;
+		if ( $object instanceof Validator ) {
+			$this->validator = $object;
 		}
 
-		if ( $handler instanceof Transformer ) {
-			$this->transformer = $handler;
+		if ( $object instanceof Transformer ) {
+			$this->transformer = $object;
 		}
 
-		if ( $handler instanceof Parser ) {
-			$this->parser = $handler;
+		if ( $object instanceof Parser ) {
+			$this->parser = $object;
+		}
+
+		if ( $object instanceof Has_Storage ) {
+			$this->storage = $object->setup_storage( $this->key );
 		}
 
 	}
@@ -98,19 +103,13 @@ class Async_Option {
 		return implode( "\n", $this->errors );
 	}
 
-	public function store( Storage $storage ) {
-		$this->storage = $storage;
-
-		return $this;
-	}
-
 	public function get() {
 		return $this->transformer->transform(
 			$this->storage->get( $this->key, $this->default )
 		);
 	}
 
-	public function set_defaults( $value ) {
+	public function set_default( $value ) {
 		$this->default = $value;
 	}
 

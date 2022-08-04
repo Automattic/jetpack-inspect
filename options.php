@@ -13,7 +13,7 @@ function jetpack_inspect_register_option( $name, $handler = null, $default = fal
 	                    ->regsiter( $name, $handler );
 
 	if ( false !== $default ) {
-		$instance->set_defaults( $default );
+		$instance->set_default( $default );
 	}
 
 	return $instance;

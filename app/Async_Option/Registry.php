@@ -66,7 +66,7 @@ class Registry {
 		$this->options[ $option_name ] = $option;
 
 		if ( $handler ) {
-			$option->handler( new $handler() );
+			$option->setup_handlers( new $handler() );
 		}
 
 		$endpoint                        = new Endpoint( $this->rest_namespace, $this->sanitize_http_name( $option->key() ), $option );
