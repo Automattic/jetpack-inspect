@@ -2,16 +2,19 @@
 
 namespace Automattic\Jetpack_Inspect\Options;
 
-use Automattic\Jetpack_Inspect\Async_Option\Contracts\Parser;
-use Automattic\Jetpack_Inspect\Async_Option\Contracts\Sanitizer;
-use Automattic\Jetpack_Inspect\Async_Option\Contracts\Validator;
+use Automattic\Jetpack_Inspect\Async_Option\Async_Option_Template;
 
-class Observer_Settings implements Sanitizer, Validator, Parser {
+class Observer_Settings extends Async_Option_Template {
+
+	const DEFAULT = [
+		'enabled' => true,
+		'filter'  => '',
+	];
 
 	public function sanitize( $value ) {
 		return [
-			'enabled' => filter_var($value['enabled'], FILTER_VALIDATE_BOOLEAN),
-			'filter' => sanitize_text_field( $value['filter'] ),
+			'enabled' => filter_var( $value['enabled'], FILTER_VALIDATE_BOOLEAN ),
+			'filter'  => sanitize_text_field( $value['filter'] ),
 		];
 	}
 
@@ -28,7 +31,7 @@ class Observer_Settings implements Sanitizer, Validator, Parser {
 	}
 
 	public function parse( $value ) {
-		 return json_decode($value, ARRAY_A);
+		return json_decode( $value, ARRAY_A );
 	}
 }
 

@@ -2,12 +2,9 @@
 
 namespace Automattic\Jetpack_Inspect\Options;
 
-use Automattic\Jetpack_Inspect\Async_Option\Contracts\Parser;
-use Automattic\Jetpack_Inspect\Async_Option\Contracts\Sanitizer;
-use Automattic\Jetpack_Inspect\Async_Option\Contracts\Transformer;
-use Automattic\Jetpack_Inspect\Async_Option\Contracts\Validator;
+use Automattic\Jetpack_Inspect\Async_Option\Async_Option_Template;
 
-class Monitor_Status implements Validator, Sanitizer, Transformer, Parser {
+class Monitor_Status extends Async_Option_Template {
 
 	public function sanitize( $value ): bool {
 		return (bool) $value;

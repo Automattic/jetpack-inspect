@@ -8,13 +8,9 @@ use Automattic\Jetpack_Inspect\Options\Observer_Settings;
 /**
  * Functions to make it easier to interface with Async Option:
  */
-function jetpack_inspect_register_option( $name, $handler = null, $default = false ) {
+function jetpack_inspect_register_option( $name, $handler ) {
 	$instance = Registry::get_instance( 'jetpack_inspect' )
 	                    ->regsiter( $name, $handler );
-
-	if ( false !== $default ) {
-		$instance->set_default( $default );
-	}
 
 	return $instance;
 }
@@ -39,14 +35,10 @@ function jetpack_inspect_update_option( $option, $value ) {
 /**
  * Register Options
  */
-jetpack_inspect_register_option( 'monitor_status', Monitor_Status::class );
+jetpack_inspect_register_option( 'monitor_status', new Monitor_Status() );
 
-$observer_defaults = [
-	"enabled" => true,
-	"filter"  => "",
-];
-jetpack_inspect_register_option( 'observer_incoming', Observer_Settings::class, $observer_defaults );
-jetpack_inspect_register_option( 'observer_outgoing', Observer_Settings::class, $observer_defaults );
+jetpack_inspect_register_option( 'observer_incoming', new Observer_Settings() );
+jetpack_inspect_register_option( 'observer_outgoing', new Observer_Settings() );
 
 
 

@@ -2,8 +2,6 @@
 
 namespace Automattic\Jetpack_Inspect\Async_Option;
 
-use Automattic\Jetpack_Inspect\Async_Option\Storage\WP_Option;
-
 class Registry {
 
 	/**
@@ -57,17 +55,21 @@ class Registry {
 		return str_replace( '_', '-', sanitize_key( $key ) );
 	}
 
-	public function regsiter( $option_name, $handler = null ) {
+	/**
+	 * Register an option using an Async Option Template.
+	 *
+	 * @param $option_name string
+	 * @param $value       Async_Option_Template
+	 *
+	 * @return Async_Option
+	 * @throws \Exception
+	 */
+	public function regsiter( $option_name, $template ) {
 
-		$storage     = new WP_Option( $this->namespace );
 		$option_name = $this->sanitize_option_name( $option_name );
 
-		$option                        = new Async_Option( $this->namespace, $option_name, $storage );
+		$option                        = new Async_Option( $this->namespace, $option_name, $template );
 		$this->options[ $option_name ] = $option;
-
-		if ( $handler ) {
-			$option->setup_handlers( new $handler() );
-		}
 
 		$endpoint                        = new Endpoint( $this->rest_namespace, $this->sanitize_http_name( $option->key() ), $option );
 		$this->endpoints[ $option_name ] = $endpoint;
