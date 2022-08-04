@@ -90,7 +90,7 @@ export class Options<T extends AO.Options> {
 		}
 
 		return {
-			store: store,
+			value: store,
 			pending: pending,
 		};
 	}

@@ -14,9 +14,9 @@
 		}
 	}
 
-	let incoming = options.observerIncoming.store;
-	let outgoing = options.observerOutgoing.store;
-	let isMonitoring = options.monitorStatus.store;
+	let incoming = options.observerIncoming.value;
+	let outgoing = options.observerOutgoing.value;
+	let isMonitoring = options.monitorStatus.value;
 
 	let expanded = false;
 </script>

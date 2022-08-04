@@ -16,7 +16,7 @@ export namespace AsyncOptions {
 	}
 
 	interface OptionStore<T> {
-		store: Writable<T>
+		value: Writable<T>
 		pending: PendingStore;
 	}
 

@@ -22,7 +22,7 @@
 		entries = parsed;
 	}
 
-	let isMonitoring = options.monitorStatus.store;
+	let isMonitoring = options.monitorStatus.value;
 
 	onMount(() => {
 		entries = API.GET<TypeLogEntry[]>("latest");
