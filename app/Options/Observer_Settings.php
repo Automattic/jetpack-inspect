@@ -19,15 +19,15 @@ class Observer_Settings extends Async_Option_Template {
 	}
 
 	public function validate( $value ) {
-		// @TODO: Would be nice to be able to return multiple errors at once.
+
 		if ( ! isset( $value['enabled'] ) ) {
-			return "Missing required key 'enabled'";
+			$this->add_error("Missing required key 'enabled'");
 		}
 		if ( ! isset( $value['filter'] ) ) {
-			return "Missing required key 'filters'";
+			$this->add_error("Missing required key 'filters'");
 		}
 
-		return true;
+		return ! $this->has_errors();
 	}
 
 	public function parse( $value ) {

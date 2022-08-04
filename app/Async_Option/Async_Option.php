@@ -29,10 +29,6 @@ class Async_Option {
 	 */
 	protected $value;
 
-	/**
-	 * @var string[]
-	 */
-	private $errors = [];
 
 
 
@@ -48,35 +44,21 @@ class Async_Option {
 		$this->storage = $this->value->setup_storage( $namespace );
 	}
 
-	public function add_error( $message ) {
-		// @TODO: Would be nice to be able to return multiple errors at once.
-		// This should become $this->add_errors() and just cast whatever value to array
-		$this->errors[] = $message;
-	}
-
-	public function has_errors() {
-		return ! empty( $this->errors );
-	}
-
-	public function get_errors() {
-		return implode( "\n", $this->errors );
-	}
-
 	public function get() {
 		return $this->value->transform(
 			$this->storage->get( $this->key, $this->value::DEFAULT )
 		);
 	}
 
-	public function set( $value ) {
+	public function set( $input ) {
 
-		$value = $this->value->parse( $value );
+		$value = $this->value->parse( $input );
 
 		if ( true !== $this->value->validate( $value ) ) {
-			$this->add_error( $this->value->validate( $value ) );
+			return $this->value->get_errors();
 		}
 
-		if ( isset( $this->storage ) ) {
+		if ( ! empty( $this->storage ) ) {
 			return $this->storage->set( $this->key, $this->value->sanitize( $value ) );
 		}
 
@@ -89,6 +71,14 @@ class Async_Option {
 
 	public function key() {
 		return $this->key;
+	}
+
+	public function has_errors() {
+		return $this->value->has_errors();
+	}
+
+	public function get_errors() {
+		return $this->value->get_errors();
 	}
 
 

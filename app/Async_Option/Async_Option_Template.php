@@ -15,6 +15,11 @@ abstract class Async_Option_Template {
 
 	const DEFAULT = false;
 
+	/**
+	 * @var string[]
+	 */
+	private $errors = [];
+
 	public function setup_storage( $storage_namespace ) {
 		return new WP_Option( $storage_namespace );
 	}
@@ -24,7 +29,7 @@ abstract class Async_Option_Template {
 	}
 
 	public function validate( $value ) {
-		return true;
+		return ! $this->has_errors();
 	}
 
 	public function sanitize( $value ) {
@@ -35,5 +40,15 @@ abstract class Async_Option_Template {
 		return $value;
 	}
 
+	public function has_errors() {
+		return ! empty( $this->errors );
+	}
 
+	public function get_errors() {
+		return implode( "\n", $this->errors );
+	}
+
+	protected function add_error( $message ) {
+		$this->errors[] = $message;
+	}
 }
