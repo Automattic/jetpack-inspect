@@ -1,6 +1,8 @@
 <?php
 
 use Automattic\Jetpack_Inspect\Async_Option\Async_Option;
+use Automattic\Jetpack_Inspect\Async_Option\Async_Options;
+use Automattic\Jetpack_Inspect\Async_Option\Localize_Async_Options;
 use Automattic\Jetpack_Inspect\Async_Option\Registry;
 use Automattic\Jetpack_Inspect\Options\Monitor_Status;
 use Automattic\Jetpack_Inspect\Options\Observer_Settings;
@@ -9,10 +11,8 @@ use Automattic\Jetpack_Inspect\Options\Observer_Settings;
  * Functions to make it easier to interface with Async Option:
  */
 function jetpack_inspect_register_option( $name, $handler ) {
-	$instance = Registry::get_instance( 'jetpack_inspect' )
-	                    ->regsiter( $name, $handler );
-
-	return $instance;
+	return Registry::get_instance( 'jetpack_inspect' )
+	               ->regsiter( $name, $handler );
 }
 
 /**
@@ -35,20 +35,12 @@ function jetpack_inspect_update_option( $option, $value ) {
 /**
  * Register Options
  */
-jetpack_inspect_register_option( 'monitor_status', new Monitor_Status() );
+add_action( 'admin_init', function() {
+	Async_Options::setup( 'jetpack_inspect', 'jetpack-inspect-main' );
+} );
 
+
+jetpack_inspect_register_option( 'monitor_status', new Monitor_Status() );
 jetpack_inspect_register_option( 'observer_incoming', new Observer_Settings() );
 jetpack_inspect_register_option( 'observer_outgoing', new Observer_Settings() );
-
-
-
-
-add_action( 'admin_init', function() {
-
-	add_action( get_plugin_page_hook( 'jetpack-inspect', 'admin' ), function() {
-		Registry::get_instance( 'jetpack_inspect' )
-		        ->attach_to_script( 'jetpack-inspect-main' );
-	} );
-
-} );
 

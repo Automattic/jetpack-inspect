@@ -24,22 +24,17 @@ class Registry {
 	 */
 	private $namespace;
 
-	/**
-	 * @var string
-	 */
-	private $rest_namespace;
 
 	private function __construct( $namespace ) {
-		$this->namespace      = $namespace;
-		$this->rest_namespace = $this->sanitize_http_name( $namespace );
+		$this->namespace = $namespace;
 	}
 
 	public static function get_instance( $namespace ) {
-		if ( ! isset( self::$instance[ $namespace ] ) ) {
-			self::$instance[ $namespace ] = new self( $namespace );
+		if ( ! isset( static::$instance[ $namespace ] ) ) {
+			static::$instance[ $namespace ] = new static( $namespace );
 		}
 
-		return self::$instance[ $namespace ];
+		return static::$instance[ $namespace ];
 	}
 
 	public function sanitize_option_name( $key ) {
@@ -71,7 +66,7 @@ class Registry {
 		$option                = new Async_Option( $this->namespace, $key, $template );
 		$this->options[ $key ] = $option;
 
-		$endpoint                = new Endpoint( $this->rest_namespace, $this->sanitize_http_name( $option->key() ), $option );
+		$endpoint                = new Endpoint( $this->get_namespace_http(), $this->sanitize_http_name( $option->key() ), $option );
 		$this->endpoints[ $key ] = $endpoint;
 
 		add_action( 'rest_api_init', [ $endpoint, 'register_rest_route' ] );
@@ -97,21 +92,14 @@ class Registry {
 		return $this->options[ $key ];
 	}
 
-	public function attach_to_script( $script_handle_name ) {
-		$data = [
-			'rest_api' => [
-				'value' => rest_url( $this->rest_namespace ),
-				'nonce' => wp_create_nonce( 'wp_rest' ),
-			],
-		];
-		foreach ( $this->options as $option ) {
-			$data[ $option->key() ] = [
-				'value' => $option->get(),
-				'nonce' => $this->get_endpoint( $option->key() )->create_nonce(),
-			];
-		}
-
-		wp_localize_script( $script_handle_name, $this->namespace, $data );
+	public function get_namespace() {
+		return $this->namespace;
 	}
+
+	public function get_namespace_http() {
+		return $this->sanitize_http_name( $this->namespace );
+	}
+
+
 
 }
