@@ -2,7 +2,6 @@
 
 use Automattic\Jetpack_Inspect\Async_Option\Async_Option;
 use Automattic\Jetpack_Inspect\Async_Option\Async_Options;
-use Automattic\Jetpack_Inspect\Async_Option\Localize_Async_Options;
 use Automattic\Jetpack_Inspect\Async_Option\Registry;
 use Automattic\Jetpack_Inspect\Options\Monitor_Status;
 use Automattic\Jetpack_Inspect\Options\Observer_Settings;
@@ -33,7 +32,7 @@ function jetpack_inspect_update_option( $option, $value ) {
 }
 
 /**
- * Register Options
+ * Ensure that Async Options are passed to the relevant scripts.
  */
 add_action( 'admin_init', function() {
 	Async_Options::setup( 'jetpack_inspect', 'jetpack-inspect-main' );

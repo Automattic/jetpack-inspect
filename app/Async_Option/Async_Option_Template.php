@@ -35,7 +35,7 @@ abstract class Async_Option_Template {
 
 	/**
 	 * On get,
-	 * Transform the value when it's retreived from storage.
+	 * Transform the value when it's retrieved from storage.
 	 *
 	 * @param $value
 	 *
