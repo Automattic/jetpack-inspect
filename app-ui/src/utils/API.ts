@@ -1,8 +1,5 @@
 import { z } from 'zod';
-import AsyncAPI from './AsyncOptions/AsyncAPI';
-import { getOptionsFromGlobal } from './AsyncOptions/Global';
-import { Options } from './AsyncOptions/Options';
-import { asyncOptionFactory } from './AsyncOptions/factory';
+import { createAsyncFactory } from './AsyncOptions/factory';
 
 const Jetpack_Inspect_Options = z.object({
 	"rest_api": z.object({
@@ -30,16 +27,12 @@ const Jetpack_Inspect_Options = z.object({
 });
 
 
-const globals = getOptionsFromGlobal("jetpack_inspect", Jetpack_Inspect_Options);
-const opts = new Options(globals);
-const endpoint = opts.get("rest_api");
-const api = new AsyncAPI(endpoint.value, endpoint.nonce);
-const asyncStore = asyncOptionFactory(opts, api);
+const async = createAsyncFactory("jetpack_inspect", Jetpack_Inspect_Options);
 
 export const options = {
-	monitorStatus: asyncStore("monitor_status"),
-	observerIncoming: asyncStore("observer_incoming"),
-	observerOutgoing: asyncStore("observer_outgoing")
+	monitorStatus: async.createStore("monitor_status"),
+	observerIncoming: async.createStore("observer_incoming"),
+	observerOutgoing: async.createStore("observer_outgoing")
 };
 
-export { api as API };
+export const API = async.api;
