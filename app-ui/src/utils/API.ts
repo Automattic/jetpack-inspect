@@ -2,6 +2,7 @@ import { z } from 'zod';
 import AsyncAPI from './AsyncOptions/AsyncAPI';
 import { getOptionsFromGlobal } from './AsyncOptions/Global';
 import { Options } from './AsyncOptions/Options';
+import { asyncOptionFactory } from './AsyncOptions/factory';
 
 const Jetpack_Inspect_Options = z.object({
 	"rest_api": z.object({
@@ -30,31 +31,15 @@ const Jetpack_Inspect_Options = z.object({
 
 
 const globals = getOptionsFromGlobal("jetpack_inspect", Jetpack_Inspect_Options);
-const asyncOptions = new Options(globals);
-
-const endpoint = asyncOptions.get("rest_api");
+const opts = new Options(globals);
+const endpoint = opts.get("rest_api");
 const api = new AsyncAPI(endpoint.value, endpoint.nonce);
-
-
-const monitorStatus = asyncOptions.createStore(
-	"monitor_status",
-	async ({ value, nonce }) => await api.POST<typeof value>("monitor-status", nonce, value.toString())
-)
-
-const observerIncoming = asyncOptions.createStore(
-	"observer_incoming",
-	async ({ value, nonce }) => await api.POST<typeof value>("observer-incoming", nonce, value)
-)
-
-const observerOutgoing = asyncOptions.createStore(
-	"observer_outgoing",
-	async ({ value, nonce }) => await api.POST<typeof value>("observer-outgoing", nonce, value)
-)
+const asyncStore = asyncOptionFactory(opts, api);
 
 export const options = {
-	observerIncoming,
-	observerOutgoing,
-	monitorStatus,
+	monitorStatus: asyncStore("monitor_status"),
+	observerIncoming: asyncStore("observer_incoming"),
+	observerOutgoing: asyncStore("observer_outgoing")
 };
 
 export { api as API };
