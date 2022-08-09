@@ -12,7 +12,7 @@ use Automattic\Jetpack_Inspect\Options\Observer_Settings;
  */
 function jetpack_inspect_register_option( $name, $handler ) {
 	return Registry::get_instance( 'jetpack_inspect' )
-	               ->regsiter( $name, $handler );
+	               ->register( $name, $handler );
 }
 
 /**

@@ -59,7 +59,7 @@ class Registry {
 	 * @return Async_Option
 	 * @throws \Exception
 	 */
-	public function regsiter( $key, $template ) {
+	public function register( $key, $template ) {
 
 		$key = $this->sanitize_option_name( $key );
 
