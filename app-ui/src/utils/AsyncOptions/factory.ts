@@ -2,7 +2,7 @@ import type { AsyncOptions as AO } from "./types";
 import AsyncAPI from './AsyncAPI';
 import { Options } from './Options';
 import type { z } from 'zod';
-import { options } from "../API";
+
 
 
 export function getOptionsFromGlobal<T extends z.ZodTypeAny>(key: string, parser: T): z.infer<T> {
@@ -28,12 +28,20 @@ export function getOptionsFromGlobal<T extends z.ZodTypeAny>(key: string, parser
 	return result.data;
 }
 
+type valueChangedCallback = (params: { value: any, nonce: string }) => Promise<typeof params.value>;
+
 function asyncOptionFactory<T extends AO.Options>(options: Options<T>, api: AsyncAPI) {
-	return function <K extends keyof T & string>(name: K) {
+
+	return function <K extends keyof T & string>(name: K, onValueChanged: valueChangedCallback | null = null) {
 		const endpoint = name.replace("_", "-");
-		return options.createStore(name, async ({ value, nonce }) => {
-			return await api.POST<typeof value>(endpoint, nonce, value);
-		});
+
+		if (null === onValueChanged) {
+			onValueChanged = async ({ value, nonce }) => {
+				return await api.POST<typeof value>(endpoint, nonce, value);
+			};
+		}
+
+		return options.createStore(name, onValueChanged);
 	}
 }
 
