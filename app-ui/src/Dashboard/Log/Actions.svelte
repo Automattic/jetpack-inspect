@@ -4,7 +4,7 @@
 	import ActivateMonitor from "./ActivateMonitor.svelte";
 	import { slide } from "svelte/transition";
 	import { cubicOut } from "svelte/easing";
-	import { API, options } from "@src/utils/API";
+	import { API, options } from "@src/Options";
 
 	const dispatch = createEventDispatcher();
 

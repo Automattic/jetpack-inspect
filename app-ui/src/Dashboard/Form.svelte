@@ -9,7 +9,7 @@
 	import type { LogEntry } from "@src/utils/Validator";
 	import { EntryData } from "@src/utils/Validator";
 	import type { Writable } from "svelte/store";
-	import { API } from "@src/utils/API";
+	import { API } from "@src/Options";
 
 	export let logEntry: LogEntry | false = false;
 	const dispatch = createEventDispatcher();
