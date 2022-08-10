@@ -1,10 +1,11 @@
 <script type="ts">
 	import Form from "@src/Dashboard/Form.svelte";
-	import API from "@src/utils/API";
 
 	import type { LogEntry, LogType } from "@src/utils/Validator";
 	import { createEventDispatcher } from "svelte";
 	import StatusIcon from "./StatusIcon.svelte";
+	import { API } from "@src/utils/API";
+
 	const dispatch = createEventDispatcher();
 
 	export let item: LogEntry;
@@ -22,14 +23,13 @@
 			return;
 		}
 		const data = item.outbound_request;
-		const api = new API();
-		await api.sendRequest({
+		await API.sendRequest({
 			url: item.url,
 			method: data.args.method,
 			body: data.args.body,
 			headers: data.args.headers,
 			transport: "wp",
-		});
+		}, "@TODO__MISSING_NONCE_HERE");
 		dispatch("retry", item);
 	}
 

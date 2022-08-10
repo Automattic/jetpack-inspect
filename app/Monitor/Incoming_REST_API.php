@@ -2,7 +2,7 @@
 
 namespace Automattic\Jetpack_Inspect\Monitor;
 
-class Inbound_REST_API implements Observable {
+class Incoming_REST_API implements Observable {
 	private $logs = [];
 
 	public function attach_hooks() {

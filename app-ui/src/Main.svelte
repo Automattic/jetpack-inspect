@@ -17,7 +17,6 @@
 
 	let isFormOpen = createPersistentStore("jetpack_devtools_form_open", false);
 	let logRefresh = true;
-	let logIsMonitoring = false;
 	let logEntries: LogEntry[] = [];
 </script>
 
@@ -38,12 +37,11 @@
 	{/if}
 
 	<div class="logs">
-		<LogActions bind:isMonitoring={logIsMonitoring} on:clear={onLogReset} />
+		<LogActions  on:clear={onLogReset} />
 
 		<LogList
 			bind:entries={logEntries}
 			bind:refresh={logRefresh}
-			bind:isPolling={logIsMonitoring}
 			on:select={onLogSelect}
 		/>
 	</div>

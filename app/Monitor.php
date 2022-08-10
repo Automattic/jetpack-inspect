@@ -10,9 +10,12 @@ class Monitor {
 	protected string     $name;
 	protected bool       $bypass_filter = false;
 
+	protected Async_Option\Async_Option $option;
+
 	public function __construct( string $name, Observable $observable ) {
 		$this->name     = $name;
 		$this->observer = $observable;
+		$this->option   = jetpack_inspect_option( $name );
 	}
 
 	public function initialize() {
@@ -23,8 +26,8 @@ class Monitor {
 
 		if ( $this->is_enabled() ) {
 			$this->observer->attach_hooks();
-
 		}
+
 		add_action( 'shutdown', [ $this, 'save' ] );
 	}
 
@@ -98,29 +101,21 @@ class Monitor {
 	/**
 	 * Generate keys for wp options dynamically
 	 *   Example keys:
-	 *      * jp_inspect_remote_request_enabled => boolean
-	 *      * jp_inspect_remote_request_filter => string
+	 *      * observer_incoming
+	 *      * observer_outgoing
 	 */
 	private function key( $name ) {
-		return "jp_inspect_{$this->name}_{$name}";
+		return "{$this->name}_{$name}";
 	}
 
 	public function is_enabled() {
-		return get_option( $this->key( 'enabled' ), false );
-	}
-
-	public function toggle() {
-		$new_status = ! $this->is_enabled();
-		update_option( $this->key( 'enabled' ), $new_status, false );
-		return $new_status;
-	}
-
-	public function set_filter( $value ) {
-		return update_option( $this->key( 'filter' ), sanitize_text_field( $value ), false );
+		return jetpack_inspect_get_option( 'monitor_status' ) && $this->option->get()['enabled'];
 	}
 
 	public function get_filter() {
-		return get_option( $this->key( 'filter' ), '' );
+		return $this->option->get()['filter'];
 	}
+
+
 
 }

@@ -1,6 +1,6 @@
 <script type="ts">
 	import { slide } from "svelte/transition";
-	import type { z, ZodFormattedError } from "zod";
+	import type { ZodFormattedError } from "zod";
 	import FormError from "./FormError.svelte";
 	import { createEventDispatcher } from "svelte";
 	import { maybeStringify } from "@src/utils/maybeStringify";
@@ -8,8 +8,8 @@
 	import { createPersistentStore } from "@src/utils/peristentStore";
 	import type { LogEntry } from "@src/utils/Validator";
 	import { EntryData } from "@src/utils/Validator";
-	import API from "@src/utils/API";
 	import type { Writable } from "svelte/store";
+	import { API } from "@src/utils/API";
 
 	export let logEntry: LogEntry | false = false;
 	const dispatch = createEventDispatcher();
@@ -24,8 +24,6 @@
 			transport: "wp",
 		}
 	);
-
-	const api = new API();
 
 	$: if (logEntry) {
 		$data = {
@@ -51,7 +49,7 @@
 			return;
 		}
 
-		await api.sendRequest(formData);
+		await API.sendRequest(formData);
 		dispatch("submit");
 	}
 

@@ -2,7 +2,7 @@
 
 namespace Automattic\Jetpack_Inspect\Monitor;
 
-class Outbound_Request implements Observable {
+class Outgoing implements Observable {
 	private $start_time = [];
 	private $logs       = [];
 

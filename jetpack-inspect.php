@@ -17,15 +17,14 @@ require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
 use Automattic\Jetpack_Inspect\Admin_Page;
 use Automattic\Jetpack_Inspect\Log;
 use Automattic\Jetpack_Inspect\Monitors;
-use Automattic\Jetpack_Inspect\REST_API\Endpoints\Monitor_Status;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Clear;
-use Automattic\Jetpack_Inspect\REST_API\Endpoints\Filter;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Latest;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Send_Request;
 use Automattic\Jetpack_Inspect\REST_API\Endpoints\Test_Request;
 use Automattic\Jetpack_Inspect\REST_API\REST_API;
 
 require __DIR__ . '/functions.php';
+require __DIR__ . '/options.php';
 
 function jetpack_inspect_initialize() {
 	Log::register_post_type();
@@ -33,9 +32,7 @@ function jetpack_inspect_initialize() {
 		[
 			Latest::class,
 			Clear::class,
-			Monitor_Status::class,
 			Send_Request::class,
-			Filter::class,
 		]
 	);
 

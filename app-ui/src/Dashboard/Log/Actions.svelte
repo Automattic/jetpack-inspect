@@ -1,36 +1,23 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from "svelte";
+	import { createEventDispatcher } from "svelte";
 	import Toggle from "@src/Components/Toggle.svelte";
 	import ActivateMonitor from "./ActivateMonitor.svelte";
 	import { slide } from "svelte/transition";
 	import { cubicOut } from "svelte/easing";
+	import { API, options } from "@src/utils/API";
 
 	const dispatch = createEventDispatcher();
 
-	export let isMonitoring = false;
-	import REST_API from "@src/utils/API";
-
-	const api = new REST_API();
-
 	async function clear() {
-		if (await api.clear()) {
+		if (await API.DELETE("clear") === "OK") {
 			dispatch("clear");
 		}
 	}
 
-	async function toggleMonitor() {
-		isMonitoring = !isMonitoring
-		const result = await api.toggleMonitorStatus();
-		isMonitoring = result;
-	}
+	let incoming = options.observerIncoming.value;
+	let outgoing = options.observerOutgoing.value;
+	let isMonitoring = options.monitorStatus.value;
 
-	onMount(async () => {
-		const status = await api.getMonitorStatus();
-		isMonitoring = status;
-	});
-
-	let monitorInbound = true;
-	let monitorOutbound = true;
 	let expanded = false;
 </script>
 
@@ -38,11 +25,7 @@
 	<div class="advanced">
 		<div class="toggle-monitor">
 			<label for="monitor">
-				<Toggle
-					id="monitor"
-					on:click={toggleMonitor}
-					bind:checked={isMonitoring}
-				/>
+				<Toggle id="monitor" checked={$isMonitoring} on:click={() => $isMonitoring = !$isMonitoring} />
 				<strong>Monitor Requests</strong>
 			</label>
 		</div>
@@ -71,14 +54,14 @@
 
 				<ActivateMonitor
 					label="Monitor Incoming"
-					name="outbound_request"
-					bind:isActive={monitorOutbound}
+					bind:isActive={$incoming.enabled}
+					bind:filter={$incoming.filter}
 				/>
 
 				<ActivateMonitor
 					label="Monitor Outgoing"
-					name="inbound_rest_request"
-					bind:isActive={monitorInbound}
+					bind:isActive={$outgoing.enabled}
+					bind:filter={$outgoing.filter}
 				/>
 			</div>
 		{/if}

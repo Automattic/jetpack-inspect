@@ -1,89 +1,38 @@
-import type { EntryData, LogEntry } from '@src/utils/Validator';
-import { LogEntries } from '@src/utils/Validator';
-import { maybeStringify } from '@src/utils/maybeStringify';
-import type { Monitor } from '@src/global';
+import { z } from 'zod';
+import { createAsyncFactory } from './AsyncOptions/factory';
 
-export default class API {
+const Jetpack_Inspect_Options = z.object({
+	"rest_api": z.object({
+		"value": z.string().url(),
+		"nonce": z.string()
+	}),
+	"monitor_status": z.object({
+		"value": z.boolean(),
+		"nonce": z.string()
+	}),
+	"observer_incoming": z.object({
+		"value": z.object({
+			"enabled": z.boolean(),
+			"filter": z.string(),
+		}),
+		"nonce": z.string()
+	}),
+	"observer_outgoing": z.object({
+		"value": z.object({
+			"enabled": z.boolean(),
+			"filter": z.string(),
+		}),
+		"nonce": z.string()
+	}),
+});
 
-	private async request(
-		endpoint: string,
-		method = "GET",
-		params?: string | Record<string, string>
-	): Promise<unknown> {
 
-		let url = `${window.wpApiSettings.root}/jetpack-inspect/${endpoint}`;
+const async = createAsyncFactory("jetpack_inspect", Jetpack_Inspect_Options);
 
-		if (method === "GET" && params) {
-			url += "?" + new URLSearchParams(params).toString();
-		}
+export const options = {
+	monitorStatus: async.createStore("monitor_status"),
+	observerIncoming: async.createStore("observer_incoming"),
+	observerOutgoing: async.createStore("observer_outgoing")
+};
 
-		const result = await fetch(url, {
-			method,
-			headers: {
-				"Content-Type": "application/json",
-				// @ts-ignore
-				'X-WP-Nonce': window.wpApiSettings.nonce
-			},
-			credentials: 'same-origin',
-			body: method === "POST" && params ? maybeStringify(params) : undefined,
-		});
-
-		if (!result.ok) {
-			console.error("Failed to fetch", result);
-			return;
-		}
-
-		let data = "";
-
-		try {
-			data = JSON.parse(await result.text());
-		} catch (e) {
-			console.error("Failed to parse JSON", e);
-		}
-
-		return data;
-	}
-
-	public async latest(): Promise<LogEntry[]> {
-		const entries = await this.request("latest");
-		if (!entries) {
-			[];
-		}
-		return LogEntries.parse(entries);
-	}
-
-	public async clear() {
-		return await this.request("clear", "DELETE");
-	}
-
-	public async getMonitorStatus(): Promise<boolean> {
-		return !! await this.request("monitor-status", "GET");
-	}
-
-	public async toggleMonitorStatus(): Promise<boolean> {
-		return !! await this.request("monitor-status", "POST");
-	}
-
-	public async getObserverStatus(name: Monitor): Promise<boolean> {
-		return !! await this.request("monitor-status", "GET", { name });
-	}
-
-	public async toggleObserverStatus(name: Monitor): Promise<boolean> {
-		return !! await this.request("monitor-status", "POST", { name });
-	}
-
-	public async updateFilter(name: Monitor, filter: string) {
-		return await this.request("filter", "POST", { name, filter });
-	}
-
-	public async getFilter(name: Monitor) {
-		return await this.request("filter", "GET", { name });
-	}
-
-	public async sendRequest(data: EntryData) {
-		// data.body = maybeStringify(data.body);
-		// data.headers = maybeStringify(data.headers);
-		return await this.request("send-request", "POST", maybeStringify( data ) );
-	}
-
-}
+export const API = async.api;
