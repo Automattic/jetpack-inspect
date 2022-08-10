@@ -67,7 +67,7 @@ add_action( 'admin_init', function() {
 
 The option is passed to the front-end via `window.widget_plugin` global variables.
 
-To ensure that the values are properly typed and match our expectations, we're going to use [Zod](https://zod.dev):
+[Zod](https://zod.dev) is used to ensure that the values are properly typed and match the expectations:
 
 ```ts
 const Widget_Options = z.object({
@@ -92,22 +92,17 @@ const Widget_Options = z.object({
 
 // window.widget_plugin is the variable, but it's unsafe to read
 // This is a helper function that's going to use Widget_Options Zod type to extract the values from the window object and validate them.
-const globals = getOptionsFromGlobal("widget_plugin", Widget_Options);
-
-// Now that we're sure that the values are valid, we can set-up options.
-const asyncOptions = new Options(globals);
+const async = createAsyncFactory("widget_plugin", Widget_Options);
 
 // This is going to set-up a Svelte store that's going to automatically sync back with WordPress any time the value of the option changes.
-export const widgetStatus = asyncOptions.createStore(
-	"widget_status",
-	async ({ value, nonce }) =>
-		await api.POST<typeof value>("widget-status", nonce, value.toString())
-);
+export const widgetStatus = async.createStore("widget_status");
 ```
+
+And that's it, now `widgetStatus` is a fully typed store that's going to automatically sync with WordPress.
 
 #### Step 4: Use the store in components
 
-Registering an async option using `asyncOptions.createStore()` will create a store with two reactive values:
+Registering an async option using `async.createStore()` will create a store with two reactive values:
 
 - value: The value of the option. This will dispatch POST requests to the REST API endpoint when the value changes.
 - pending: Whether the value is being currently being sent to the server
@@ -128,18 +123,19 @@ Here's a simple version of how that would work:
 <input type="checkbox" bind:checked={$status} /> Enable Widget
 ```
 
-That's all there is to it. 
+There's now a fully type safe stores that automatically sync front-end and back-end, and will deal deal with sanitization, validation, transformation, nonces, REST API.
 
-We now can have fully type safe stores that automatically sync front-end and back-end, deal with sanitization, validation, transformation, nonces, REST API and svelte stores by:
+To summarize:
 
-1. Creating an Async Option Template based class in PHP
-2. Registering the option in PHP
-3. Adding a zod type
-4. Registering the zod-validated option as a Svelte store
+1. Create an Async Option Template based class in PHP
+2. Register the option in using the Registry class
+3. Tell TypeScript what the shape of the global variable looks like
+4. Register the zod-validated store in Svelte
+5. Create async stores and use them like normal svelte stores
 
-## Clunk
+## Utility Functions
 
-You might have noticed that the registration process is not exactly beautiful. But we can create plugin specific functions that simplify the interaction like so:
+You might have noticed that the registration process is a bit clunky. To aid with that. create plugin specific functions that simplify interaction with the Async Options registry:
 
 ```php
 function widgetplug_get_option( $name ) {
