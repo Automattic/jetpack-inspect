@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Jetpack Inspect
- * Version: 1.0.0
+ * Version: 1.0.0-beta
  * Plugin URI: https://automattic.com
- * Description: Inspect HTTP requests and responses with Jetpack.
+ * Description: Inspect HTTP incoming and outgoing requests and responses.
  * Author: pyronaur
  * Author URI: https://automattic.com
  * Requires at least: 6.0
