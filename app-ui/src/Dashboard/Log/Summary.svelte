@@ -19,10 +19,10 @@
 	}
 
 	async function retryRequest() {
-		if (!item.outbound_request) {
+		if (!item.observer_outgoing) {
 			return;
 		}
-		const data = item.outbound_request;
+		const data = item.observer_outgoing;
 		await API.sendRequest({
 			url: item.url,
 			method: data.args.method,
@@ -34,7 +34,7 @@
 	}
 
 	let edit = false;
-	let responseCode = item.outbound_request?.response.response.code;
+	let responseCode = item.observer_outgoing?.response.response.code;
 	let bubbleColor = "gray";
 	if (responseCode) {
 		bubbleColor = responseCode ? "green" : "red";
@@ -53,9 +53,9 @@
 		<div class="date">
 			{#if responseCode}
 				{responseCode}
-				{#if item.outbound_request}
-					{item.outbound_request.args.method}
-					{item.outbound_request.duration}ms -
+				{#if item.observer_outgoing}
+					{item.observer_outgoing.args.method}
+					{item.observer_outgoing.duration}ms -
 				{/if}
 			{/if}
 			{date}
@@ -68,7 +68,7 @@
 	</div>
 
 	<div class="actions">
-		{#if item.outbound_request}
+		{#if item.observer_outgoing}
 			<button class="ji-button--altii" on:click={retryRequest}>Retry</button>
 
 			<button class="ji-button--altii" on:click={() => (edit = !edit)}

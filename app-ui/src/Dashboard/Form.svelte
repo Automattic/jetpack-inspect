@@ -25,12 +25,13 @@
 		}
 	);
 
-	$: if (logEntry) {
+	$: if (logEntry && logEntry.observer_outgoing) {
+		console.log(logEntry)
 		$data = {
 			url: logEntry.url,
-			method: logEntry.args.method,
-			body: maybeStringify(logEntry.args.body),
-			headers: maybeStringify(logEntry.args.headers),
+			method: logEntry.observer_outgoing.args.method,
+			body: maybeStringify(logEntry.observer_outgoing.args.body),
+			headers: maybeStringify(logEntry.observer_outgoing.args.headers),
 			transport: "wp",
 		};
 	}
@@ -155,10 +156,6 @@
 		font-size: 0.7rem;
 		display: block;
 		color: #999;
-		font-weight: 600;
-	}
-
-	legend {
 		font-weight: 600;
 	}
 
