@@ -5,7 +5,7 @@
 	import { flip } from "svelte/animate";
 
 	import type { LogEntry as TypeLogEntry } from "@src/utils/Validator";
-	import LogEntry from "@src/Dashboard/Log/Entry.svelte";
+	import LogEntry from "@src/Dashboard/Log/Entry/Entry.svelte";
 	import { API, options } from "@src/Options";
 	import { onMount } from "svelte";
 
