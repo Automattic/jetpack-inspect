@@ -11,9 +11,6 @@ export function getOptionsFromGlobal<T extends z.ZodTypeAny>(key: string, parser
 		return false;
 	}
 
-	// @TODO: Mark? Any Ideas to avoid @ts-ignore?
-	// Ignore TypeScript complaints just this once.
-	// @ts-ignore
 	const obj = window[key];
 	const result = parser.safeParse(obj);
 
