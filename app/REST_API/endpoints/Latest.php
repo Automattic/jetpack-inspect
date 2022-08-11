@@ -33,7 +33,8 @@ Latest implements Endpoint {
 	}
 
 	public function permissions() {
-		return array(//			new Current_User_Admin(),
+		return array(
+			new Current_User_Admin(),
 		);
 	}
 }
