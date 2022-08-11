@@ -6,7 +6,7 @@ use Automattic\Jetpack_Inspect\Monitor\Incoming_REST_API;
 use Automattic\Jetpack_Inspect\Monitor\Outgoing;
 
 class Monitors {
-	protected const AVAILABLE_OBSERVERS = [
+	const AVAILABLE_OBSERVERS = [
 		'outgoing' => Outgoing::class,
 		'incoming' => Incoming_REST_API::class,
 	];
