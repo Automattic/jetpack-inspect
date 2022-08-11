@@ -29,9 +29,3 @@
 		<PrettyJSON data={details.args} />
 	</TabPanel>
 </Tabs>
-
-<style>
-	.note {
-		padding-top: 20px;
-	}
-</style>

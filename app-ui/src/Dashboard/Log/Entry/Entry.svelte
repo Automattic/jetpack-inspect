@@ -5,12 +5,13 @@
 	import { sineInOut } from "svelte/easing";
 	import LogSummary from "@src/Dashboard/Log/Summary.svelte";
 
+
 	import type { LogEntry } from "@src/utils/Validator";
 
 	export let item: LogEntry;
 	let isOpen = false;
 
-	function fade(_, { duration, delay }: { duration: number; delay: number }) {
+	function fade( _: unknown, { duration, delay }: { duration: number; delay: number }) {
 		return {
 			duration,
 			delay,
