@@ -63,7 +63,7 @@ export default class AsyncAPI {
 	public async sendRequest(data: EntryData) {
 		// data.body = maybeStringify(data.body);
 		// data.headers = maybeStringify(data.headers);
-		return await this.POST("send-request", maybeStringify(data));
+		return await this.POST("send-request", '', maybeStringify(data));
 	}
 
 }
