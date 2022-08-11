@@ -24,7 +24,7 @@ class Clear implements Endpoint {
 	//phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 	public function response( $request ) {
 		return rest_ensure_response(
-			Log::clear() ? "OK" : "",
+			Log::clear() ? "OK" : ""
 		);
 
 	}

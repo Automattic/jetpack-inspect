@@ -1,12 +1,12 @@
 <script type="ts">
-	import type { OutboundRequestError } from "@src/utils/Validator";
 	import PrettyJSON from "@src/Dashboard/Log/PrettyJSON.svelte";
 	import Tabs from "@src/Components/Tabs/Tabs.svelte";
 	import TabList from "@src/Components/Tabs/TabList.svelte";
 	import TabPanel from "@src/Components/Tabs/TabPanel.svelte";
 	import Tab from "@src/Components/Tabs/Tab.svelte";
+	import type { OutgoingError } from "@src/utils/Validator";
 
-	export let details: OutboundRequestError;
+	export let details: OutgoingError;
 </script>
 
 <Tabs>

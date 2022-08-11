@@ -1,12 +1,12 @@
 <script type="ts">
-	import type { InboundRestDetails } from "@src/utils/Validator";
+	import type { IncomingDetails } from "@src/utils/Validator";
 	import PrettyJSON from "@src/Dashboard/Log/PrettyJSON.svelte";
 	import Tabs from "@src/Components/Tabs/Tabs.svelte";
 	import TabList from "@src/Components/Tabs/TabList.svelte";
 	import TabPanel from "@src/Components/Tabs/TabPanel.svelte";
 	import Tab from "@src/Components/Tabs/Tab.svelte";
 
-	export let details: InboundRestDetails;
+	export let details: IncomingDetails;
 
 	const { request, response } = details;
 </script>

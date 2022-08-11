@@ -47,7 +47,7 @@ class Log {
 		} catch ( \JsonException $e ) {
 			$data = "Error decoding JSON: " . $e->getMessage();
 		}
-
+		
 		return array_merge( [
 			                    'id'   => $post_id,
 			                    'date' => $post->post_date,

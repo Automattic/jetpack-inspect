@@ -34,10 +34,11 @@ export default class AsyncAPI {
 		}
 
 		let data = "";
+		const text = await result.text();
 		try {
-			data = JSON.parse(await result.text());
+			data = JSON.parse(text);
 		} catch (e) {
-			console.error("Failed to parse the response", url, result, e);
+			console.error("Failed to parse the response\n", { url, text, result, error: e });
 		}
 
 		return data;

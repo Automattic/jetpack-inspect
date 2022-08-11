@@ -31,13 +31,13 @@ export const RequestArgs = z.object({
 	"sslcertificates": z.string(),
 	"stream": z.boolean(),
 	"filename": z.string().nullable(),
-	"limit_response_size": z.string().nullable(),
+	"limit_response_size": z.string().or(z.number()).nullable(),
 	"_redirection": z.number()
 });
 
 
 
-export const InboundRestRequest = z.object({
+export const Incoming = z.object({
 	"request": z.object({
 		"method": RequestMethods,
 		"query": jsonSchema,
@@ -47,7 +47,7 @@ export const InboundRestRequest = z.object({
 	"response": jsonSchema,
 });
 
-export const OutboundRequestError = z.object({
+export const RequestError = z.object({
 	"args": RequestArgs,
 	"duration": z.number(),
 	"error": z.object({
@@ -59,7 +59,7 @@ export const OutboundRequestError = z.object({
 
 })
 
-export const OutboundRequestResponse = z.object({
+export const Outgoing = z.object({
 	"args": RequestArgs,
 	"duration": z.number(),
 	"response": z.object({
@@ -83,9 +83,9 @@ export const LogEntry = z.object({
 	"id": z.number(),
 	"date": z.string(),
 	"url": z.string(),
-	"inbound_rest_request": InboundRestRequest.optional(),
-	"wp_error": OutboundRequestError.optional(),
-	"outbound_request": OutboundRequestResponse.optional(),
+	"observer_incoming": Incoming.optional(),
+	"wp_error": RequestError.optional(),
+	"observer_outgoing": Outgoing.optional(),
 });
 
 
@@ -106,7 +106,7 @@ export type LogEntry = z.infer<typeof LogEntry>;
 export type LogEntries = z.infer<typeof LogEntries>;
 export type EntryData = z.infer<typeof EntryData>;
 export type JSONSchema = z.infer<typeof jsonSchema>;
-export type OutboundRequestDetails = z.infer<typeof OutboundRequestResponse>;
-export type InboundRestDetails = z.infer<typeof InboundRestRequest>;
-export type OutboundRequestError = z.infer<typeof OutboundRequestError>;
+export type OutgoingDetails = z.infer<typeof Outgoing>;
+export type IncomingDetails = z.infer<typeof Incoming>;
+export type OutgoingError = z.infer<typeof RequestError>;
 export type LogType = "inbound_rest_request" | "wp_error" | "outbound_request";

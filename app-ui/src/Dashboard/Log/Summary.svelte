@@ -29,7 +29,7 @@
 			body: data.args.body,
 			headers: data.args.headers,
 			transport: "wp",
-		}, "@TODO__MISSING_NONCE_HERE");
+		});
 		dispatch("retry", item);
 	}
 

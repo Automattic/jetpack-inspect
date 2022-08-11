@@ -55,11 +55,11 @@ class Send_Request {
 			return rest_ensure_response( $function );
 		}
 
-		$monitor = Monitors::get( 'outbound_request' );
+		$monitor = Monitors::get( 'outgoing' );
 		if ( is_wp_error( $monitor ) ) {
 			return rest_ensure_response( $monitor );
 		}
-		
+
 		$monitor->ensure_enabled();
 		$results = $function( $url, $args, );
 

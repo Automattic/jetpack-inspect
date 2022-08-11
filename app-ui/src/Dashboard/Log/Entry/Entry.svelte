@@ -1,7 +1,7 @@
 <script type="ts">
-	import InboundDetails from "@src/Dashboard/Log/InboundDetails.svelte";
-	import OutboundDetails from "@src/Dashboard/Log/OutboundDetails.svelte";
-	import OutboundErrorDetails from "@src/Dashboard/Log/OutboundErrorDetails.svelte";
+	import InboundDetails from "@src/Dashboard/Log/Entry/InboundDetails.svelte";
+	import OutboundDetails from "@src/Dashboard/Log/Entry/OutboundDetails.svelte";
+	import OutboundErrorDetails from "@src/Dashboard/Log/Entry/OutboundErrorDetails.svelte";
 	import { sineInOut } from "svelte/easing";
 	import LogSummary from "@src/Dashboard/Log/Summary.svelte";
 
@@ -22,11 +22,11 @@
 	}
 
 	function getLogType() {
-		if (item.outbound_request) {
-			return "outbound_request";
+		if (item.observer_incoming) {
+			return "observer_incoming";
 		}
-		if (item.inbound_rest_request) {
-			return "inbound_rest_request";
+		if (item.observer_outgoing) {
+			return "observer_outgoing";
 		}
 		if (item.wp_error) {
 			return "wp_error";
@@ -45,16 +45,16 @@
 	function getComponent(): EntryComponent | false {
 		const type = getLogType();
 		switch (type) {
-			case "inbound_rest_request":
+			case "observer_incoming":
 				return {
 					component: InboundDetails,
-					props: { details: item.inbound_rest_request },
+					props: { details: item.observer_incoming },
 					icon: "in",
 				};
-			case "outbound_request":
+			case "observer_outgoing":
 				return {
 					component: OutboundDetails,
-					props: { details: item.outbound_request },
+					props: { details: item.observer_outgoing },
 					icon: "out",
 				};
 			case "wp_error":
