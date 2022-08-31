@@ -8,12 +8,12 @@ export default class AsyncAPI {
 
 	constructor(private baseUrl: string, private restNonce: string) { }
 
-	private async request(
+	private async request<T>(
 		endpoint: string,
 		method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' = 'GET',
 		nonce: string = '',
 		params?: RequestParams,
-	): Promise<unknown> {
+	): Promise<T> {
 
 		let url = `${this.baseUrl}/${endpoint}`;
 
@@ -30,7 +30,7 @@ export default class AsyncAPI {
 
 		if (!result.ok) {
 			console.error("Failed to fetch", url, result);
-			return;
+			throw new Error(`Failed to "${method}" to ${url}. Received ${result.status}`);
 		}
 
 		let data = "";
@@ -41,19 +41,18 @@ export default class AsyncAPI {
 			console.error("Failed to parse the response\n", { url, text, result, error: e });
 		}
 
-		return data;
+		/**
+		 * @TODO: Add zod to the received data.
+		 */
+		return data as T;
 	}
 
 	public async GET<T>(endpoint: string, nonce: string = '', params?: RequestParams): Promise<T> {
-		// @TODO: This is a hack
-		// @TODO Validate T somewhere.
-		return await this.request(endpoint, "GET", nonce, params) as T;
+		return await this.request(endpoint, "GET", nonce, params);
 	}
 
 	public async POST<T>(endpoint: string, nonce: string, params?: RequestParams): Promise<T> {
-		// @TODO: This is a hack
-		// @TODO Validate T somewhere.
-		return await this.request(endpoint, "POST", nonce, params) as T;
+		return await this.request(endpoint, "POST", nonce, params);
 	}
 
 	public async DELETE(endpoint: string, nonce: string = '') {
@@ -61,8 +60,6 @@ export default class AsyncAPI {
 	}
 
 	public async sendRequest(data: EntryData) {
-		// data.body = maybeStringify(data.body);
-		// data.headers = maybeStringify(data.headers);
 		return await this.POST("send-request", '', maybeStringify(data));
 	}
 
