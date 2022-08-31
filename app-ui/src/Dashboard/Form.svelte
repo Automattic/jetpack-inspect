@@ -3,7 +3,7 @@
 	import type { ZodFormattedError } from "zod";
 	import FormError from "./FormError.svelte";
 	import { createEventDispatcher } from "svelte";
-	import { maybeStringify } from "@async-options/maybeStringify";
+	import { maybeStringify } from "@async-options/utils";
 
 	import { createPersistentStore } from "@src/utils/peristentStore";
 	import type { LogEntry } from "@src/utils/ZodSchema";

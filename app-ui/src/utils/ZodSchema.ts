@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { jsonSchema } from '@async-options/maybeStringify';
+import { jsonSchema } from '@async-options/utils';
 
 
 export const RequestMethods = z.enum(["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"])

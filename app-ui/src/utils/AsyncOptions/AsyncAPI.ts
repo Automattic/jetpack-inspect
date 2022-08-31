@@ -1,4 +1,4 @@
-import { maybeStringify } from '@async-options/maybeStringify';
+import { maybeStringify } from '@async-options/utils';
 
 type RequestParams = string | { [key: string]: any };
 
