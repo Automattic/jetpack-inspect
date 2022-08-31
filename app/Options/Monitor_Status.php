@@ -6,7 +6,12 @@ use Automattic\Jetpack\Package\Async_Option\Async_Option_Template;
 
 class Monitor_Status extends Async_Option_Template {
 
-	public function sanitize( $value ): bool {
+	/**
+	 * @param $value
+	 *
+	 * @return bool
+	 */
+	public function sanitize( $value ) {
 		return (bool) $value;
 	}
 

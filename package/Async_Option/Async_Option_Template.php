@@ -2,7 +2,7 @@
 
 namespace Automattic\Jetpack\Package\Async_Option;
 
-use Automattic\Jetpack\Package\Async_Option\Contracts\Storage;
+use Automattic\Jetpack\Package\Async_Option\Storage\Storage;
 use Automattic\Jetpack\Package\Async_Option\Storage\WP_Option;
 
 /**
@@ -14,7 +14,7 @@ abstract class Async_Option_Template {
 	/**
 	 * The default value if no option is found.
 	 */
-	const DEFAULT = false;
+	public static $DEFAULT_VALUE = false;
 
 	/**
 	 * @var string[]

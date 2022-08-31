@@ -2,7 +2,6 @@
 
 namespace Automattic\Jetpack\Package\Async_Option\Storage;
 
-use Automattic\Jetpack\Package\Async_Option\Contracts\Storage;
 
 class WP_Option implements Storage {
 

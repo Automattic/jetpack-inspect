@@ -6,7 +6,7 @@ use Automattic\Jetpack\Package\Async_Option\Async_Option_Template;
 
 class Observer_Settings extends Async_Option_Template {
 
-	const DEFAULT = [
+	public static $DEFAULT_VALUE = [
 		'enabled' => true,
 		'filter'  => '',
 	];

@@ -2,7 +2,7 @@
 
 namespace Automattic\Jetpack\Package\Async_Option;
 
-use Automattic\Jetpack\Package\Async_Option\Contracts\Storage;
+use Automattic\Jetpack\Package\Async_Option\Storage\Storage;
 
 
 class Async_Option {
@@ -36,7 +36,7 @@ class Async_Option {
 
 	public function get() {
 		return $this->option->transform(
-			$this->storage->get( $this->key, $this->option::DEFAULT )
+			$this->storage->get( $this->key, ($this->option)::$DEFAULT_VALUE )
 		);
 	}
 

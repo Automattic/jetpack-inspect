@@ -3,7 +3,10 @@
 namespace Automattic\Jetpack\Package\Async_Option;
 
 class Async_Options {
-	protected Registry $registry;
+	/**
+	 * @var Registry 
+	 */
+	protected $registry;
 
 	/**
 	 * @var string Script Handle name to pass the variables to.
