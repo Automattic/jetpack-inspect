@@ -1,10 +1,10 @@
 <script type="ts">
-	import { LogEntries } from "@src/utils/Validator";
+	import { LogEntries } from "@src/utils/ZodSchema";
 	import { fly } from "svelte/transition";
 	import { sineInOut, cubicOut } from "svelte/easing";
 	import { flip } from "svelte/animate";
 
-	import type { LogEntry as TypeLogEntry } from "@src/utils/Validator";
+	import type { LogEntry as TypeLogEntry } from "@src/utils/ZodSchema";
 	import LogEntry from "@src/Dashboard/Log/Entry/Entry.svelte";
 	import { API, options } from "@src/Options";
 	import { onMount } from "svelte";

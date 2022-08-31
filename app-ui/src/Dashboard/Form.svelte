@@ -6,8 +6,8 @@
 	import { maybeStringify } from "@async-options/maybeStringify";
 
 	import { createPersistentStore } from "@src/utils/peristentStore";
-	import type { LogEntry } from "@src/utils/Validator";
-	import { EntryData } from "@src/utils/Validator";
+	import type { LogEntry } from "@src/utils/ZodSchema";
+	import { EntryData } from "@src/utils/ZodSchema";
 	import type { Writable } from "svelte/store";
 	import { API } from "@src/Options";
 

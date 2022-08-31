@@ -4,7 +4,7 @@
 	import TabList from "@src/Components/Tabs/TabList.svelte";
 	import TabPanel from "@src/Components/Tabs/TabPanel.svelte";
 	import Tab from "@src/Components/Tabs/Tab.svelte";
-	import type { OutgoingError } from "@src/utils/Validator";
+	import type { OutgoingError } from "@src/utils/ZodSchema";
 
 	export let details: OutgoingError;
 </script>

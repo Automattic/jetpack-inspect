@@ -6,7 +6,7 @@
 	import LogSummary from "@src/Dashboard/Log/Summary.svelte";
 
 
-	import type { LogEntry } from "@src/utils/Validator";
+	import type { LogEntry } from "@src/utils/ZodSchema";
 
 	export let item: LogEntry;
 	let isOpen = false;

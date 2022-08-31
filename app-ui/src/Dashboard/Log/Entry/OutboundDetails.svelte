@@ -1,5 +1,5 @@
 <script type="ts">
-	import type { OutgoingDetails } from "@src/utils/Validator";
+	import type { OutgoingDetails } from "@src/utils/ZodSchema";
 	import PrettyJSON from "@src/Dashboard/Log/PrettyJSON.svelte";
 	import Tabs from "@src/Components/Tabs/Tabs.svelte";
 	import TabList from "@src/Components/Tabs/TabList.svelte";

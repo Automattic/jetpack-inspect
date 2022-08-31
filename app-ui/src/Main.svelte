@@ -5,7 +5,7 @@
 	import LogList from "@src/Dashboard/Log/List.svelte";
 	import LogActions from "@src/Dashboard/Log/Actions.svelte";
 	import Form from "@src/Dashboard/Form.svelte";
-	import type { LogEntry } from "@src/utils/Validator";
+	import type { LogEntry } from "@src/utils/ZodSchema";
 
 	let logEntry: LogEntry | false = false;
 	function onLogSelect(e: CustomEvent<LogEntry>) {

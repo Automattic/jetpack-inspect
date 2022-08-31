@@ -1,7 +1,7 @@
 <script type="ts">
 	import Form from "@src/Dashboard/Form.svelte";
 
-	import type { LogEntry } from "@src/utils/Validator";
+	import type { LogEntry } from "@src/utils/ZodSchema";
 	import { createEventDispatcher } from "svelte";
 	import StatusIcon from "./StatusIcon.svelte";
 	import { API } from "@src/Options";
