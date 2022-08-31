@@ -5,8 +5,7 @@ export function getOptionsFromGlobal<T extends z.ZodTypeAny>(key: string, parser
 		console.error(`Could not locate global variable ${key}`);
 		return false;
 	}
-
-	// @TODO: Mark? Any Ideas to avoid @ts-ignore?
+	
 	// Ignore TypeScript complaints just this once.
 	// @ts-ignore
 	const obj = window[key];
