@@ -1,5 +1,5 @@
 <script type="ts">
-	import { maybeStringify } from "@src/utils/maybeStringify";
+	import { maybeStringify } from "@async-options/maybeStringify";
 
 	export let data: any;
 </script>

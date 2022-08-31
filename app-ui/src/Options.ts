@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { createAsyncFactory } from './utils/AsyncOptions/factory';
+import { createAsyncFactory } from '@async-options/factory';
 
 const Jetpack_Inspect_Options = z.object({
 	"rest_api": z.object({

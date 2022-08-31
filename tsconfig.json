@@ -13,8 +13,9 @@
 		"baseUrl": "./app-ui",
 		"paths": {
 			"@src/": ["src/"],
-			"@src/*": ["src/*"]
-		  },
+			"@src/*": ["src/*"],
+			"@async-options/*": ["src/utils/AsyncOptions/*"]
+		},
 	},
 
 }

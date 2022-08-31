@@ -1,7 +1,9 @@
-import type { AsyncOptions as AO } from "./types";
-import AsyncAPI from './AsyncAPI';
-import { Options } from './Options';
 import type { z } from 'zod';
+import type { AsyncOptions as AO } from "@async-options/types";
+import { Options } from '@async-options/Options';
+import AsyncAPI from '@async-options/AsyncAPI';
+
+
 
 
 

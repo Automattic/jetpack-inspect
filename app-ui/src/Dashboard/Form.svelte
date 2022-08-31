@@ -3,7 +3,7 @@
 	import type { ZodFormattedError } from "zod";
 	import FormError from "./FormError.svelte";
 	import { createEventDispatcher } from "svelte";
-	import { maybeStringify } from "@src/utils/maybeStringify";
+	import { maybeStringify } from "@async-options/maybeStringify";
 
 	import { createPersistentStore } from "@src/utils/peristentStore";
 	import type { LogEntry } from "@src/utils/Validator";
@@ -26,7 +26,7 @@
 	);
 
 	$: if (logEntry && logEntry.observer_outgoing) {
-		console.log(logEntry)
+		console.log(logEntry);
 		$data = {
 			url: logEntry.url,
 			method: logEntry.observer_outgoing.args.method,
@@ -50,7 +50,7 @@
 			return;
 		}
 
-		await API.sendRequest(formData);
+		await API.POST("send-request", "", maybeStringify(formData));
 		dispatch("submit");
 	}
 

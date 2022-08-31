@@ -1,15 +1,5 @@
 import { z } from 'zod';
-/**
- * JSON Schema form Zod
- * Straight out of the docs:
- * https://github.com/colinhacks/zod
- */
-const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
-type Literal = z.infer<typeof literalSchema>;
-type Json = Literal | { [key: string]: Json } | Json[];
-const jsonSchema: z.ZodType<Json> = z.lazy(() =>
-	z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
-);
+import { jsonSchema } from '@async-options/maybeStringify';
 
 
 export const RequestMethods = z.enum(["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"])
@@ -105,7 +95,7 @@ export type RequestArgs = z.infer<typeof RequestArgs>;
 export type LogEntry = z.infer<typeof LogEntry>;
 export type LogEntries = z.infer<typeof LogEntries>;
 export type EntryData = z.infer<typeof EntryData>;
-export type JSONSchema = z.infer<typeof jsonSchema>;
+
 export type OutgoingDetails = z.infer<typeof Outgoing>;
 export type IncomingDetails = z.infer<typeof Incoming>;
 export type OutgoingError = z.infer<typeof RequestError>;

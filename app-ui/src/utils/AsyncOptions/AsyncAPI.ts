@@ -1,6 +1,4 @@
-import type { EntryData } from '@src/utils/Validator';
-
-import { maybeStringify } from '@src/utils/maybeStringify';
+import { maybeStringify } from '@async-options/maybeStringify';
 
 type RequestParams = string | { [key: string]: any };
 
@@ -44,7 +42,7 @@ export default class AsyncAPI {
 		/**
 		 * @TODO: Add zod to the received data.
 		 */
-		return data as T;
+		return data as unknown as T;
 	}
 
 	public async GET<T>(endpoint: string, nonce: string = '', params?: RequestParams): Promise<T> {
@@ -57,10 +55,6 @@ export default class AsyncAPI {
 
 	public async DELETE(endpoint: string, nonce: string = '') {
 		return await this.request(endpoint, "DELETE", nonce);
-	}
-
-	public async sendRequest(data: EntryData) {
-		return await this.POST("send-request", '', maybeStringify(data));
 	}
 
 }
