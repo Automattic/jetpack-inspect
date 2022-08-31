@@ -10,11 +10,11 @@
 	"compilerOptions": {
 		"strict": true,
 		"types": [],
-		"baseUrl": "./app-ui",
+		"baseUrl": ".",
 		"paths": {
-			"@src/": ["src/"],
-			"@src/*": ["src/*"],
-			"@async-options/*": ["src/utils/AsyncOptions/*"]
+			"@src/": ["./app-ui/src/"],
+			"@src/*": ["./app-ui/src/*"],
+			"@async-options/*": ["./package/Async_Option/scripts/*"]
 		},
 	},
 

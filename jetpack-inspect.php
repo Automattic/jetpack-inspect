@@ -28,9 +28,6 @@ require __DIR__ . '/functions.php';
 require __DIR__ . '/options.php';
 
 
-
-require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload_packages.php';
-
 function jetpack_inspect_connection() {
 
 	// Here we enable the Jetpack packages.

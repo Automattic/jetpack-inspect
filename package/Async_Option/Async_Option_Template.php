@@ -1,9 +1,9 @@
 <?php
 
-namespace Automattic\Jetpack_Inspect\Async_Option;
+namespace Automattic\Jetpack\Package\Async_Option;
 
-use Automattic\Jetpack_Inspect\Async_Option\Contracts\Storage;
-use Automattic\Jetpack_Inspect\Async_Option\Storage\WP_Option;
+use Automattic\Jetpack\Package\Async_Option\Contracts\Storage;
+use Automattic\Jetpack\Package\Async_Option\Storage\WP_Option;
 
 /**
  * Any registered async option should use this async option template

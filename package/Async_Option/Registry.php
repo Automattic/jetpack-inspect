@@ -1,6 +1,6 @@
 <?php
 
-namespace Automattic\Jetpack_Inspect\Async_Option;
+namespace Automattic\Jetpack\Package\Async_Option;
 
 class Registry {
 

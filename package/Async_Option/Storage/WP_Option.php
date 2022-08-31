@@ -1,8 +1,8 @@
 <?php
 
-namespace Automattic\Jetpack_Inspect\Async_Option\Storage;
+namespace Automattic\Jetpack\Package\Async_Option\Storage;
 
-use Automattic\Jetpack_Inspect\Async_Option\Contracts\Storage;
+use Automattic\Jetpack\Package\Async_Option\Contracts\Storage;
 
 class WP_Option implements Storage {
 

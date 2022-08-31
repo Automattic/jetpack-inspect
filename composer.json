@@ -5,7 +5,8 @@
     "license": "GPLv2.0",
     "autoload": {
         "psr-4": {
-            "Automattic\\Jetpack_Inspect\\": "app/"
+            "Automattic\\Jetpack_Inspect\\": "app/",
+			"Automattic\\Jetpack\\Package\\": "package/"
         }
     },
     "authors": [

@@ -1,8 +1,8 @@
 <?php
 
-use Automattic\Jetpack_Inspect\Async_Option\Async_Option;
-use Automattic\Jetpack_Inspect\Async_Option\Async_Options;
-use Automattic\Jetpack_Inspect\Async_Option\Registry;
+use Automattic\Jetpack\Package\Async_Option\Async_Option;
+use Automattic\Jetpack\Package\Async_Option\Async_Options;
+use Automattic\Jetpack\Package\Async_Option\Registry;
 use Automattic\Jetpack_Inspect\Options\Monitor_Status;
 use Automattic\Jetpack_Inspect\Options\Observer_Settings;
 

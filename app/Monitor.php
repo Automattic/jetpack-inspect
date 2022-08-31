@@ -2,6 +2,7 @@
 
 namespace Automattic\Jetpack_Inspect;
 
+use Automattic\Jetpack\Package\Async_Option\Async_Option;
 use Automattic\Jetpack_Inspect\Monitor\Observable;
 
 class Monitor {
@@ -10,7 +11,7 @@ class Monitor {
 	protected string     $name;
 	protected bool       $bypass_filter = false;
 
-	protected Async_Option\Async_Option $option;
+	protected Async_Option $option;
 
 	public function __construct( string $name, Observable $observable ) {
 		$this->name     = $name;

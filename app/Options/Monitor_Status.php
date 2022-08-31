@@ -2,7 +2,7 @@
 
 namespace Automattic\Jetpack_Inspect\Options;
 
-use Automattic\Jetpack_Inspect\Async_Option\Async_Option_Template;
+use Automattic\Jetpack\Package\Async_Option\Async_Option_Template;
 
 class Monitor_Status extends Async_Option_Template {
 

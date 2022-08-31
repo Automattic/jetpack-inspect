@@ -1,6 +1,6 @@
 <?php
 
-namespace Automattic\Jetpack_Inspect\Async_Option;
+namespace Automattic\Jetpack\Package\Async_Option;
 
 class Endpoint {
 
@@ -50,7 +50,7 @@ class Endpoint {
 
 	/**
 	 * Route the request to the apropriate handler.
-	 * 
+	 *
 	 * @param \WP_REST_Request $request
 	 */
 	public function handler( $request ) {
