@@ -14,7 +14,7 @@
 		"paths": {
 			"@src/": ["./app-ui/src/"],
 			"@src/*": ["./app-ui/src/*"],
-			"@async-options/*": ["./package/Async_Option/scripts/*"]
+			"@async-options/*": ["./packages/Async_Option/scripts/*"]
 		},
 	},
 
