@@ -2,7 +2,7 @@
 
 namespace Automattic\Jetpack_Inspect\Options;
 
-use Automattic\Jetpack\Package\Async_Option\Async_Option_Template;
+use Automattic\Jetpack\Packages\Async_Option\Async_Option_Template;
 
 class Observer_Settings extends Async_Option_Template {
 

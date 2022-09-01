@@ -1,10 +1,10 @@
 <?php
 
-namespace Automattic\Jetpack\Package\Async_Option;
+namespace Automattic\Jetpack\Packages\Async_Option;
 
 class Async_Options {
 	/**
-	 * @var Registry 
+	 * @var Registry
 	 */
 	protected $registry;
 

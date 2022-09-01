@@ -1,8 +1,8 @@
 <?php
 
-namespace Automattic\Jetpack\Package\Async_Option;
+namespace Automattic\Jetpack\Packages\Async_Option;
 
-use Automattic\Jetpack\Package\Async_Option\Storage\Storage;
+use Automattic\Jetpack\Packages\Async_Option\Storage\Storage;
 
 
 class Async_Option {

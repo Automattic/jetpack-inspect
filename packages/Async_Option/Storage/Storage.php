@@ -1,6 +1,6 @@
 <?php
 
-namespace Automattic\Jetpack\Package\Async_Option\Storage;
+namespace Automattic\Jetpack\Packages\Async_Option\Storage;
 
 interface Storage {
 

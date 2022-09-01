@@ -6,7 +6,7 @@
     "autoload": {
         "psr-4": {
             "Automattic\\Jetpack_Inspect\\": "app/",
-			"Automattic\\Jetpack\\Package\\": "package/"
+			"Automattic\\Jetpack\\Packages\\": "packages/"
         }
     },
     "authors": [

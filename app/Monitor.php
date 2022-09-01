@@ -2,7 +2,7 @@
 
 namespace Automattic\Jetpack_Inspect;
 
-use Automattic\Jetpack\Package\Async_Option\Async_Option;
+use Automattic\Jetpack\Packages\Async_Option\Async_Option;
 use Automattic\Jetpack_Inspect\Monitor\Observable;
 
 class Monitor {
