@@ -4,7 +4,6 @@ namespace Automattic\Jetpack\Packages\Async_Option;
 
 use Automattic\Jetpack\Packages\Async_Option\Storage\Storage;
 
-
 class Async_Option {
 
 	/**
@@ -22,7 +21,6 @@ class Async_Option {
 	 */
 	protected $option;
 
-
 	/**
 	 * @param $namespace string
 	 * @param $key       string
@@ -36,7 +34,8 @@ class Async_Option {
 
 	public function get() {
 		return $this->option->transform(
-			$this->storage->get( $this->key, ($this->option)::$DEFAULT_VALUE )
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase, VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable -- False positive on the latter.
+			$this->storage->get( $this->key, ( $this->option )::$DEFAULT_VALUE )
 		);
 	}
 
@@ -70,6 +69,5 @@ class Async_Option {
 	public function get_errors() {
 		return $this->option->get_errors();
 	}
-
 
 }
