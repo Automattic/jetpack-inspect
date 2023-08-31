@@ -163,15 +163,15 @@ return array(
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-constants/src/class-constants.php'
 	),
 	'Automattic\\Jetpack\\CookieState' => array(
-		'version' => '1.18.1.0',
+		'version' => '1.18.2.0-alpha1693503255',
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-cookiestate.php'
 	),
 	'Automattic\\Jetpack\\Errors' => array(
-		'version' => '1.18.1.0',
+		'version' => '1.18.2.0-alpha1693503255',
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-errors.php'
 	),
 	'Automattic\\Jetpack\\Files' => array(
-		'version' => '1.18.1.0',
+		'version' => '1.18.2.0-alpha1693503255',
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-files.php'
 	),
 	'Automattic\\Jetpack\\Heartbeat' => array(
@@ -179,7 +179,7 @@ return array(
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-connection/src/class-heartbeat.php'
 	),
 	'Automattic\\Jetpack\\Modules' => array(
-		'version' => '1.18.1.0',
+		'version' => '1.18.2.0-alpha1693503255',
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-modules.php'
 	),
 	'Automattic\\Jetpack\\Packages\\Async_Option\\Async_Option' => array(
@@ -215,7 +215,7 @@ return array(
 		'path'    => $baseDir . '/packages/Async_Option/Storage/WP_Option.php'
 	),
 	'Automattic\\Jetpack\\Paths' => array(
-		'version' => '1.18.1.0',
+		'version' => '1.18.2.0-alpha1693503255',
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-paths.php'
 	),
 	'Automattic\\Jetpack\\Redirect' => array(
@@ -227,19 +227,19 @@ return array(
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-roles/src/class-roles.php'
 	),
 	'Automattic\\Jetpack\\Status' => array(
-		'version' => '1.18.1.0',
+		'version' => '1.18.2.0-alpha1693503255',
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-status.php'
 	),
 	'Automattic\\Jetpack\\Status\\Cache' => array(
-		'version' => '1.18.1.0',
+		'version' => '1.18.2.0-alpha1693503255',
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-cache.php'
 	),
 	'Automattic\\Jetpack\\Status\\Host' => array(
-		'version' => '1.18.1.0',
+		'version' => '1.18.2.0-alpha1693503255',
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-host.php'
 	),
 	'Automattic\\Jetpack\\Status\\Visitor' => array(
-		'version' => '1.18.1.0',
+		'version' => '1.18.2.0-alpha1693503255',
 		'path'    => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-visitor.php'
 	),
 	'Automattic\\Jetpack\\Terms_Of_Service' => array(
