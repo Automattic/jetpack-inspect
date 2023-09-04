@@ -16,10 +16,10 @@
 		}
 	},
 	"require": {
-		"automattic/jetpack-assets": "^1.18.10-alpha",
+		"automattic/jetpack-assets": "^1.18.10",
 		"automattic/jetpack-autoloader": "^2.11.22",
 		"automattic/jetpack-composer-plugin": "^1.1.13",
-		"automattic/jetpack-connection": "^1.57.2-alpha",
+		"automattic/jetpack-connection": "^1.57.2",
 		"automattic/jetpack-config": "^1.15.3"
 	},
 	"require-dev": {
