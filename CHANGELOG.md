@@ -13,5 +13,6 @@ This is an alpha version! The changes listed here are not final.
 - Added an initial version of Jetpack Inspect to the Jetpack Monorepo.
 
 ### Changed
+- General: indicate full compatibility with the latest version of WordPress, 6.4.
 - General: update WordPress version requirements to WordPress 6.2.
 - Updated package dependencies.
