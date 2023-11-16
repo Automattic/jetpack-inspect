@@ -84,6 +84,8 @@ class ComposerStaticInit2662d159b2161b86f56c5059a9d397af_inspectⓥ0_1_0_alpha
         'Automattic\\Jetpack\\Packages\\Async_Option\\Registry' => __DIR__ . '/../..' . '/packages/Async_Option/Registry.php',
         'Automattic\\Jetpack\\Packages\\Async_Option\\Storage\\Storage' => __DIR__ . '/../..' . '/packages/Async_Option/Storage/Storage.php',
         'Automattic\\Jetpack\\Packages\\Async_Option\\Storage\\WP_Option' => __DIR__ . '/../..' . '/packages/Async_Option/Storage/WP_Option.php',
+        'Automattic\\Jetpack\\Partner' => __DIR__ . '/../..' . '/jetpack_vendor/automattic/jetpack-connection/src/class-partner.php',
+        'Automattic\\Jetpack\\Partner_Coupon' => __DIR__ . '/../..' . '/jetpack_vendor/automattic/jetpack-connection/src/class-partner-coupon.php',
         'Automattic\\Jetpack\\Paths' => __DIR__ . '/../..' . '/jetpack_vendor/automattic/jetpack-status/src/class-paths.php',
         'Automattic\\Jetpack\\Redirect' => __DIR__ . '/../..' . '/jetpack_vendor/automattic/jetpack-redirect/src/class-redirect.php',
         'Automattic\\Jetpack\\Roles' => __DIR__ . '/../..' . '/jetpack_vendor/automattic/jetpack-roles/src/class-roles.php',

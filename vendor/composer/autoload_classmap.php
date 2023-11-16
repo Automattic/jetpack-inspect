@@ -55,6 +55,8 @@ return array(
     'Automattic\\Jetpack\\Packages\\Async_Option\\Registry' => $baseDir . '/packages/Async_Option/Registry.php',
     'Automattic\\Jetpack\\Packages\\Async_Option\\Storage\\Storage' => $baseDir . '/packages/Async_Option/Storage/Storage.php',
     'Automattic\\Jetpack\\Packages\\Async_Option\\Storage\\WP_Option' => $baseDir . '/packages/Async_Option/Storage/WP_Option.php',
+    'Automattic\\Jetpack\\Partner' => $baseDir . '/jetpack_vendor/automattic/jetpack-connection/src/class-partner.php',
+    'Automattic\\Jetpack\\Partner_Coupon' => $baseDir . '/jetpack_vendor/automattic/jetpack-connection/src/class-partner-coupon.php',
     'Automattic\\Jetpack\\Paths' => $baseDir . '/jetpack_vendor/automattic/jetpack-status/src/class-paths.php',
     'Automattic\\Jetpack\\Redirect' => $baseDir . '/jetpack_vendor/automattic/jetpack-redirect/src/class-redirect.php',
     'Automattic\\Jetpack\\Roles' => $baseDir . '/jetpack_vendor/automattic/jetpack-roles/src/class-roles.php',
