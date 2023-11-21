@@ -18,7 +18,7 @@ return array(
     ),
     'jetpack-connection' => array(
       'path' => 'jetpack_vendor/automattic/jetpack-connection',
-      'ver' => '2.0.2-alpha1700575942',
+      'ver' => '2.0.2-alpha1700585400',
     ),
   ),
 );
