@@ -19,7 +19,7 @@
 		"automattic/jetpack-assets": "^2.1.5",
 		"automattic/jetpack-autoloader": "^3.0.4",
 		"automattic/jetpack-composer-plugin": "^2.0.1",
-		"automattic/jetpack-connection": "^2.6.0",
+		"automattic/jetpack-connection": "^2.6.1-alpha",
 		"automattic/jetpack-config": "^2.0.1"
 	},
 	"require-dev": {
