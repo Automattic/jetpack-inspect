@@ -18,4 +18,5 @@ This is an alpha version! The changes listed here are not final.
 - General: updated PHP requirement to PHP 7.0+
 - General: update WordPress version requirements to WordPress 6.2.
 - General: update WordPress version requirements to WordPress 6.3.
+- General: update WordPress version requirements to WordPress 6.4.
 - Updated package dependencies.
