@@ -11,6 +11,7 @@ This is an alpha version! The changes listed here are not final.
 
 ### Added
 - Added an initial version of Jetpack Inspect to the Jetpack Monorepo.
+- Update baseline
 
 ### Changed
 - General: indicate compatibility with the upcoming version of WordPress, 6.5.
