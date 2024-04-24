@@ -21,3 +21,6 @@ This is an alpha version! The changes listed here are not final.
 - General: update WordPress version requirements to WordPress 6.3.
 - General: update WordPress version requirements to WordPress 6.4.
 - Updated package dependencies.
+
+### Fixed
+- Remove unnecessary boolean check that was confusing Phan.
