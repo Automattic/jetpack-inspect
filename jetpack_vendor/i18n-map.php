@@ -14,11 +14,11 @@ return array(
     ),
     'jetpack-config' => array(
       'path' => 'jetpack_vendor/automattic/jetpack-config',
-      'ver' => '2.0.1',
+      'ver' => '2.0.2-alpha1714582654',
     ),
     'jetpack-connection' => array(
       'path' => 'jetpack_vendor/automattic/jetpack-connection',
-      'ver' => '2.7.6-alpha1714508236',
+      'ver' => '2.7.6-alpha1714582654',
     ),
   ),
 );
