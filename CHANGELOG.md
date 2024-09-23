@@ -25,6 +25,7 @@ This is an alpha version! The changes listed here are not final.
 
 ### Removed
 - Connection: Removed deprecated method features_available
+- Connection: Removed features_enabled deprecated method
 - General: update WordPress version requirements to WordPress 6.5.
 - Remove obsolete `skip-test-php` composer script. No change to the plugin itself.
 
