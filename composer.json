@@ -20,12 +20,12 @@
 		"automattic/jetpack-assets": "^2.3.10",
 		"automattic/jetpack-autoloader": "^3.1.2",
 		"automattic/jetpack-composer-plugin": "^2.0.3",
-		"automattic/jetpack-connection": "^5.1.5-alpha",
+		"automattic/jetpack-connection": "^5.1.5",
 		"automattic/jetpack-config": "^2.0.4"
 	},
 	"require-dev": {
 		"yoast/phpunit-polyfills": "^1.1.1",
-		"automattic/jetpack-changelogger": "^4.2.7-alpha"
+		"automattic/jetpack-changelogger": "^4.2.7"
 	},
 	"config": {
 		"allow-plugins": {
