@@ -38,4 +38,5 @@ This is an alpha version! The changes listed here are not final.
 - Remove obsolete `skip-test-php` composer script. No change to the plugin itself.
 
 ### Fixed
+- Code: Remove extra params on function calls.
 - Remove unnecessary boolean check that was confusing Phan.
