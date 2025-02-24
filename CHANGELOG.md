@@ -14,6 +14,7 @@ This is an alpha version! The changes listed here are not final.
 
 ### Added
 - Added an initial version of Jetpack Inspect to the Jetpack Monorepo.
+- Connection: Disconnecting a connection owner account will disconnect all other users first.
 - Enable test coverage.
 - jetpack-components: Export the getRedirectUrl function with subpath
 - Update baseline
