@@ -31,6 +31,7 @@ This is an alpha version! The changes listed here are not final.
 - General: update WordPress version requirements to WordPress 6.4.
 - Updated dependencies.
 - Updated package dependencies.
+- Update package dependencies.
 
 ### Removed
 - Connection: Removed deprecated method features_available
