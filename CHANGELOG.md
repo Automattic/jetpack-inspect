@@ -21,6 +21,7 @@ This is an alpha version! The changes listed here are not final.
 - Update baseline
 
 ### Changed
+- Connection: Allow pre-selected login providers
 - Connection: Display connection status on Users page independent of the SSO module.
 - General: indicate compatibility with the upcoming version of WordPress, 6.5.
 - General: indicate compatibility with the upcoming version of WordPress - 6.6.
