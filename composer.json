@@ -20,7 +20,7 @@
 		"automattic/jetpack-assets": "^4.0.17",
 		"automattic/jetpack-autoloader": "^5.0.6",
 		"automattic/jetpack-composer-plugin": "^4.0.4",
-		"automattic/jetpack-connection": "^6.10.2",
+		"automattic/jetpack-connection": "^6.10.3-alpha",
 		"automattic/jetpack-config": "^3.1.0"
 	},
 	"require-dev": {
@@ -33,7 +33,7 @@
 			"automattic/jetpack-autoloader": true,
 			"automattic/jetpack-composer-plugin": true
 		},
-		"autoloader-suffix": "2662d159b2161b86f56c5059a9d397af_inspectⓥ2_0_0_a_1"
+		"autoloader-suffix": "2662d159b2161b86f56c5059a9d397af_inspectⓥ2_0_0_alpha"
 	},
 	"scripts": {
 		"phpunit": [
