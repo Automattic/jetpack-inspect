@@ -12,6 +12,9 @@ This is an alpha version! The changes listed here are not final.
 ### Changed
 - Code: First pass of style coding standards.
 
+### Fixed
+- Code: Update stylesheets to use hex instead of named colors.
+
 ## 2.0.0-a.1 - 2025-04-04
 ### Added
 - Added an initial version of Jetpack Inspect to the Jetpack Monorepo. [#31551]
