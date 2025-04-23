@@ -12,6 +12,9 @@ This is an alpha version! The changes listed here are not final.
 ### Changed
 - Code: First pass of style coding standards.
 
+### Removed
+- General: Update minimum WordPress version to 6.7.
+
 ### Fixed
 - Code: Update stylesheets to use hex instead of named colors.
 
