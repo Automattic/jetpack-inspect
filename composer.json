@@ -19,12 +19,12 @@
 		"php": ">=7.4",
 		"automattic/jetpack-assets": "^4.0.19-alpha",
 		"automattic/jetpack-autoloader": "^5.0.7-alpha",
-		"automattic/jetpack-composer-plugin": "^4.0.4",
+		"automattic/jetpack-composer-plugin": "^4.0.5-alpha",
 		"automattic/jetpack-connection": "^6.11.1-alpha",
 		"automattic/jetpack-config": "^3.1.0"
 	},
 	"require-dev": {
-		"yoast/phpunit-polyfills": "^3.0.0",
+		"yoast/phpunit-polyfills": "^4.0.0",
 		"automattic/jetpack-changelogger": "^6.0.5-alpha",
 		"automattic/phpunit-select-config": "^1.0.3-alpha"
 	},
