@@ -12,6 +12,7 @@ This is an alpha version! The changes listed here are not final.
 ### Changed
 - Code: First pass of style coding standards.
 - jetpack-assets now requires jetpack-status so updating composer lock files.
+- Update package dependencies.
 
 ### Removed
 - General: Update minimum WordPress version to 6.7.
