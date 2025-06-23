@@ -12,6 +12,9 @@ This is an alpha version! The changes listed here are not final.
 ### Changed
 - Update package dependencies.
 
+### Fixed
+- Autoloader: Prevent double slash in autoloader path.
+
 ## [2.0.0-a.3] - 2025-06-05
 ### Changed
 - Code: First pass of style coding standards. [#42734]
