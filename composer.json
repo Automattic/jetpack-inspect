@@ -33,7 +33,7 @@
 			"automattic/jetpack-autoloader": true,
 			"automattic/jetpack-composer-plugin": true
 		},
-		"autoloader-suffix": "2662d159b2161b86f56c5059a9d397af_inspectⓥ2_0_0_alpha"
+		"autoloader-suffix": "2662d159b2161b86f56c5059a9d397af_inspectⓥ2_0_0_a_5"
 	},
 	"scripts": {
 		"phpunit": [
@@ -48,6 +48,7 @@
 		"build-development": "pnpm run build",
 		"build-production": "pnpm run build-production"
 	},
+	"repositories": [],
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"extra": {
