@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is an alpha version! The changes listed here are not final.
 
+### Changed
+- Update package dependencies.
+
 ## [2.0.0-a.7] - 2025-10-09
 ### Added
 - Add `typecheck` script to ensure that TypeScript files are type-checked. [#45034]
