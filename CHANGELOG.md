@@ -15,6 +15,9 @@ This is an alpha version! The changes listed here are not final.
 ### Changed
 - Update package dependencies.
 
+### Fixed
+- Ensure proper flags are used with `json_encode()`.
+
 ## [2.0.0-a.7] - 2025-10-09
 ### Added
 - Add `typecheck` script to ensure that TypeScript files are type-checked. [#45034]
