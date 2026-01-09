@@ -5,19 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0-alpha] - unreleased
-
-This is an alpha version! The changes listed here are not final.
-
+## [2.0.0-a.9] - 2026-01-09
 ### Added
-- IDC: Add revalidation for IDCs.
-- Tested up to WordPress 6.9
+- IDC: Add revalidation for IDCs. [#46268]
+- Tested up to WordPress 6.9 [#45571]
 
 ### Changed
-- Update package dependencies.
+- Update package dependencies. [#45478] [#45652] [#45915] [#46143] [#46456]
 
 ### Fixed
-- Ensure proper flags are used with `json_encode()`.
+- Ensure proper flags are used with `json_encode()`. [#46117]
 
 ## [2.0.0-a.7] - 2025-10-09
 ### Added
@@ -56,7 +53,7 @@ This is an alpha version! The changes listed here are not final.
 - General: Update minimum PHP version to 7.2. [#40147]
 - General: Indicate compatibility with WordPress 6.8. [#42701]
 
-[2.0.0-alpha]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.7...v2.0.0-alpha
+[2.0.0-a.9]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.7...v2.0.0-a.9
 [2.0.0-a.7]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.5...v2.0.0-a.7
 [2.0.0-a.5]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.3...v2.0.0-a.5
 [2.0.0-a.3]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.1...v2.0.0-a.3
