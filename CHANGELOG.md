@@ -12,6 +12,9 @@ This is an alpha version! The changes listed here are not final.
 ### Changed
 - Update package dependencies.
 
+### Removed
+- General: Update minimum WordPress version to 6.8.
+
 ## [2.0.0-a.9] - 2026-01-09
 ### Added
 - IDC: Add revalidation for IDCs. [#46268]
