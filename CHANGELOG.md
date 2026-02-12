@@ -15,6 +15,9 @@ This is an alpha version! The changes listed here are not final.
 ### Removed
 - General: Update minimum WordPress version to 6.8.
 
+### Fixed
+- Compatibility: Clean up deprecated CSS.
+
 ## [2.0.0-a.9] - 2026-01-09
 ### Added
 - IDC: Add revalidation for IDCs. [#46268]
