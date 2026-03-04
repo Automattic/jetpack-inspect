@@ -18,6 +18,7 @@ This is an alpha version! The changes listed here are not final.
 - General: Update minimum WordPress version to 6.8.
 
 ### Fixed
+- Admin Page: Restore border on header component.
 - Compatibility: Clean up deprecated CSS.
 
 ## [2.0.0-a.9] - 2026-01-09
