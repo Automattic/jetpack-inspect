@@ -18,7 +18,7 @@
 	"require": {
 		"php": ">=7.4",
 		"automattic/jetpack-assets": "^4.4.10",
-		"automattic/jetpack-autoloader": "^5.0.22",
+		"automattic/jetpack-autoloader": "^5.0.23-alpha",
 		"automattic/jetpack-composer-plugin": "^4.0.9",
 		"automattic/jetpack-connection": "^8.10.0-alpha",
 		"automattic/jetpack-config": "^3.1.3"
