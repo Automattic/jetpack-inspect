@@ -19,6 +19,9 @@ This is an alpha version! The changes listed here are not final.
 - Updated package dependencies.
 - Update package dependencies.
 
+### Removed
+- Updated PHP version requirements to PHP 7.4 or newer.
+
 ## [2.0.0-a.11] - 2026-04-10
 ### Changed
 - Dependencies: Update lock file to keep root requirements in sync. [#47418]
