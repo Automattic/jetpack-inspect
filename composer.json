@@ -17,15 +17,15 @@
 	},
 	"require": {
 		"php": ">=7.4",
-		"automattic/jetpack-assets": "^5.0.0",
+		"automattic/jetpack-assets": "^5.0.1",
 		"automattic/jetpack-autoloader": "^6.0.0",
 		"automattic/jetpack-composer-plugin": "^5.0.0",
-		"automattic/jetpack-connection": "^9.1.0-alpha",
+		"automattic/jetpack-connection": "^9.1.0",
 		"automattic/jetpack-config": "^4.0.0"
 	},
 	"require-dev": {
 		"yoast/phpunit-polyfills": "^4.0.0",
-		"automattic/phpunit-select-config": "^1.0.11-alpha"
+		"automattic/phpunit-select-config": "^1.0.11"
 	},
 	"config": {
 		"allow-plugins": {
