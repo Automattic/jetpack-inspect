@@ -17,10 +17,10 @@
 	},
 	"require": {
 		"php": ">=7.4",
-		"automattic/jetpack-assets": "^5.0.1",
+		"automattic/jetpack-assets": "^5.0.2-alpha",
 		"automattic/jetpack-autoloader": "^6.0.0",
 		"automattic/jetpack-composer-plugin": "^5.0.0",
-		"automattic/jetpack-connection": "^9.1.0",
+		"automattic/jetpack-connection": "^9.1.1-alpha",
 		"automattic/jetpack-config": "^4.0.0"
 	},
 	"require-dev": {
