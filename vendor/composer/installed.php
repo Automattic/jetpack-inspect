@@ -65,9 +65,9 @@
             'dev_requirement' => false,
         ),
         'automattic/jetpack-connection' => array(
-            'pretty_version' => '9.1.1',
-            'version' => '9.1.1.0',
-            'reference' => '111edfe78e9279292c4b56bfaae0d0d9dea8b310',
+            'pretty_version' => '9.1.2-alpha.1788943628',
+            'version' => '9.1.2.0-alpha1788943628',
+            'reference' => 'bdf644215992cc0e2a0ee6401ce65d183bf9004d',
             'type' => 'jetpack-library',
             'install_path' => __DIR__ . '/../../jetpack_vendor/automattic/jetpack-connection',
             'aliases' => array(),
