@@ -22,6 +22,9 @@ This is an alpha version! The changes listed here are not final.
 ### Removed
 - Updated PHP version requirements to PHP 7.4 or newer.
 
+### Fixed
+- Stop registering an admin hook with a null name on admin-ajax requests, which flooded the debug log with a "Using null as an array offset" deprecation on PHP 8.5.
+
 ## [2.0.0-a.11] - 2026-04-10
 ### Changed
 - Dependencies: Update lock file to keep root requirements in sync. [#47418]
