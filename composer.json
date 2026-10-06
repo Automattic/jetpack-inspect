@@ -17,10 +17,10 @@
 	},
 	"require": {
 		"php": ">=7.4",
-		"automattic/jetpack-assets": "^5.0.8",
+		"automattic/jetpack-assets": "^5.0.9",
 		"automattic/jetpack-autoloader": "^6.0.1",
 		"automattic/jetpack-composer-plugin": "^5.0.0",
-		"automattic/jetpack-connection": "^9.9.1-alpha",
+		"automattic/jetpack-connection": "^9.9.1",
 		"automattic/jetpack-config": "^4.0.0"
 	},
 	"require-dev": {
@@ -32,7 +32,7 @@
 			"automattic/jetpack-autoloader": true,
 			"automattic/jetpack-composer-plugin": true
 		},
-		"autoloader-suffix": "2662d159b2161b86f56c5059a9d397af_inspectⓥ2_0_0_alpha"
+		"autoloader-suffix": "2662d159b2161b86f56c5059a9d397af_inspectⓥ2_0_0_a_13"
 	},
 	"scripts": {
 		"phpunit": [
