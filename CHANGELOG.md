@@ -5,25 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0-alpha] - unreleased
-
-This is an alpha version! The changes listed here are not final.
-
+## [2.0.0-a.13] - 2026-10-06
 ### Changed
-- General: Update minimum WordPress version to 6.9.
-- General: Update minimum WordPress version to 7.0.
-- Internal: No longer require automattic/jetpack-changelogger as a per-project dev dependency.
-- Remove unneeded development and documentation files from the published plugin.
-- Tested up to WordPress 7.0.
-- Tested up to WordPress 7.1.
-- Updated package dependencies.
-- Update package dependencies.
+- General: Update minimum WordPress version to 7.0. [#49021] [#51370]
+- Internal: No longer require automattic/jetpack-changelogger as a per-project dev dependency. [#48225]
+- Remove unneeded development and documentation files from the published plugin. [#49014]
+- Tested up to WordPress 7.1. [#48114] [#51370]
+- Update package dependencies. [#48735] [#48064] [#48106] [#48302] [#48405] [#48683] [#48695] [#48844] [#49273] [#49448] [#49631] [#49691] [#49757] [#50097] [#50183] [#50436] [#50510] [#50529] [#50753] [#51008] [#51701] [#52028] [#52187] [#53129]
 
 ### Removed
-- Updated PHP version requirements to PHP 7.4 or newer.
+- Updated PHP version requirements to PHP 7.4 or newer. [#51515]
 
 ### Fixed
-- Stop registering an admin hook with a null name on admin-ajax requests, which flooded the debug log with a "Using null as an array offset" deprecation on PHP 8.5.
+- Stop registering an admin hook with a null name on admin-ajax requests, which flooded the debug log with a "Using null as an array offset" deprecation on PHP 8.5. [#52508]
 
 ## [2.0.0-a.11] - 2026-04-10
 ### Changed
@@ -90,7 +84,7 @@ This is an alpha version! The changes listed here are not final.
 - General: Update minimum PHP version to 7.2. [#40147]
 - General: Indicate compatibility with WordPress 6.8. [#42701]
 
-[2.0.0-alpha]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.11...v2.0.0-alpha
+[2.0.0-a.13]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.11...v2.0.0-a.13
 [2.0.0-a.11]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.9...v2.0.0-a.11
 [2.0.0-a.9]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.7...v2.0.0-a.9
 [2.0.0-a.7]: https://github.com/Automattic/jetpack-inspect/compare/v2.0.0-a.5...v2.0.0-a.7
